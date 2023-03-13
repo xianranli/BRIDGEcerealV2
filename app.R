@@ -42,8 +42,8 @@ html_rice<-'https://ricerc.sicau.edu.cn/RiceRC/Search/searchBefore?db=all&input=
 html_barley<-'https://wheat.pw.usda.gov/cgi-bin/GG3/report.cgi?class=probe;name=' #2/8/23
 
 source(paste(script_folder,"BRIDGEcereal_Sub.R",sep=''), local = TRUE);
-source(paste(script_folder,"Instruction.R",sep=''), local = TRUE); 
-############################################################ Creating a navlink 
+source(paste(script_folder,"Instruction.R",sep=''), local = TRUE);
+############################################################ Creating a navlink
 nav_links <- tags$ul(
 
 flowLayout(
@@ -80,13 +80,13 @@ flowLayout(
    tags$style(
    "li a {font-size: 32px;font-weight: bold;}",
     ),
-   
+
     align = "center",
 
         ), ## 03/13/23 just a ","
     ## 03/13/23
     tags$head( tags$style(" ul {font-size:0;}") ),
-    
+
 
                    )
 
@@ -98,7 +98,7 @@ page_0 <- function(){
     ui <-  function(request){
 
       tagList(
-        
+
          fluidPage(theme = shinytheme("readable")),
 
          h1("Wellcome to BRIDGEcereal",style="text-align:center"),
@@ -130,7 +130,7 @@ column(12,offset=3, align="center", h3("
 h3("
 
 Here, we introduce BRIDGE (Blastn Recovered Insertions and Deletions near Gene Explorer) for surveying potential indels for genes of interest with 5 publicly accessible cereal pan-genomes.
-  
+
   ")
 
    ),
@@ -145,10 +145,10 @@ column(12, offset=3,align="center", h3("20 Barley genomes.",style = "font-size:3
 column(12, offset=3,align="center", h3("")),
 
 
-column(12, offset=3,align="center", tags$a(href="https://www.biorxiv.org/content/10.1101/2023.02.11.527743v1", target='_blank', h3("Reference: 
-Zhang B, Huang H, Tibbs-Cortes LE, Vanous A, Zhang Z, Sanguinet K, Garland-Campbell KA, Yu J, Li X. 
+column(12, offset=3,align="center", tags$a(href="https://www.biorxiv.org/content/10.1101/2023.02.11.527743v1", target='_blank', h3("Reference:
+Zhang B, Huang H, Tibbs-Cortes LE, Vanous A, Zhang Z, Sanguinet K, Garland-Campbell KA, Yu J, Li X.
 Streamline unsupervised machine learning to survey and graph indel-based haplotypes from pan-genomes.
- bioRxiv. 2023:2023-02. doi:10.1101/2023.02.11.527743",
+ bioRxiv. 2023:2023-02. doi: 10.1101/2023.02.11.527743",
  style = "font-size:32px; color:blue; font-style:italic;") ) ),
 
 column(12, offset=3,align="center", h3("")),
@@ -170,7 +170,7 @@ column(5,offset=6, align="center", tags$img(width="240", height="80", src=paste(
 
       ) # For tagList
     }, # For ui function of page_0
-    
+
 
 # To add server function part for page0
 
