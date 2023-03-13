@@ -1,4 +1,4 @@
-### 03/07/23
+### 03/13/23
 ### Function Species : Call tagfunction and Pre_run functions for loading app's page; To prepare input file (gene***_ref) for extract_syn_fa.pl; Call BRIDGEcereal_output function for app's output
 ### Function tagfunction : Design of app's ui (page's left part) and output (page's right part) ...
 ### Function Pre_run  : Serching database based on User's gene ID, check fasta format, upload user's fasta file and others ...
@@ -1448,6 +1448,12 @@ repmask <- read.table(paste(Dir, Gene, '_repMask2', sep = ''), header = F, sep =
 repmask <- repmask[abs(repmask[,8] - repmask[,7])> 100,]
 }
 
+## 03/13/23
+gDNAs_blast<-gDNAs_blast[which(gDNAs_blast$V1 %in% input$id), ]
+gDNAs_blast<-gDNAs_blast[which(gDNAs_blast$V2 %in% input$id), ]
+## 03/13/23
+
+
 x_lim <- range(gDNAs_blast[,9:10]) + c(0, 2000)
 output_flag = 0
 
@@ -1799,9 +1805,15 @@ d6<-d5[,c(3,1,2)]
 d6[order(d6[,2]),]
 d6[d6$tree_order,]
 d7<-d6[d6$tree_order,][,1:2]
-b_matrix0<-round(b_matrix,2)
+
+#b_matrix0<-round(b_matrix,2)
+b_matrix0<-round(dist( round(b_matrix,2), diag = TRUE, upper = TRUE ) ,2) #03/13/23
+b_matrix0<-as.data.frame(as.matrix(b_matrix0)) #03/13/23
+
 b_matrix_selected0<-b_matrix0[which(match(rownames(b_matrix0) ,list2)!='NA'),which(match(colnames(b_matrix0) ,list2)!='NA')]
-h_c2 <- hclust(dist(b_matrix_selected0) )
+
+#h_c2 <- hclust(dist(b_matrix_selected0) )
+#h_c2 <- hclust( round(dist( round(b_matrix,2), diag = TRUE, upper = TRUE ) ,2) )
 #as.dendrogram(h_c2) %>% set("labels_cex", 0.9) %>% highlight_branches %>% plot(main = "Title",ylab = "Height",horiz = FALSE);
 
 list_temp <- list1
@@ -1816,7 +1828,9 @@ for(list1 in list_temp){
 
 bucket_filtered0 <-as.data.frame(cbind(rownames(b_matrix_selected0),b_matrix_selected0[,list1]))
 bucket_filtered1 <-bucket_filtered0[which(bucket_filtered0$V1!=list1),]
-bucket_filtered2<- bucket_filtered1[order(bucket_filtered1$V2,decreasing = TRUE),][1,1]  ## CML247
+#bucket_filtered2<- bucket_filtered1[order(bucket_filtered1$V2,decreasing = TRUE),][1,1]  ## CML247
+bucket_filtered2<- bucket_filtered1[order(bucket_filtered1$V2,decreasing = FALSE),][1,1]  #03/13/23
+
 cluster_removed<-d7[which(d7$cluster_order==list1),2] ## cluster number
 num_list_1<-length(which(d7$cluster==cluster_removed)) ## Number of members in the cluster_removed
 mem_list_1<-d7[which(d7$cluster==cluster_removed),1] ## members in the cluster_removed
@@ -1874,6 +1888,16 @@ b_matrix_groups4[,3]<-data.frame(representation=list2_)
 b_matrix_groups4<-b_matrix_groups4[ , c('Variety groups','representation','Varieties')]
 ### 03/06/23
 
+## 03/13/23
+b_matrix_groups4_<- as.data.frame(matrix(nrow=nrow(b_matrix_groups4),ncol=1))
+for(memb_ in 1:nrow(b_matrix_groups4)){
+b_matrix_groups4_[memb_, 1]<-length(unlist(strsplit(unlist(strsplit(b_matrix_groups4$Varieties,' ,'))[memb_],', ',fixed=TRUE)))
+}
+b_matrix_groups4[,4]<- b_matrix_groups4_
+colnames(b_matrix_groups4)<-c('Variety groups','Representation','Varieties',"Members")
+b_matrix_groups4 <- b_matrix_groups4[  ,c("Variety groups", "Representation", "Members", "Varieties")]
+## 03/13/23
+
 output$table4 <-DT::renderDataTable({
 datatable(b_matrix_groups4,caption = htmltools::tags$caption(
     style = 'caption-side: bottom; text-align: center;',
@@ -1886,8 +1910,8 @@ datatable(b_matrix_groups4,caption = htmltools::tags$caption(
                                                          text = "Downloads")), pageLength=20, autoWidth = TRUE,
                              searchHighlight = TRUE, filter = "top", columnDefs = list(list( className = 'dt-center', targets = "_all"))  )  ) %>%
                             formatStyle(columns=ncol(b_matrix_groups4), target = c("cell"),backgroundColor = c("gold") ) %>% 
-                            formatStyle('representation',backgroundColor = styleEqual(list2_, c('yellow') ) ) %>% 
-                            formatStyle(columns =ncol(b_matrix_groups4)-1, fontSize = '150%')
+                            formatStyle('Representation',backgroundColor = styleEqual(list2_, c('yellow') ) ) %>% #03/13/23 Representation
+                            formatStyle(columns =2:ncol(b_matrix_groups4)-1, fontSize = '150%') #03/13/23 2:3
 
   }) # DT::renderDataTable
 
@@ -1928,6 +1952,16 @@ b_matrix_groups4[, 3]<-data.frame(representation=input$list_2)
 b_matrix_groups4<-b_matrix_groups4[ , c('Variety groups','representation','Varieties')]
 ### 03/06/23
 
+## 03/13/23
+b_matrix_groups4_<- as.data.frame(matrix(nrow=nrow(b_matrix_groups4),ncol=1))
+for(memb_ in 1:nrow(b_matrix_groups4)){
+b_matrix_groups4_[memb_, 1]<-length(unlist(strsplit(unlist(strsplit(b_matrix_groups4$Varieties,' ,'))[memb_],', ',fixed=TRUE)))
+}
+b_matrix_groups4[,4]<- b_matrix_groups4_
+colnames(b_matrix_groups4)<-c('Variety groups','Representation','Varieties',"Members")
+b_matrix_groups4 <- b_matrix_groups4[  ,c("Variety groups", "Representation", "Members", "Varieties")]
+## 03/13/23
+
 output$table4 <-DT::renderDataTable({
 datatable(b_matrix_groups4,caption = htmltools::tags$caption(
     style = 'caption-side: bottom; text-align: center;',
@@ -1940,8 +1974,8 @@ datatable(b_matrix_groups4,caption = htmltools::tags$caption(
                                                          text = "Downloads")), pageLength=20, autoWidth = TRUE,
                              searchHighlight = TRUE, filter = "top", columnDefs = list(list( className = 'dt-center', targets = "_all"))  )  ) %>% 
                              formatStyle(columns=ncol(b_matrix_groups4), target = c("cell"),backgroundColor = c("gold") ) %>% 
-                             formatStyle('representation',backgroundColor = styleEqual(input$list_2, c('yellow')) ) %>% 
-                             formatStyle(columns =ncol(b_matrix_groups4)-1, fontSize = '150%')
+                             formatStyle('Representation',backgroundColor = styleEqual(input$list_2, c('yellow')) ) %>% #03/13/23 Representation
+                             formatStyle(columns =2:ncol(b_matrix_groups4)-1, fontSize = '150%') #03/13/23 2:3
                              
   }) # DT::renderDataTable
 
@@ -2005,6 +2039,10 @@ repmask <- repmask[abs(repmask[,8] - repmask[,7])> 100,]
 
 output_flag = 0
 ##
+## 03/13/23
+gDNAs_blast<-gDNAs_blast[which(gDNAs_blast$V1 %in% input$list_2), ]
+gDNAs_blast<-gDNAs_blast[which(gDNAs_blast$V2 %in% input$list_2), ]
+## 03/13/23
 
 x_lim <- range(gDNAs_blast[,9:10]) + c(0, 2000)
 
@@ -2231,7 +2269,10 @@ cds_col <- c("yellowgreen", "brown");
 
 CoordinateFilter0<-read.table(paste(Dir, 'Selected_lines_Coordinates.bed', sep = ''),header=T) 
 CoordinateFilter0<-round(CoordinateFilter0,0)
-CoordinateFilter0<-CoordinateFilter0[which(row.names(CoordinateFilter0)!='average'),] # remove average values
+
+#CoordinateFilter0<-CoordinateFilter0[which(row.names(CoordinateFilter0)!='average'),] # remove average values
+CoordinateFilter0<-CoordinateFilter0[which(row.names(CoordinateFilter0) %in% input$list_2),] # 03/13/23
+
 Name0<- input$list_2
 
 
@@ -2899,7 +2940,10 @@ Plot_SV <- function(genomes, g_lab, repmask, CDS_gDNA_blast, gDNAs_blast, N_Gap,
  b_matrix_groups2 <- read.table(paste(Dir, 'b_matrix_groups2.txt', sep = ''),header=T)
  haplotypes0 <- subset(b_matrix_groups2,  b_matrix_groups2$genomes_rep == genomes[g]) ## 09/26/22
  haplotypes1 <- haplotypes0$haplotypes_rep ## 09/26/22
- legend(max(self[,7:8])+80,length(genomes) - g + 0.3, c(g_lab[g], paste('(', sizes, 'kb)',sep = ''), paste('(', haplotypes1, ' varieties)',sep = '') ), bty = "n", adj = c(0, 0), text.col = "blue", cex = 1.0 ) ## 09/26/22
+ #legend(max(self[,7:8])+80,length(genomes) - g + 0.3, c(g_lab[g], paste('(', sizes, 'kb)',sep = ''), paste('(', haplotypes1, ' varieties)',sep = '') ), bty = "n", adj = c(0, 0), text.col = "blue", cex = 1.0 ) ## 09/26/22
+ legend(max(x_lim)-1800, length(genomes) - g + 0.3, c(g_lab[g], paste('(', sizes, 'kb)',sep = ''), paste('(', haplotypes1, ' varieties)',sep = '') ), #03/13/23
+ bty = "n", adj = c(0, 0), text.col = "blue", cex = 1.0 ) ## 09/26/22
+
 } #03/06/23 +80 ?? cex = 1.0
 
 } 

@@ -13,7 +13,7 @@ library(sortable)
 library(rjson)
 library(shinythemes)
 
-### 03/07/23
+### 03/13/23
 ########################################################
 administrator_path <- '/home/xianran_li/bridgecereal/'; # scinet
 #administrator_path <- '/mnt/946c1663-fcbd-4a78-8887-c55f23c5b496/bszhang/'; # Temp
@@ -49,39 +49,44 @@ nav_links <- tags$ul(
 flowLayout(
 
   tags$li(
-    tags$a(href = paste(web_root,sep=''), "Main", img(width="100", height="32", src=paste(Stream_folder, "BRIDGEcereal_logo.png", sep='') )),
+    tags$a(href = paste(web_root,sep=''), "Main", img(width="200", height="64", src=paste(Stream_folder, "BRIDGEcereal_logo.png", sep='') )),
   ),
 
   tags$li(
-    tags$a(href = paste(web_root,'Instruction', sep=''), "Instruction", img(width="70", height="30", src=paste(Stream_folder,"instruction.jpeg",sep=''))),
+    tags$a(href = paste(web_root,'Instruction', sep=''), "Instruction", img(width="140", height="64", src=paste(Stream_folder,"instruction.jpeg",sep=''))),
   ),
 
    tags$li(
-   tags$a(href = paste(web_root,'Wheat', sep=''), "Wheat", img(width="120", height="40", src=paste(Stream_folder,"Wheat.jpg",sep=''))),
+   tags$a(href = paste(web_root,'Wheat', sep=''), "Wheat", img(width="180", height="60", src=paste(Stream_folder,"Wheat.jpg",sep=''))),
   ),
 
    tags$li(
-   tags$a(href = paste(web_root,'Maize', sep=''), "Maize", img(width="120", height="40", src=paste(Stream_folder,"Maize.jpeg",sep='' ))),
+   tags$a(href = paste(web_root,'Maize', sep=''), "Maize", img(width="180", height="60", src=paste(Stream_folder,"Maize.jpeg",sep='' ))),
   ),
 
    tags$li(
-   tags$a(href = paste(web_root,'Sorghum', sep=''), "Sorghum", img(width="100", height="40", src=paste(Stream_folder,"Sorghum.png",sep=''))),
+   tags$a(href = paste(web_root,'Sorghum', sep=''), "Sorghum", img(width="180", height="72", src=paste(Stream_folder,"Sorghum.png",sep=''))),
   ),
 
    tags$li(
-   tags$a(href = paste(web_root,'Rice', sep=''), "Rice", img(width="120", height="40", src=paste(Stream_folder,"Rice.png",sep=''))),
+   tags$a(href = paste(web_root,'Rice', sep=''), "Rice", img(width="180", height="60", src=paste(Stream_folder,"Rice.png",sep=''))),
 
   ),
 
    tags$li(
-   tags$a(href = paste(web_root,'Barley', sep=''), "Barley", img(width="120", height="40", src=paste(Stream_folder,"Barley.jpeg",sep=''))),
+   tags$a(href = paste(web_root,'Barley', sep=''), "Barley", img(width="180", height="60", src=paste(Stream_folder,"Barley.jpeg",sep=''))),
   ),
 
    tags$style(
-   "li a {font-size: 20px;font-weight: bold;}",
-    )
+   "li a {font-size: 32px;font-weight: bold;}",
+    ),
+   
+    align = "center",
 
-        )
+        ), ## 03/13/23 just a ","
+    ## 03/13/23
+    tags$head( tags$style(" ul {font-size:0;}") ),
+    
 
                    )
 
@@ -112,17 +117,17 @@ mainPanel(
 
 fluidRow(
 
-column(6, offset=2,tags$img(width="504", height="162", src=paste(Stream_folder,"BRIDGEcereal_logo.png",sep=''))),
+#column(6, offset=2,tags$img(width="504", height="162", src=paste(Stream_folder,"BRIDGEcereal_logo.png",sep=''))),
 
 #column(3, offset=0,tags$p("First paragraph") ),
 
-column(4, offset=0, h5("
+column(12,offset=3, align="center", h3("
 
   Pan-genomes with high quality de novo assemblies are shifting the paradigm of biology research in genome evolution, speciation, and function annotation. Arrays of new bioinformatic tools, ranging from data storage, annotation, to polymorphism identification and visualization, have been developed to capitalize pan-genome resources. Large insertion and deletion (indel) polymorphisms, potentially altering gene structure or expression, are class of structural variants that need to be catalogued from pan-genomes. However, the nature of indels, unknown size and uneven distribution in different genome assemblies, complicates the identification process. This process remains a challenge and often requires painstaking probing and decision-making from users.
 
   "),
 
-h5("
+h3("
 
 Here, we introduce BRIDGE (Blastn Recovered Insertions and Deletions near Gene Explorer) for surveying potential indels for genes of interest with 5 publicly accessible cereal pan-genomes.
   
@@ -130,25 +135,30 @@ Here, we introduce BRIDGE (Blastn Recovered Insertions and Deletions near Gene E
 
    ),
 
-column(12, offset=3,align="center", h5("BRIDGEcereal currently holds 120 genomes:" ,style = "font-size:18px; color:red;")),
-column(12, offset=3,align="center", h5("11 Wheat genomes.",style = "font-size:18px; color:red;")),
-column(12, offset=3,align="center", h5("38 Maize genomes.",style = "font-size:18px; color:red;")),
-column(12, offset=3,align="center", h5("18 Sorghum genomes.",style = "font-size:18px; color:red;")),
-column(12, offset=3,align="center", h5("33 Rice genomes.",style = "font-size:18px; color:red;")),
-column(12, offset=3,align="center", h5("20 Barley genomes.",style = "font-size:18px; color:red;")),
+column(12, offset=3,align="center", h3("BRIDGEcereal currently holds 120 genomes:" ,style = "font-size:32px; color:red;")),
+column(12, offset=3,align="center", h3("11 Wheat genomes.",style = "font-size:32px; color:red;")),
+column(12, offset=3,align="center", h3("38 Maize genomes.",style = "font-size:32px; color:red;")),
+column(12, offset=3,align="center", h3("18 Sorghum genomes.",style = "font-size:32px; color:red;")),
+column(12, offset=3,align="center", h3("33 Rice genomes.",style = "font-size:32px; color:red;")),
+column(12, offset=3,align="center", h3("20 Barley genomes.",style = "font-size:32px; color:red;")),
 
-column(12, offset=3,align="center", h5("")),
+column(12, offset=3,align="center", h3("")),
 
 
 column(12, offset=3,align="center", tags$a(href="https://www.biorxiv.org/content/10.1101/2023.02.11.527743v1", target='_blank', h3("Reference: 
-  Zhang B, Huang H, Tibbs-Cortes L, Zhang Z, Sanguinet K, Vanous A, Garland-Campbell K, Yu J, Li X.
-    Streamline unsupervised machine learning to survey and graph indel-based haplotypes from pan-genomes" ,style = "font-size:18px; color:blue; font-style:italic;") ) ),
+Zhang B, Huang H, Tibbs-Cortes LE, Vanous A, Zhang Z, Sanguinet K, Garland-Campbell KA, Yu J, Li X. 
+Streamline unsupervised machine learning to survey and graph indel-based haplotypes from pan-genomes.
+ bioRxiv. 2023:2023-02. doi:10.1101/2023.02.11.527743",
+ style = "font-size:32px; color:blue; font-style:italic;") ) ),
 
-column(12, offset=3,align="center", h5("")),
-column(12, offset=3,align="center", h5("")),
+column(12, offset=3,align="center", h3("")),
+column(12, offset=3,align="center", h3("")),
 
-column(12, offset=3,align="center", h5("Acknowledgements: We thank the USDA-ARS SCINet for computing resource and the collaboration of the USDA-ARS-Partnerships for Data Innovations (PDI,
- https://pdi.scinet.usda.gov/), which provided data stewardship solutions to enable secure data management, storage and sharing. Contact: xianran.li@usda.gov")),
+column(12, offset=3,align="center", h3("Acknowledgements: We thank the USDA-ARS SCINet for computing resource and the collaboration of the USDA-ARS-Partnerships for Data Innovations (PDI,
+ https://pdi.scinet.usda.gov/), which provided data stewardship solutions to enable secure data management, storage and sharing.")),
+
+column(12, offset=3,align="center", h3("Contact: xianran.li@usda.gov") ),
+
 column(5,offset=6, align="center", tags$img(width="240", height="80", src=paste(Stream_folder,"USDA_PDI_Logo.jpg",sep=''))),
 
 
