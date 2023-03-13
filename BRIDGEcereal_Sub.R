@@ -20,7 +20,7 @@ Genome_choice <- c('',default_choice);
 chromosome_choice <- c('',gsub('.*_','',gsub('.fa.nin','',list.files(paste(database_folder,Speciesx,'/',default_ref, sep=''), pattern='*.fa.nin')))) # Need 'IWGSC', default_ref
 gff_folder_Species <- paste(gff_folder,Speciesx,'/',sep='');
 
-Backup_folder<-paste(candidate_dir,Speciesx,'/', sep=''); 
+Backup_folder<-paste(candidate_dir,Speciesx,'/', sep='');
 
 perlArg0_db_sp <- paste(database_folder,Speciesx,'/',sep='')
 
@@ -62,7 +62,7 @@ checkjs1 <- 'function checkFileName1(fieldObj) {
         fieldObj.value = "";
         alert("File does not start with Parent1! The correct name is Parent1_chr**.fa.gz");
         return false;
-    } 
+    }
 
     if (! FileBase.endsWith("fa.gz")) {
         fieldObj.value = "";
@@ -80,7 +80,7 @@ checkjs2 <- 'function checkFileName2(fieldObj) {
         fieldObj.value = "";
         alert("File does not start with Parent2! The correct name is Parent1_chr**.fa.gz");
         return false;
-    } 
+    }
 
     if (! FileBase.endsWith("fa.gz")) {
         fieldObj.value = "";
@@ -113,7 +113,7 @@ server <- function(input, output, session){
 
 
 ################ 2/8/23
-output$testtext <- renderText({ 
+output$testtext <- renderText({
   User_ip<<- gsub( '\\.', '_',input$ipid)
   empty_text<-''
   })
@@ -124,7 +124,7 @@ source( paste(script_folder,'BRIDGEcereal_Sub.R',sep=''), local = TRUE)
 Pre_run(default_choice,gff_folder,gff_folder_Species,User_folder,Backup_folder,html_Speciesx) ## jobs_folder replaced by Backup_folder; AllGenomes_GeneName removed; gpattern removed
 
 
-###### Start submit function! 
+###### Start submit function!
 observeEvent(input$submit,{
 
 observeEvent(c(input$Upstream , input$Downstream),{
@@ -200,7 +200,7 @@ target_folder1<-paste(target_folder0,Genome,"/",sep = "")
  samtools1<-paste(samtools0$V1,':',samtools0$V2,'-',samtools0$V3,sep='')
  samtools2 <- paste(target_folder1,Genome,"_",chromosome,".fa.gz",sep = ""); # ref
  for(member in 1:length(samtools1)){
- system_samtools0<- paste('samtools faidx',samtools2,samtools1[member],'>> ', paste(Users_folder,'/','query0.fa',sep='') ,sep=' ') 
+ system_samtools0<- paste('samtools faidx',samtools2,samtools1[member],'>> ', paste(Users_folder,'/','query0.fa',sep='') ,sep=' ')
  system(system_samtools0)
 }
  merge_fa1<-readDNAStringSet(paste(Users_folder,'/','query0.fa',sep='')) #11/8/22
@@ -209,16 +209,16 @@ target_folder1<-paste(target_folder0,Genome,"/",sep = "")
 
  names(merge_fa2)<-c('query')
 
-#writeXStringSet(merge_fa2, paste(Users_folder,'/','query.fasta',sep=''), append=FALSE, compress=FALSE, format="fasta"); 
- 
-#system( paste('rm ',paste(Users_folder,'/','query0.fa',sep=''), paste(Users_folder,'/',"positions.txt",sep=''), sep=' ') ) 
+#writeXStringSet(merge_fa2, paste(Users_folder,'/','query.fasta',sep=''), append=FALSE, compress=FALSE, format="fasta");
+
+#system( paste('rm ',paste(Users_folder,'/','query0.fa',sep=''), paste(Users_folder,'/',"positions.txt",sep=''), sep=' ') )
 system( paste('rm ',paste(Users_folder,'/','query0.fa',sep=''), sep=' ') ) # 2/22/23
 #######
 query_COPY<-merge_fa2;
 query_COPY2<-merge_fa2;
 perlArg4_Users_folder <-Users_folder;
 Gene <- gsub(' ','',input$Gene);  ## from shiny input
-cds_ids <- gsub(' ','',input$Gene); ##  ?? from shiny input, for plotting! 
+cds_ids <- gsub(' ','',input$Gene); ##  ?? from shiny input, for plotting!
 query_length<-length(query_COPY[[1]]);
 Name_update_1 <- paste(Gene,"_mRNA",sep = "");
 Name_update_2 <- paste(Gene,"_CDS",sep = "");
@@ -284,7 +284,7 @@ writeXStringSet(dna_COPY, file=paste(Users_folder,'/',Name_update_4,sep=''), app
 
    makedb0 <- paste('makeblastdb -in', paste(Users_folder,'/',Name_update_4,sep='') ,'-dbtype nucl',sep=' ')
    makedb1 <- system(makedb0)
-          
+
    bgzip0 <- paste('bgzip -@ 2 ',paste(Users_folder,'/',Name_update_4,sep=''),sep=' ')
    bgzip1 <- system(bgzip0)
 
@@ -296,7 +296,7 @@ writeXStringSet(dna_COPY, file=paste(Users_folder,'/',Name_update_4,sep=''), app
 
    move0<-list.files(Users_folder, pattern=paste(gsub(' ','',input$Gene),'_',sep='') );
    for(i in 1:length(move0)){
-    
+
          move1 <- paste(Users_folder,'/',move0[i],sep='')
          move2<- paste('mv',move1,dir0,sep=' ')
          system(move2)
@@ -308,7 +308,7 @@ query_COPY<-dna;
 query_COPY2<-dna;
 perlArg4_Users_folder <-Users_folder;
 Gene <- gsub(' ','',input$Gene);  ## from shiny input
-cds_ids <- gsub(' ','',input$Gene); ##  ?? from shiny input, for plotting! 
+cds_ids <- gsub(' ','',input$Gene); ##  ?? from shiny input, for plotting!
 query_length<-length(query_COPY[[1]]);
 Name_update_1 <- paste(Gene,"_mRNA",sep = "");
 Name_update_2 <- paste(Gene,"_CDS",sep = "");
@@ -411,7 +411,7 @@ query_COPY<-merge_fa2;
 query_COPY2<-merge_fa2;
 perlArg4_Users_folder <-Users_folder;
 Gene <- gsub(' ','',input$Gene);  ## from shiny input
-cds_ids <- gsub(' ','',input$Gene); ##  ?? from shiny input, for plotting! 
+cds_ids <- gsub(' ','',input$Gene); ##  ?? from shiny input, for plotting!
 query_length<-length(query_COPY[[1]]);
 Name_update_1 <- paste(Gene,"_mRNA",sep = "");
 Name_update_2 <- paste(Gene,"_CDS",sep = "");
@@ -455,14 +455,14 @@ output$Save <- downloadHandler(
     file = paste(gsub(' ','',input$Gene),'.zip',sep='')
   },
   content = function(file) {
-  
+
   ip_address <- User_ip
 
   User_folder0<- paste(ip_address,'_',gsub(' ','',input$Gene),sep='')
   Users_folder<-paste(User_folder, User_folder0 , sep='')  ## User's ip_gene !!
-  
+
   #03/07/23
-  keep_files<-list.files(path=Users_folder, pattern=gsub(' ','',input$Gene) )                    
+  keep_files<-list.files(path=Users_folder, pattern=gsub(' ','',input$Gene) )
   rm_files<-list.files(Users_folder)[ which(!list.files(Users_folder) %in% keep_files ) ]
   file.remove(paste(Users_folder,'/',rm_files, sep=''))
 
@@ -476,7 +476,7 @@ output$Save <- downloadHandler(
    file.remove(paste(Users_folder,'/',list.files(path=Users_folder,pattern=c("_left")), sep=''))
   }
   #03/07/23
-  
+
 
   ## Parent1 or Parent2
   if(file.exists(paste(Users_folder,'/','Parent1',sep=''))){
@@ -489,13 +489,13 @@ output$Save <- downloadHandler(
   }
 
   zip(paste(Users_folder,'.zip',sep=''), Users_folder, flags = "-r9Xj")
-  
+
   file.copy(paste(Users_folder,'.zip',sep=''),file)
 
   file.remove(paste(Users_folder,'.zip',sep='')) #03/07/23
- 
+
  },
- 
+
   contentType = "application/zip"
 
 )
@@ -537,7 +537,7 @@ refresh()
 ####################################################################################################################
 ####################################################################################################################
 tagfunction <- function(page_title,page_subtitle,Genome_choice,chromosome_choice, default_choice,GeneID_example,default_ref){
-      
+
       tagList(
 
           fluidPage(theme = shinytheme("readable")), ## 2/9/23 cerulean, cosmo, cyborg, darkly, flatly, journal, lumen, paper, readable, sandstone, simplex, slate, spacelab, superhero, united, yeti
@@ -547,7 +547,7 @@ tagfunction <- function(page_title,page_subtitle,Genome_choice,chromosome_choice
          h1(page_title,style="text-align:center"),
         nav_links,
 
-# To add ui part for page6   
+# To add ui part for page6
 
 useShinyjs(),
 
@@ -574,16 +574,16 @@ bsTooltip("Check_ID", "Check your gene name in our database","right", options = 
 
 column(12,
 pickerInput(
-  inputId = "Pickgenome", 
-  label = "Pick Genome (Please select one!) :", 
+  inputId = "Pickgenome",
+  label = "Pick Genome (Please select one!) :",
   choices = Genome_choice,
   selected = c(''), ## by default
 
   options = list(
-    'actions-box' = TRUE, 
+    'actions-box' = TRUE,
     size = 30,
     'selected-text-format' = "count > 1"
-  ), 
+  ),
   multiple = FALSE,
 )
 ),
@@ -591,30 +591,30 @@ pickerInput(
 
 column(12,
 pickerInput(
-  inputId = "Chr", 
-  label = "Chromosome (Please select one!)", 
+  inputId = "Chr",
+  label = "Chromosome (Please select one!)",
   choices = chromosome_choice,
   selected = c(''), ## by default
   options = list(
-    'actions-box' = TRUE, 
+    'actions-box' = TRUE,
     size = 21,
     'selected-text-format' = "count > 1"
-  ), 
+  ),
   multiple = FALSE,
 )
 ),
 
 column(12,
 pickerInput(
-  inputId = "Pickformat", 
-  label = "CDS (Coding sequence); OR your fasta sequence :", 
+  inputId = "Pickformat",
+  label = "CDS (Coding sequence); OR your fasta sequence :",
   choices = c('CDS','fasta_seq'),
   selected = c('CDS'), ## by default
   options = list(
-    'actions-box' = TRUE, 
+    'actions-box' = TRUE,
     size = 18,
     'selected-text-format' = "count > 1"
-  ), 
+  ),
   multiple = FALSE,
 )
 ),
@@ -625,13 +625,13 @@ bsTooltip("fasta", ">YourID as the first line","right", options = NULL),
 tags$script(checkjs1), #03/07/23
 column(12,attrib_replace( fileInput("upload1", "Upload Parent1 (Format: Parent1_chr**.fa.gz)", multiple = FALSE),
        list(id = "upload1", type = "file"), onchange = "checkFileName1(this);") ),
-  
+
 tags$script(checkjs2), #03/07/23
 column(12,attrib_replace( fileInput("upload2", "Upload Parent2 (Format: Parent2_chr**.fa.gz)", multiple = FALSE),
-       list(id = "upload2", type = "file"), onchange = "checkFileName2(this);") ), 
+       list(id = "upload2", type = "file"), onchange = "checkFileName2(this);") ),
 
-#column(12,fileInput("upload1", "Upload Parent1 (Format: Parent1_chr**.fa.gz)", multiple = FALSE)),  
-#column(12,fileInput("upload2", "Upload Parent2 (Format: Parent2_chr**.fa.gz)", multiple = FALSE)), 
+#column(12,fileInput("upload1", "Upload Parent1 (Format: Parent1_chr**.fa.gz)", multiple = FALSE)),
+#column(12,fileInput("upload2", "Upload Parent2 (Format: Parent2_chr**.fa.gz)", multiple = FALSE)),
 
 column(12,textInput("Upstream","Upstream (kb), Default length=(gene)*10% kb, Max input should <=100 (kb)",value=0)), #2/9/23
 column(12,textInput("Downstream","Downstream (kb), Default length=(gene)*10% kb, Max input should <=100 (kb)",value=0)), #2/9/23
@@ -641,15 +641,15 @@ column(12,textInput("Downstream","Downstream (kb), Default length=(gene)*10% kb,
 
 column(12,
 pickerInput(
-  inputId = "id", 
-  label = "Genomes (Defalt: all genomes selected) :", 
+  inputId = "id",
+  label = "Genomes (Defalt: all genomes selected) :",
    choices = default_choice,
    selected = default_choice,
   options = list(
-    'actions-box' = TRUE, 
+    'actions-box' = TRUE,
     size = 50,
     'selected-text-format' = "count > 1"
-  ), 
+  ),
   multiple = TRUE,
 )
 ),
@@ -684,14 +684,14 @@ uiOutput("done"),
 
 mainPanel(
 fluidRow(
-  
+
 ############### IP test
 # tags$head(
 #    tags$script(src="getIP.js")
 #  ),
- verbatimTextOutput('IP'),       
+ verbatimTextOutput('IP'),
 ############### IP test
- 
+
      column(12,verbatimTextOutput("visits")), ## number of visits
 
      column(12,verbatimTextOutput("infogene")), ## number of jobs submitted
@@ -783,7 +783,7 @@ tags$head(
      column(6, plotOutput("plot",click = NULL,dblclick = NULL,width = "100%",height = 'auto')),
 
      column(6, plotOutput("plot2",click = "plot2_click",dblclick = NULL,width = "100%",height = 'auto')),
-     
+
      column(12,verbatimTextOutput("info2")),
 
      column(12,verbatimTextOutput("info4")),
@@ -791,8 +791,8 @@ tags$head(
      column(12,verbatimTextOutput("info3")),
 
      column(12,verbatimTextOutput("info_TE")),
-     
-     column(12, offset=0, align="center", textOutput('info') ),                     
+
+     column(12, offset=0, align="center", textOutput('info') ),
      tags$head(tags$style("#info{color: blue;
                                  font-size: 24px;
                                  font-style: Arial;
@@ -819,7 +819,7 @@ tags$head(
      column(12, offset = 0,DT::dataTableOutput("table4"),style='padding-top:5px; padding-bottom:5px'), # 2/21/23
 
      column(12, offset = 0,DT::dataTableOutput("table1"),style='padding-top:5px; padding-bottom:5px'), ## 06/17, cluster information
-      
+
      column(12, offset = 0,DT::dataTableOutput("table2"),style='padding-top:5px; padding-bottom:5px'),
 
      column(12, offset = 0,DT::dataTableOutput("table3"),style='padding-top:5px; padding-bottom:5px'),
@@ -863,7 +863,7 @@ output$infogene <- renderText({ num_files1 });
 observeEvent(input$Check_ID, {
 
     if( (gsub(' ','',input$Gene) != "") & (length(grep(' ', gsub(' ','',input$Gene)))==0)  ){
- 
+
  key_table <- paste(gff_folder,Speciesx,'/','species_genekey.txt',sep='');
  Gene_Key <- read.table(key_table,header=F)
 
@@ -895,7 +895,7 @@ remove_exist_file <- paste('rm -r ',paste(User_folder, User_folder0 , sep=''),se
 system(remove_exist_file)
 }
 Users_folder1<-paste('mkdir -m 777 ', User_folder , User_folder0 , sep='')
-system(Users_folder1)  ## 
+system(Users_folder1)  ##
 Users_folder<-paste(User_folder, User_folder0 , sep='')
 matched_gene_file <- paste(Users_folder,'/matched_gene.gff',sep='')
 system_grep <- paste('grep -w',gsub(' ','',input$Gene),AllGenomes_key_info,'>',matched_gene_file,sep=' ')
@@ -911,20 +911,20 @@ if (file.size(matched_gene_file)!=0) {
 
           if( (as.numeric(matched_gene1[3])-as.numeric(matched_gene1[2]) ) > 20*1000 ){
           updateSliderInput(inputId="Distancefilter", value = (as.numeric(matched_gene1[3])-as.numeric(matched_gene1[2]) ) ) ## 03/03/23
-           } 
+           }
 
         default_up_down_stream<-round(((as.numeric(matched_gene1[3])-as.numeric(matched_gene1[2]))*0.1)/1000,2) # 2/9/23
         updateTextInput(inputId='Upstream' ,value=as.numeric(default_up_down_stream) ) # 2/9/23
         updateTextInput(inputId='Downstream' ,value=as.numeric(default_up_down_stream) ) # 2/9/23
-        
+
         matched_gene1<-paste(matched_gene1[1],':',prettyNum(c(matched_gene1[2]),big.mark=",",scientific=FALSE),'-',prettyNum(c(matched_gene1[3]),big.mark=",",scientific=FALSE), ',', paste('(',matched_gene1[4],')',' Strand.',sep='') ,sep=' ') # 2/8/23
 
-        
+
         Test_GeneName2 <- paste(c("The query gene is located at ", matched_gene1), collapse= " ")
         output$coordinates_test <- renderText({ Test_GeneName2 });
 
        output$html <- renderUI({
-      #  tags$a(href=paste('https://www.maizegdb.org/gene_center/gene/',gsub(' ','',input$Gene),sep=''), target='_blank',h4(paste('More information about gene',gsub(' ','',input$Gene),sep=' ') ) )      
+      #  tags$a(href=paste('https://www.maizegdb.org/gene_center/gene/',gsub(' ','',input$Gene),sep=''), target='_blank',h4(paste('More information about gene',gsub(' ','',input$Gene),sep=' ') ) )
       #  tags$a(href=paste(html_Speciesx,gsub(' ','',input$Gene),sep=''), target='_blank',h4(paste('More information about gene',gsub(' ','',input$Gene),sep=' ') ) )
 
          tags$a(href=paste(html_Speciesx,gsub(' ','',input$Gene),sep=''), target='_blank',paste('Click to view more information about gene',gsub(' ','',input$Gene),sep=' '), style = "font-size:16px; color:blue; font-style:italic;");
@@ -945,7 +945,7 @@ system(system_delete)}
 
  }
  }
-   
+
 
    } else if((gsub(' ','',input$Gene) != "") & (length(grep(' ', gsub(' ','',input$Gene)))!=0)){
 
@@ -962,25 +962,25 @@ system(system_delete)}
 observeEvent(input$Pickformat, {
 
     if (input$Pickformat == "fasta_seq"){
-     
+
       shinyjs::enable(id = "fasta")
-      
+
       shinyjs::disable(id = "Upstream")
       shinyjs::disable(id = "Downstream")
 
 
     } else if (input$Pickformat == "CDS" ) {
-      
+
       shinyjs::disable(id = "fasta")
-      
-    } 
+
+    }
 
     })
 ###### To test fasta format
 observeEvent(input$fasta, {
 
     if(input$fasta != ""){
-     
+
      query0<-input$fasta
 
     if (startsWith(query0, paste(">",gsub(' ','',input$Gene),sep='') )) {
@@ -990,14 +990,14 @@ observeEvent(input$fasta, {
               updatePickerInput(session = session, inputId = "id",
                         choices = c(default_choice,gsub(' ','',input$Gene)),
                         selected = c(default_choice,gsub(' ','',input$Gene)))
-     
+
    } else {
     Test_fasta2 <- paste("Incorrect fasta format! Please double check (>YourID as first line name !!!)",sep='');
     output$fasta_test <- renderText({ Test_fasta2 });
    }
 
-    } 
-  
+    }
+
   })
 ###### To test fasta format
 
@@ -1006,8 +1006,8 @@ observeEvent(input$upload1, {
 
         #03/07/23
         if( paste("Parent1","_",input$Chr,".fa.gz",sep='') != input$upload1$name ) {
-                 
-        Test_upload1_name <- paste("Failed upload! Wrong name detected for your file. Please double check your file name ...",sep='')  
+
+        Test_upload1_name <- paste("Failed upload! Wrong name detected for your file. Please double check your file name ...",sep='')
         output$upload1_name_test <- renderText({ Test_upload1_name })
         shinyjs::disable(id = "submit")
         return()
@@ -1046,43 +1046,43 @@ system(remove_exist_file)
 }
 
 Users_folder1<-paste('mkdir -m 777 ', User_folder , User_folder0 , sep='')
-system(Users_folder1)  ## 
+system(Users_folder1)  ##
 
 Users_folder<-paste(User_folder, User_folder0 , sep='')
 #############
-       
+
           file.copy(input$upload1$datapath, paste0(Users_folder,'/',input$upload1$name) )
-          
+
           fileName0<- paste(Users_folder,'/',input$upload1$name,sep='')
           fileName1 <- as.character(strsplit(fileName0, ".fa.gz"))
-           
-          uncompressed0 <- paste("gzip -d",fileName0, sep=' ') 
+
+          uncompressed0 <- paste("gzip -d",fileName0, sep=' ')
           uncompressed1 <- system(uncompressed0)
 
           fileName2 <- paste(fileName1,'.fa',sep='')
           fileName3 <- paste(fileName1,'.fa.gz',sep='')
 
-          makedb0 <- paste('makeblastdb -in', fileName2 ,'-dbtype nucl',sep=' ') 
+          makedb0 <- paste('makeblastdb -in', fileName2 ,'-dbtype nucl',sep=' ')
           makedb1 <- system(makedb0)
-          
+
           bgzip0 <- paste('bgzip -@ 8 ',fileName2,sep=' ')
           bgzip1 <- system(bgzip0)
 
           samtools0 <- paste('samtools faidx',fileName3 ,sep=' ')
           samtools1 <- system(samtools0)
-          
+
 
           ParentName0<- as.character(strsplit(input$upload1$name, ".fa.gz"))
           ParentName1<- gsub('_.*','',ParentName0)
 
          dir0<- paste(Users_folder,'/','Parent1',sep='')
          dir.create(dir0)
-         
+
 
          move0<-list.files(Users_folder, pattern='Parent1_')
 
          for(i in 1:length(move0)){
-        
+
          move1 <- paste(Users_folder,'/',move0[i],sep='')
          move2<- paste('mv',move1,dir0,sep=' ')
          system(move2)
@@ -1102,7 +1102,7 @@ output$Largefile <- renderUI({
 
     actionButton("Largefile", label = "(2) Submit (large file)",style="color: FF66B2; background-color: #FFFF99; border-color: #c34113; border-radius: 10px; border-width: 2px")
 
-  })               
+  })
 
         } ) ## observe
 ######
@@ -1111,8 +1111,8 @@ observeEvent(input$upload2, {
 
         #03/07/23
         if( paste("Parent2","_",input$Chr,".fa.gz",sep='') != input$upload2$name ) {
-                 
-        Test_upload2_name <- paste("Failed upload! Wrong name detected for your file. Please double check your file name ...",sep='')  
+
+        Test_upload2_name <- paste("Failed upload! Wrong name detected for your file. Please double check your file name ...",sep='')
         output$upload2_name_test <- renderText({ Test_upload2_name })
         shinyjs::disable(id = "submit")
         return()
@@ -1142,39 +1142,39 @@ User_folder0<- paste(ip_address,'_',User_Gene,sep='')
 Users_folder<-paste(User_folder, User_folder0 , sep='')
 #############
 #############
-       
+
           file.copy(input$upload2$datapath, paste0(Users_folder,'/',input$upload2$name) )
-          
+
           fileName0<- paste(Users_folder,'/',input$upload2$name,sep='')
           fileName1 <- as.character(strsplit(fileName0, ".fa.gz"))
-           
-          uncompressed0 <- paste("gzip -d",fileName0, sep=' ') 
+
+          uncompressed0 <- paste("gzip -d",fileName0, sep=' ')
           uncompressed1 <- system(uncompressed0)
 
           fileName2 <- paste(fileName1,'.fa',sep='')
           fileName3 <- paste(fileName1,'.fa.gz',sep='')
 
-          makedb0 <- paste('makeblastdb -in', fileName2 ,'-dbtype nucl',sep=' ') 
+          makedb0 <- paste('makeblastdb -in', fileName2 ,'-dbtype nucl',sep=' ')
           makedb1 <- system(makedb0)
-          
+
           bgzip0 <- paste('bgzip -@ 8 ',fileName2,sep=' ')
           bgzip1 <- system(bgzip0)
 
           samtools0 <- paste('samtools faidx',fileName3 ,sep=' ')
           samtools1 <- system(samtools0)
-          
+
 
           ParentName0<- as.character(strsplit(input$upload2$name, ".fa.gz"))
           ParentName2<- gsub('_.*','',ParentName0)
 
          dir0<- paste(Users_folder,'/','Parent2',sep='')
          dir.create(dir0)
-         
+
 
          move0<-list.files(Users_folder, pattern='Parent2_')
 
          for(i in 1:length(move0)){
-        
+
          move1 <- paste(Users_folder,'/',move0[i],sep='')
          move2<- paste('mv',move1,dir0,sep=' ')
          system(move2)
@@ -1195,7 +1195,7 @@ Users_folder<-paste(User_folder, User_folder0 , sep='')
 
     actionButton("Largefile", label = "Submit (For user uploaded haplotype)",style="color: FF66B2; background-color: #FFFF99; border-color: #c34113; border-radius: 10px; border-width: 2px")
 
-  })    
+  })
 
         })
 
@@ -1479,7 +1479,7 @@ g_lab <- genomes_r;
 haplotypes <- 0
 
 if (!file.size(paste(Dir, Gene, '_repMask2', sep = ''))==0) {
-repeats<-1 ## 
+repeats<-1 ##
 }else {
 repeats<-0 ##
 }
@@ -1489,7 +1489,7 @@ repeats<-0 ##
 ### 03/02/23
 if( file.exists(paste(Users_folder,'/',"positions.txt",sep='') ) ){
 
-###### 2/22/23 
+###### 2/22/23
 Query_coordinate<-read.table(paste(Users_folder,'/',"positions.txt",sep=''),header=F)
 Query_coordinate <- cbind(Query_coordinate$V2-range(Query_coordinate[,2:3])[1]+1+perlArg5_PickUp, Query_coordinate$V3-range(Query_coordinate[,2:3])[1]+1+perlArg5_PickUp) #03/07/23
 ###### 2/22/23
@@ -1589,23 +1589,23 @@ output$clustertree <- renderUI({
 observeEvent(input$clustertree,{
 
 val <- reactiveValues(clickx = NULL, clicky = NULL)
-  
+
   observe({
 
     input$plot2_click
 
     isolate({
       val$clickx = c(val$clickx, input$plot2_click$x)
-      val$clicky = c(val$clicky, input$plot2_click$y) 
+      val$clicky = c(val$clicky, input$plot2_click$y)
     })
   }) #adding clicks to list
 
-output$plot3 <- NULL 
-output$plot4 <- NULL 
-output$info <- NULL 
-output$submit_trim <-NULL 
+output$plot3 <- NULL
+output$plot4 <- NULL
+output$info <- NULL
+output$submit_trim <-NULL
 output$info2 <- NULL
-output$plot2 <- NULL  
+output$plot2 <- NULL
 output$Haplotypes <- NULL
 output$bucket <- NULL
 output$table4 <- NULL # 2/28/23
@@ -1630,7 +1630,7 @@ if('query' %in% Test_Genome1){
  genomes <- Test_Genome1
 }
 ####################### To check genomes
-n_g <- length(genomes)  
+n_g <- length(genomes)
 b_matrix <- diag(n_g)
 for (g1 in 1:(n_g - 1)) {
  for (g2 in (g1 + 1): n_g ) {
@@ -1660,7 +1660,7 @@ as.dendrogram(h_c) %>% set("labels_cex", 0.9) %>% sort(type = "nodes") %>% highl
 
 } else if(sum(as.matrix(dist(b_matrix)))==0){
 plot(x =c(0:100) , y =c(0:100) , xlab = '', ylab = '', xaxt = "n", yaxt = "n", bty = "n",type="n")
-text(55, 25, labels='Calculated distance matrix ==0, only ONE haplotype!', cex=2.0,col="red") 
+text(55, 25, labels='Calculated distance matrix ==0, only ONE haplotype!', cex=2.0,col="red")
 }
 
 
@@ -1672,7 +1672,7 @@ observeEvent(input$plot2_click,{
 
 output$plot3 <- NULL
 output$plot4 <- NULL
-output$info <- NULL 
+output$info <- NULL
 output$submit_trim <-NULL
 output$info2 <- NULL
 output$info4 <- NULL
@@ -1681,7 +1681,7 @@ output$info3 <- NULL
     memb<-cutree(as.dendrogram(h_c), h=input$plot2_click$y)
 
     write.table(input$plot2_click$y ,file=paste(Dir, 'User_tree_cut.txt', sep = ''),row.names=FALSE,col.names=FALSE,quote = FALSE,sep="\t")  ############ 03/02/23
-    b_matrix0 <- cbind(b_matrix, cluster =as.data.frame(memb)) 
+    b_matrix0 <- cbind(b_matrix, cluster =as.data.frame(memb))
 
     b_matrix_groups <- b_matrix0[,'memb',drop=FALSE]
     b_matrix_groups1<-b_matrix_groups[order(b_matrix_groups$memb), , drop = FALSE]
@@ -1713,7 +1713,7 @@ info2_text<- paste0(c('Cut tree based on your selected height ~', round(input$pl
 output$info2 <- renderText({info2_text})
 
 output$bucket <- renderUI({
-    
+
     bucket_list(
       header = "Candidate haplotypes for plotting",
       group_name = "bucket_list_group",
@@ -1721,13 +1721,13 @@ output$bucket <- renderUI({
        orientation = "horizontal",
 
     add_rank_list(text = "Empty bucket",
-      labels =  NULL, 
+      labels =  NULL,
       input_id = "list_1"),
 
     add_rank_list(text = "Order of plot",
-                    labels = b_matrix_groups2$genomes_rep, 
+                    labels = b_matrix_groups2$genomes_rep,
                     input_id = "list_2")
-    )  
+    )
   })
 
 output$Haplotypes <- renderUI({
@@ -1765,7 +1765,7 @@ datatable(b_matrix_groups4,caption = htmltools::tags$caption(
 
  }) # input$plot2_click
 
-  
+
   }, height = function() {length(input$id)*13+400}) ## renderplot2 from *10 to *13 03/06/23
 
  })   ## input$clustertree
@@ -1872,7 +1872,7 @@ variety_0<- read.table(paste(Dir, "b_matrix_variety_Table1_.txt", sep = ''),head
  index_order<-1
 
  for(name in d1_order ){
-  
+
   old_order0<- grep(name,d2_order[ ,2])
 
   d3_order_[index_order, 1] <-  d2_order[old_order0, 2]
@@ -1894,8 +1894,8 @@ for(memb_ in 1:nrow(b_matrix_groups4)){
 b_matrix_groups4_[memb_, 1]<-length(unlist(strsplit(unlist(strsplit(b_matrix_groups4$Varieties,' ,'))[memb_],', ',fixed=TRUE)))
 }
 b_matrix_groups4[,4]<- b_matrix_groups4_
-colnames(b_matrix_groups4)<-c('Variety groups','Representation','Varieties',"Members")
-b_matrix_groups4 <- b_matrix_groups4[  ,c("Variety groups", "Representation", "Members", "Varieties")]
+colnames(b_matrix_groups4)<-c('Variety groups','Representative','Varieties',"Members")
+b_matrix_groups4 <- b_matrix_groups4[  ,c("Variety groups", "Representative", "Members", "Varieties")]
 ## 03/13/23
 
 output$table4 <-DT::renderDataTable({
@@ -1909,8 +1909,8 @@ datatable(b_matrix_groups4,caption = htmltools::tags$caption(
                                                          buttons = c("csv"),
                                                          text = "Downloads")), pageLength=20, autoWidth = TRUE,
                              searchHighlight = TRUE, filter = "top", columnDefs = list(list( className = 'dt-center', targets = "_all"))  )  ) %>%
-                            formatStyle(columns=ncol(b_matrix_groups4), target = c("cell"),backgroundColor = c("gold") ) %>% 
-                            formatStyle('Representation',backgroundColor = styleEqual(list2_, c('yellow') ) ) %>% #03/13/23 Representation
+                            formatStyle(columns=ncol(b_matrix_groups4), target = c("cell"),backgroundColor = c("gold") ) %>%
+                            formatStyle('Representative',backgroundColor = styleEqual(list2_, c('yellow') ) ) %>% #03/13/23 Representative
                             formatStyle(columns =2:ncol(b_matrix_groups4)-1, fontSize = '150%') #03/13/23 2:3
 
   }) # DT::renderDataTable
@@ -1921,7 +1921,7 @@ b_matrix_groups2_temp<-read.table(paste(Dir, "b_matrix_groups2_ori.txt", sep = '
 
 write.table(b_matrix_groups2_temp,file=paste(Dir, 'b_matrix_groups2.txt', sep = ''),row.names=FALSE,col.names=TRUE,quote = FALSE,sep="\t")
 
-b_matrix_groups4 <- read.table(paste(Dir, "b_matrix_variety_Table1.txt", sep = ''),header=T,sep = '\t') 
+b_matrix_groups4 <- read.table(paste(Dir, "b_matrix_variety_Table1.txt", sep = ''),header=T,sep = '\t')
 
 b_matrix_groups4<-b_matrix_groups4[ with(b_matrix_groups4, order(b_matrix_groups4$genomes) ),  ]  # 03/03/23
 
@@ -1936,7 +1936,7 @@ colnames(b_matrix_groups4)<-c('Variety groups','Varieties')
  index_order<-1
 
  for(name in d1_order ){
-  
+
   old_order0<- grep(name,d2_order[ ,2])
 
   d3_order_[index_order, 1] <-  d2_order[old_order0, 2]
@@ -1958,8 +1958,8 @@ for(memb_ in 1:nrow(b_matrix_groups4)){
 b_matrix_groups4_[memb_, 1]<-length(unlist(strsplit(unlist(strsplit(b_matrix_groups4$Varieties,' ,'))[memb_],', ',fixed=TRUE)))
 }
 b_matrix_groups4[,4]<- b_matrix_groups4_
-colnames(b_matrix_groups4)<-c('Variety groups','Representation','Varieties',"Members")
-b_matrix_groups4 <- b_matrix_groups4[  ,c("Variety groups", "Representation", "Members", "Varieties")]
+colnames(b_matrix_groups4)<-c('Variety groups','Representative','Varieties',"Members")
+b_matrix_groups4 <- b_matrix_groups4[  ,c("Variety groups", "Representative", "Members", "Varieties")]
 ## 03/13/23
 
 output$table4 <-DT::renderDataTable({
@@ -1972,11 +1972,11 @@ datatable(b_matrix_groups4,caption = htmltools::tags$caption(
                              buttond = list("copy", list(extend = "collection",
                                                          buttons = c("csv"),
                                                          text = "Downloads")), pageLength=20, autoWidth = TRUE,
-                             searchHighlight = TRUE, filter = "top", columnDefs = list(list( className = 'dt-center', targets = "_all"))  )  ) %>% 
-                             formatStyle(columns=ncol(b_matrix_groups4), target = c("cell"),backgroundColor = c("gold") ) %>% 
-                             formatStyle('Representation',backgroundColor = styleEqual(input$list_2, c('yellow')) ) %>% #03/13/23 Representation
+                             searchHighlight = TRUE, filter = "top", columnDefs = list(list( className = 'dt-center', targets = "_all"))  )  ) %>%
+                             formatStyle(columns=ncol(b_matrix_groups4), target = c("cell"),backgroundColor = c("gold") ) %>%
+                             formatStyle('Representative',backgroundColor = styleEqual(input$list_2, c('yellow')) ) %>% #03/13/23 Representative
                              formatStyle(columns =2:ncol(b_matrix_groups4)-1, fontSize = '150%') #03/13/23 2:3
-                             
+
   }) # DT::renderDataTable
 
 } # else if
@@ -2008,8 +2008,8 @@ val2 <- reactiveValues(clickx = NULL, clicky = NULL)
 
     isolate({
       val1$clickx = c(val1$clickx, input$plot3_click$x)
-      val1$clicky = c(val1$clicky, input$plot3_click$y) 
-      
+      val1$clicky = c(val1$clicky, input$plot3_click$y)
+
       val2$clickx = c(val2$clickx, input$plot3_dblclick$x)
       val2$clicky = c(val2$clicky, input$plot3_dblclick$y)
    })
@@ -2057,7 +2057,7 @@ g_lab <- genomes_r;
 haplotypes <- 1
 
 if (!file.size(paste(Dir, Gene, '_repMask2', sep = ''))==0) {
-repeats<-1 ## 
+repeats<-1 ##
 }else {
 repeats<-0 ##
 }
@@ -2105,8 +2105,8 @@ genomes <- Genome_order
 
 
 ############
-for(i in 1:nrow(gDNAs_blast)) {           
-if(gDNAs_blast[i,9]>gDNAs_blast[i,10]){  
+for(i in 1:nrow(gDNAs_blast)) {
+if(gDNAs_blast[i,9]>gDNAs_blast[i,10]){
    temp10<- gDNAs_blast[i,9]
    temp9<- gDNAs_blast[i,10]
    gDNAs_blast[i,10]<- temp10
@@ -2166,26 +2166,26 @@ output$info <- renderText({ info_text })
 output$submit_trim <- renderUI({
 
         if(!is.na(tail(Combined,1)[,1]) & !is.na(tail(Combined,1)[,2])) {
-           
+
             if(Combined[1,1] < Combined[1,2])   {
 
               actionButton("submit_trim", label = "(5) Trim",style = "background-color:#66FF66")
                      }
-                }       
+                }
 
     })
 
 output$extract_fa <- renderUI({
 
         if(!is.na(tail(Combined,1)[,1]) & !is.na(tail(Combined,1)[,2])) {
-           
+
             if(Combined[1,1] < Combined[1,2])   {
 
               actionButton("extract_fa", label = "Extract trimmed fasta",style = "background-color:#66FF66")
-                     
+
                      }
 
-                }       
+                }
 
     })
 
@@ -2234,7 +2234,7 @@ if (!file.size(paste(Dir, Gene, '_repMask2', sep = ''))==0) {
 repmask_hover2_reactive <- reactive({
    repmask_hover1[which(with(repmask_hover1, input$plot3_hover$y>=repmask_hover1[,4] & input$plot3_hover$y<=repmask_hover1[,5])), c(1,2,3) ]
      })
-temp_hover<-repmask_hover2_reactive() 
+temp_hover<-repmask_hover2_reactive()
 repmask_hover3_reactive <- reactive({
    temp_hover[which(with(temp_hover, input$plot3_hover$x>=temp_hover[,2] & input$plot3_hover$x<=temp_hover[,3])), c(1) ]
  })
@@ -2267,7 +2267,7 @@ var_types <- c('snp', 'ins', 'del');
 indel_col <- c("grey", "red", "red");
 cds_col <- c("yellowgreen", "brown");
 
-CoordinateFilter0<-read.table(paste(Dir, 'Selected_lines_Coordinates.bed', sep = ''),header=T) 
+CoordinateFilter0<-read.table(paste(Dir, 'Selected_lines_Coordinates.bed', sep = ''),header=T)
 CoordinateFilter0<-round(CoordinateFilter0,0)
 
 #CoordinateFilter0<-CoordinateFilter0[which(row.names(CoordinateFilter0)!='average'),] # remove average values
@@ -2291,7 +2291,7 @@ CoordinateFilter3<- CoordinateFilter2[which(CoordinateFilter2$V2==gname2),]
 Target1<-CoordinateFilter0[which(rownames(CoordinateFilter0)==unique(CoordinateFilter3$V2)),]
 
 ###############
-for(i in 1:nrow(CoordinateFilter3)) {           
+for(i in 1:nrow(CoordinateFilter3)) {
 
 
 if(CoordinateFilter3[i,9]<CoordinateFilter3[i,10]){
@@ -2299,27 +2299,27 @@ if(CoordinateFilter3[i,9]<CoordinateFilter3[i,10]){
      CoordinateFilter3_1 <- CoordinateFilter3[i, ]
 
     if (CoordinateFilter3_1$V9>=Target1$start & CoordinateFilter3_1$V9<=Target1$end & CoordinateFilter3_1$V10>=Target1$end) {
-       
-     CoordinateFilter3_1$V9 <- CoordinateFilter3_1$V9-Target1$start+1    
+
+     CoordinateFilter3_1$V9 <- CoordinateFilter3_1$V9-Target1$start+1
      CoordinateFilter3_1$V10 <- Target1$end-Target1$start+1
 
   } else if (CoordinateFilter3_1$V10>=Target1$start & CoordinateFilter3_1$V10<=Target1$end & CoordinateFilter3_1$V9<=Target1$start) {
-    
+
      CoordinateFilter3_1$V9 <- Target1$start-Target1$start+1
      CoordinateFilter3_1$V10 <- CoordinateFilter3_1$V10-Target1$start+1
 
   } else if (CoordinateFilter3_1$V9>=Target1$start & CoordinateFilter3_1$V10<=Target1$end) {
-           
+
      CoordinateFilter3_1$V9 <- CoordinateFilter3_1$V9-Target1$start+1
      CoordinateFilter3_1$V10 <- CoordinateFilter3_1$V10-Target1$start+1
-     
+
   } else if (CoordinateFilter3_1$V9<=Target1$start & CoordinateFilter3_1$V10>=Target1$end){
-     
+
      CoordinateFilter3_1$V9 <- Target1$start-Target1$start+1
      CoordinateFilter3_1$V10 <- Target1$end-Target1$start+1
-     
+
   } else if (CoordinateFilter3_1$V9>=Target1$end | CoordinateFilter3_1$V10<=Target1$start){
-     
+
      CoordinateFilter3_1$V9 <- -1
      CoordinateFilter3_1$V10 <- -1
 
@@ -2332,31 +2332,31 @@ if(CoordinateFilter3[i,9]<CoordinateFilter3[i,10]){
 } else if (CoordinateFilter3[i,9]>CoordinateFilter3[i,10]){
 
     CoordinateFilter3_1 <- CoordinateFilter3[i, ]
-    CoordinateFilter3_1_Temp_V10 <- CoordinateFilter3_1$V9    
+    CoordinateFilter3_1_Temp_V10 <- CoordinateFilter3_1$V9
     CoordinateFilter3_1_Temp_V9 <- CoordinateFilter3_1$V10
 
     if (CoordinateFilter3_1_Temp_V9>=Target1$start & CoordinateFilter3_1_Temp_V9<=Target1$end & CoordinateFilter3_1_Temp_V10>=Target1$end) {
-       
-     CoordinateFilter3_1$V10 <- CoordinateFilter3_1_Temp_V9-Target1$start+1    
+
+     CoordinateFilter3_1$V10 <- CoordinateFilter3_1_Temp_V9-Target1$start+1
      CoordinateFilter3_1$V9 <- Target1$end-Target1$start+1
 
   } else if (CoordinateFilter3_1_Temp_V10>=Target1$start & CoordinateFilter3_1_Temp_V10<=Target1$end & CoordinateFilter3_1_Temp_V9<=Target1$start) {
-    
+
      CoordinateFilter3_1$V10 <- Target1$start-Target1$start+1
      CoordinateFilter3_1$V9 <- CoordinateFilter3_1_Temp_V10-Target1$start+1
 
   } else if (CoordinateFilter3_1_Temp_V9>=Target1$start & CoordinateFilter3_1_Temp_V10<=Target1$end) {
-           
+
      CoordinateFilter3_1$V10 <- CoordinateFilter3_1_Temp_V9-Target1$start+1
      CoordinateFilter3_1$V9 <- CoordinateFilter3_1_Temp_V10-Target1$start+1
-     
+
   } else if (CoordinateFilter3_1_Temp_V9<=Target1$start & CoordinateFilter3_1_Temp_V10>=Target1$end){
-     
+
      CoordinateFilter3_1$V10 <- Target1$start-Target1$start+1
      CoordinateFilter3_1$V9 <- Target1$end-Target1$start+1
 
   } else if (CoordinateFilter3_1_Temp_V9>=Target1$end | CoordinateFilter3_1_Temp_V10<=Target1$start){
-     
+
      CoordinateFilter3_1$V10 <- -1
      CoordinateFilter3_1$V9 <- -1
   }
@@ -2364,7 +2364,7 @@ if(CoordinateFilter3[i,9]<CoordinateFilter3[i,10]){
   CoordinateFilter3[i,9]<-CoordinateFilter3_1$V9
   CoordinateFilter3[i,10]<-CoordinateFilter3_1$V10
 
-} # else if 
+} # else if
 
 } # for loop row
 
@@ -2404,27 +2404,27 @@ CoordinateFilter3_1 <- CoordinateFilter3[i, ]
 
 ## V7 and V8
   if(CoordinateFilter3_1$V7>=Target1$start & CoordinateFilter3_1$V7<=Target1$end & CoordinateFilter3_1$V8>=Target1$end) {
-    
+
      CoordinateFilter3_1$V7 <- CoordinateFilter3_1$V7-Target1$start+1
      CoordinateFilter3_1$V8 <- Target1$end-Target1$start+1
 
   } else if(CoordinateFilter3_1$V8>=Target1$start & CoordinateFilter3_1$V8<=Target1$end & CoordinateFilter3_1$V7<=Target1$start) {
-           
+
      CoordinateFilter3_1$V7 <- Target1$start-Target1$start+1
      CoordinateFilter3_1$V8 <- CoordinateFilter3_1$V8-Target1$start+1
 
   } else if(CoordinateFilter3_1$V7>=Target1$start & CoordinateFilter3_1$V8<=Target1$end) {
-     
+
      CoordinateFilter3_1$V7 <- CoordinateFilter3_1$V7-Target1$start+1
      CoordinateFilter3_1$V8 <- CoordinateFilter3_1$V8-Target1$start+1
 
   } else if(CoordinateFilter3_1$V7<=Target1$start & CoordinateFilter3_1$V8>=Target1$end) {
-     
+
      CoordinateFilter3_1$V7 <- Target1$start-Target1$start+1
      CoordinateFilter3_1$V8 <- Target1$end-Target1$start+1
 
   } else if(CoordinateFilter3_1$V7>=Target1$end | CoordinateFilter3_1$V8<=Target1$start ){
-    
+
      CoordinateFilter3_1$V7 <- 0
      CoordinateFilter3_1$V8 <- 0
 
@@ -2437,7 +2437,7 @@ CoordinateFilter3_1 <- CoordinateFilter3[i, ]
 
 ## V9 and V10
 if(CoordinateFilter3[i,9]<CoordinateFilter3[i,10]){
-   
+
     CoordinateFilter3_1 <- CoordinateFilter3[i, ]
 
   if(CoordinateFilter3_1$V9>=Target2$start & CoordinateFilter3_1$V9<=Target2$end & CoordinateFilter3_1$V10>=Target2$end) {
@@ -2451,7 +2451,7 @@ if(CoordinateFilter3[i,9]<CoordinateFilter3[i,10]){
      CoordinateFilter3_1$V10 <- CoordinateFilter3_1$V10-Target2$start+1
 
   } else if(CoordinateFilter3_1$V9>=Target2$start & CoordinateFilter3_1$V10<=Target2$end) {
-           
+
      CoordinateFilter3_1$V9 <- CoordinateFilter3_1$V9-Target2$start+1
      CoordinateFilter3_1$V10 <- CoordinateFilter3_1$V10-Target2$start+1
 
@@ -2459,7 +2459,7 @@ if(CoordinateFilter3[i,9]<CoordinateFilter3[i,10]){
 
      CoordinateFilter3_1$V9 <- Target2$start-Target2$start+1
      CoordinateFilter3_1$V10 <- Target2$end-Target2$start+1
-  
+
   } else if(CoordinateFilter3_1$V9>=Target2$end | CoordinateFilter3_1$V10<=Target2$start ){
 
      CoordinateFilter3_1$V9 <- 0
@@ -2475,7 +2475,7 @@ if(CoordinateFilter3[i,9]<CoordinateFilter3[i,10]){
 } else if (CoordinateFilter3[i,9]>CoordinateFilter3[i,10]){         ######################
 
     CoordinateFilter3_1 <- CoordinateFilter3[i, ]
-    CoordinateFilter3_1_Temp_V10 <- CoordinateFilter3_1$V9    
+    CoordinateFilter3_1_Temp_V10 <- CoordinateFilter3_1$V9
     CoordinateFilter3_1_Temp_V9 <- CoordinateFilter3_1$V10
 
   if(CoordinateFilter3_1_Temp_V9>=Target2$start & CoordinateFilter3_1_Temp_V9<=Target2$end & CoordinateFilter3_1_Temp_V10>=Target2$end) {
@@ -2490,7 +2490,7 @@ if(CoordinateFilter3[i,9]<CoordinateFilter3[i,10]){
      CoordinateFilter3_1$V9 <- CoordinateFilter3_1_Temp_V10-Target2$start+1
 
   } else if(CoordinateFilter3_1_Temp_V9>=Target2$start & CoordinateFilter3_1_Temp_V10<=Target2$end) {
-           
+
      CoordinateFilter3_1$V10 <- CoordinateFilter3_1_Temp_V9-Target2$start+1
      CoordinateFilter3_1$V9 <- CoordinateFilter3_1_Temp_V10-Target2$start+1
 
@@ -2516,7 +2516,7 @@ gDNAs_blast_New0[[index_coor]] <- CoordinateFilter3
 
 index_coor<- index_coor+1
 
-} # for loop genome 
+} # for loop genome
 
 gDNAs_blast_New1 <- as.data.frame(rbindlist(gDNAs_blast_New0)) ## new raw
 
@@ -2642,19 +2642,19 @@ repmask <- as.data.frame(rbindlist(repmask_New1)) ## new input files
 for(i in 1:nrow(CoordinateFilter3_1)){
 
  if (CoordinateFilter3_1[i,]$V7>=Target1$start & CoordinateFilter3_1[i,]$V7<=Target1$end & CoordinateFilter3_1[i,]$V8>=Target1$end) {
-    
+
      CoordinateFilter3_1[i,]$V7 <- CoordinateFilter3_1[i,]$V7-Target1$start+1
      CoordinateFilter3_1[i,]$V8 <- Target1$end-Target1$start+1
   } else if (CoordinateFilter3_1[i,]$V8>=Target1$start & CoordinateFilter3_1[i,]$V8<=Target1$end & CoordinateFilter3_1[i,]$V7<=Target1$start) {
-           
+
      CoordinateFilter3_1[i,]$V7 <- Target1$start-Target1$start+1
      CoordinateFilter3_1[i,]$V8 <- CoordinateFilter3_1[i,]$V8-Target1$start+1
   } else if (CoordinateFilter3_1[i,]$V7>=Target1$start & CoordinateFilter3_1[i,]$V8<=Target1$end) {
-     
+
      CoordinateFilter3_1[i,]$V7 <- CoordinateFilter3_1[i,]$V7-Target1$start+1
      CoordinateFilter3_1[i,]$V8 <- CoordinateFilter3_1[i,]$V8-Target1$start+1
   } else if (CoordinateFilter3_1[i,]$V7<=Target1$start & CoordinateFilter3_1[i,]$V8>=Target1$end) {
-     
+
      CoordinateFilter3_1[i,]$V7 <- Target1$start-Target1$start+1
      CoordinateFilter3_1[i,]$V8 <- Target1$end-Target1$start+1
   }
@@ -2675,21 +2675,21 @@ write.table(repeat_left, file=paste(Dir, Gene, '_repMask2_left', sep = ''), sep=
 } # repeats
 ######### repeat
 
-## End of Trim 
+## End of Trim
 output$info_Trim0 <- renderText({ paste(" ",sep='') }) #03/07/23
 output$info_Trim <- renderText({ paste("User trimmed graph for ",gsub(' ','',input$Gene),sep='' ) }) #03/07/23
 
 ####
 Anno <- read.table(paste(Dir, Gene, '_Haplotype_anno', sep = ''), sep = '\t', header = T, stringsAsFactors = F)
 
-N_Gap <- read.table( paste(Dir, Gene, '_Haplotype_N_Gaps_left', sep = ''), header=T ) 
+N_Gap <- read.table( paste(Dir, Gene, '_Haplotype_N_Gaps_left', sep = ''), header=T )
 
 gDNAs_blast <- gDNAs_blast_left
 
 #output_flag = 0
 output_flag = 1 # 1/9/23
 
-b_matrix_groups2 <- read.table(paste(Dir, 'Selected_lines_Coordinates.bed', sep = ''),header=T) 
+b_matrix_groups2 <- read.table(paste(Dir, 'Selected_lines_Coordinates.bed', sep = ''),header=T)
 
 genomes <- input$list_2
 genomes_r <- genomes
@@ -2711,7 +2711,7 @@ repeats<-0 ##
 ###### 2/22/23
 ###### 2/22/23
 Query_coordinate<-as.matrix(c(''),nrow=1,ncol=1)
-Near_Gene_coor <- as.matrix(c(''),nrow=1,ncol=1) 
+Near_Gene_coor <- as.matrix(c(''),nrow=1,ncol=1)
 ####################################################
 source(paste(script_folder, 'BRIDGEcereal_Sub.R', sep=''), local = TRUE)
 Plot_SV(genomes_r, g_lab, repmask, CDS_gDNA_blast, gDNAs_blast, N_Gap, Anno, output_flag,Gene,Ref_genome,haplotypes,repeats,strand_direction,Query_coordinate, Near_Gene_coor) ## plot in shiny
@@ -2719,7 +2719,7 @@ Plot_SV(genomes_r, g_lab, repmask, CDS_gDNA_blast, gDNAs_blast, N_Gap, Anno, out
 output_flag = 0 # 1/9/23
 Plot_SV(genomes_r, g_lab, repmask, CDS_gDNA_blast, gDNAs_blast, N_Gap, Anno, output_flag,Gene,Ref_genome,haplotypes,repeats,strand_direction,Query_coordinate, Near_Gene_coor) # 1/9/23
 
-}, height = function() {length(input$list_2)*13+400}) #03/06/23 add a height for plot4 
+}, height = function() {length(input$list_2)*13+400}) #03/06/23 add a height for plot4
 
 })  ## input$submit_trim  Trim
 
@@ -2745,7 +2745,7 @@ datatable(Information_output,caption = htmltools::tags$caption(
 ########################## A table showing Blast result which is presented in main plot
 Filtered_HaplotypeSyn_Plotted <- Filtered_HaplotypeSyn[which(Filtered_HaplotypeSyn$Genome!=''),]
 
-colnames(Filtered_HaplotypeSyn_Plotted)<- c('query gene','query start','query end','genome','chromosome','subject start','subject end','DNA Size','Similarity (blastn)')   #2/8/23 
+colnames(Filtered_HaplotypeSyn_Plotted)<- c('query gene','query start','query end','genome','chromosome','subject start','subject end','DNA Size','Similarity (blastn)')   #2/8/23
 
 output$table2 <-DT::renderDataTable({
 datatable(Filtered_HaplotypeSyn_Plotted,caption = htmltools::tags$caption(
@@ -2766,9 +2766,9 @@ BlastSynWorking_0<-read.table(Blast_Ori,header=T); ## Blast_Original
 BlastSynWorking_1 <- BlastSynWorking_0[which(BlastSynWorking_0$Genome!=''),]
 
 #BlastSynWorking_2 <- BlastSynWorking[which(BlastSynWorking$Genome!=''),]
-BlastSynWorking_2 <- Filtered_HaplotypeSyn_Plotted #1/9/23 
+BlastSynWorking_2 <- Filtered_HaplotypeSyn_Plotted #1/9/23
 
-colnames(BlastSynWorking_1)<- c('query gene','query start','query end','genome','chromosome','subject start','subject end','DNA Size','Similarity (blastn)')   #2/8/23 
+colnames(BlastSynWorking_1)<- c('query gene','query start','query end','genome','chromosome','subject start','subject end','DNA Size','Similarity (blastn)')   #2/8/23
 
 NotShown0 <- anti_join(BlastSynWorking_1,BlastSynWorking_2) # Not shown in plot, other genomic positions.
 
@@ -2803,7 +2803,7 @@ observeEvent(input$extract_fa,{
 
 Gene <- gsub(' ','',input$Gene)
 
-CoordinateFilter0 <- read.table(paste(Dir, 'Selected_lines_Coordinates.bed', sep = ''),header=T) 
+CoordinateFilter0 <- read.table(paste(Dir, 'Selected_lines_Coordinates.bed', sep = ''),header=T)
 
 CoordinateFilter0<-round(CoordinateFilter0,0)
 Sel_Hap_Coor <- CoordinateFilter0[which(row.names(CoordinateFilter0)!='average'),] # remove average values
@@ -2813,8 +2813,8 @@ query_extract_fa<-list();
 dna_Haplotype_fa <- readDNAStringSet(paste(Dir, Gene, '_Haplotype.fa', sep = ''));
 
 for (x_lines in 1:nrow(Sel_Hap_Coor)) {
-  query_name <- row.names(Sel_Hap_Coor[x_lines,]); 
-  start_1 <- Sel_Hap_Coor[x_lines,][,1]; 
+  query_name <- row.names(Sel_Hap_Coor[x_lines,]);
+  start_1 <- Sel_Hap_Coor[x_lines,][,1];
   end_1 <- Sel_Hap_Coor[x_lines,][,2];
   query_extract <- dna_Haplotype_fa[grepl(query_name, dna_Haplotype_fa@ranges@NAMES)];
   query_extract_fa[[x_lines]] <- subseq(query_extract, start=start_1, end=end_1);
@@ -2837,9 +2837,9 @@ system( paste('rm ',paste(Dir,'*_Selected_New.fa',sep=''), sep='') )
 Plot_SV <- function(genomes, g_lab, repmask, CDS_gDNA_blast, gDNAs_blast, N_Gap, Anno, output_flag,Gene,Ref_genome,haplotypes,repeats,strand_direction, Query_coordinate, Near_Gene_coor) {
 # if (output_flag == 1) {png(file = paste(Dir, Gene, '_NAM.png', sep = ''), width= 19 * .5, height= 12 * .75 , pointsize= 10 , units = "in", res = 600)};
  if (output_flag == 1) {png(file = paste(Dir, Gene, '.png', sep = ''), width= 10, height= 11 , pointsize= 10 , units = "in", res = 600)}; # 03/06/23 width=10 ??
- 
+
  par(mar = c(1.2, 1.0, 0, 0) , mgp = c(1, 0.1, 0), tck = -0.01, cex.axis = .9, cex.lab = 1, family = "mono"); ## ??
- 
+
  plot(-100, -100, xlim = x_lim, ylim = c(-0.5,length(genomes) + 0), xlab = '', ylab = '', xaxt = "n", yaxt = "n", bty = "n");
 
  for (g in 1:length(genomes)) {
@@ -2847,15 +2847,15 @@ Plot_SV <- function(genomes, g_lab, repmask, CDS_gDNA_blast, gDNAs_blast, N_Gap,
 ## To add arrows and axis ##
   if (g == length(genomes)) {
 
- if(strand_direction=='+'){  
+ if(strand_direction=='+'){
 
    arrows(range(gDNAs_blast[,9:10])[1], length(genomes)-0.5, range(gDNAs_blast[,9:10])[2], length(genomes)-0.5,lwd=2.5);
 
    } else if(strand_direction=='-'){
-   
+
    arrows(range(gDNAs_blast[,9:10])[2], length(genomes)-0.5, range(gDNAs_blast[,9:10])[1], length(genomes)-0.5, lwd=2.5);
 }
-     
+
      }
 
 
@@ -2880,7 +2880,7 @@ Plot_SV <- function(genomes, g_lab, repmask, CDS_gDNA_blast, gDNAs_blast, N_Gap,
 
     axis(1, at = c( seq( from=range(gDNAs_blast[,9:10])[1],to=range(gDNAs_blast[,9:10])[2],
       by=(range(gDNAs_blast[,9:10])[2]-range(gDNAs_blast[,9:10])[1])/(3-1)   ) ),
-      labels= paste0(c( round(  seq(from=range(gDNAs_blast[,9:10])[1]/1000, to=range(gDNAs_blast[,9:10])[2]/1000,length.out=3) ,0 )  )  ,'kb')           
+      labels= paste0(c( round(  seq(from=range(gDNAs_blast[,9:10])[1]/1000, to=range(gDNAs_blast[,9:10])[2]/1000,length.out=3) ,0 )  )  ,'kb')
      ,cex.axis=0.8,cex.lab=0.8,tick = TRUE,col = "blue", lty = 1, lwd = 2.5, lwd.ticks=1.5,tck =0.02,col.ticks = "black",col.axis = "black");
 
       } else if( (range(gDNAs_blast[,9:10])[2]-range(gDNAs_blast[,9:10])[1]) <= 1000 ){           #03/07/23
@@ -2903,7 +2903,7 @@ Plot_SV <- function(genomes, g_lab, repmask, CDS_gDNA_blast, gDNAs_blast, N_Gap,
     polygon(c(gDNAs[k,7:8], gDNAs[k,c(10,9)]), length(genomes) - g - c(0.3, .3, 0.9, 0.9), col = adjustcolor( "gray", alpha.f = 0.5), border = "NA");
    }
   }
- 
+
   ## for mRNA
   for (cds_i in 1:length(cds_ids) ) {
     CDSs <- subset(CDS_gDNA_blast, CDS_gDNA_blast[,1] == paste(cds_ids[cds_i], '_mRNA', sep = '') & CDS_gDNA_blast[,2] == genomes[g] );
@@ -2946,18 +2946,18 @@ Plot_SV <- function(genomes, g_lab, repmask, CDS_gDNA_blast, gDNAs_blast, N_Gap,
 
 } #03/06/23 +80 ?? cex = 1.0
 
-} 
+}
 
    for (k in 1:nrow(self)) {
    if (self[k,7] == self[k,9] & self[k,8] == self[k,10]) {
     rect(self[k,7] - 100, length(genomes) - g, self[k,8] + 100, length(genomes) - g - 0.05, col = "darksalmon", border = "NA");
-   } 
- 
+   }
+
   gap <- subset(N_Gap, N_Gap[,1] == genomes[g]);
   if (nrow(gap) > 0) {
    segments(gap[,2], rep(length(genomes) - g - 0.025, nrow(gap)), gap[,3], rep(length(genomes) - g - 0.025, nrow(gap)), lty = 2, lwd=3, col = "black")
   }
-  
+
   }
 
    # for annotation
@@ -2966,7 +2966,7 @@ Plot_SV <- function(genomes, g_lab, repmask, CDS_gDNA_blast, gDNAs_blast, N_Gap,
    if (nrow(gIDs) > 0) {
    arrows(gIDs$Start, rep(length(genomes) - g + 0.05, nrow(gIDs)), gIDs$End, rep(length(genomes) - g + 0.05, nrow(gIDs)), code = gIDs$Strand, angle = 15, length = .05, lwd = .5 )
     }
-   if (nrow(gCDS) > 0) { 
+   if (nrow(gCDS) > 0) {
     for (k in 1:nrow(gCDS)) {
      rect(gCDS$Start[k], length(genomes) - g + 0.02, gCDS$End[k], length(genomes) - g - 0.05 - 0.02, col = "darksalmon", lwd = .5)
     }
@@ -2996,7 +2996,7 @@ if(genomes[g]== Ref_genome){
 rect(Query_coordinate[,1], length(genomes) - g - 0.09, Query_coordinate[,2] , length(genomes) - g +0.05, border ='blue')
 
 if(Near_Gene_coor[1,1]!=''){
-rect(Near_Gene_coor[,1], length(genomes) - g - 0.09, Near_Gene_coor[,2] , length(genomes) - g +0.05, border ='red', lwd=1.5 ) 
+rect(Near_Gene_coor[,1], length(genomes) - g - 0.09, Near_Gene_coor[,2] , length(genomes) - g +0.05, border ='red', lwd=1.5 )
 }
 
 }
@@ -3011,4 +3011,3 @@ rect(Near_Gene_coor[,1], length(genomes) - g - 0.09, Near_Gene_coor[,2] , length
 ####################################################################################################################
 ####################################################################################################################
 ####################################################################################################################
-
