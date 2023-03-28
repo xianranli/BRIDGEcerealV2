@@ -107,6 +107,10 @@ Click “(2) Submit” button to start the process; the alignment with selected 
     ")),
 
     column(12, offset=3,align="left", h4("
+***The blue boxes in reference genome indicate gene's coding sequences, and red boxes reveal other genes close to candidate gene in the defined genomic region***
+    ")),
+
+    column(12, offset=3,align="left", h4("
 3). Click the “(3) Tree” button to plot the phylogenetic tree clustering genomes based on shared indels (Figure 2).
  Click the tree plot (top right) to determine the number of haplotypes based on your tree-cut.
     ")),

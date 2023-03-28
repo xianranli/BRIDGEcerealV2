@@ -397,6 +397,29 @@ output$Save <- downloadHandler(
   User_folder0<- paste(ip_address,'_',gsub(' ','',input$Gene),sep='')
   Users_folder<-paste(User_folder, User_folder0 , sep='')  ## User's ip_gene !!
   
+  ## Parent1 or Parent2
+  if(file.exists(paste(Users_folder,'/','Parent1',sep=''))){
+
+  remove_Parent1 <- paste('rm -r ',Users_folder,'/','Parent1',sep='')
+  system(remove_Parent1)
+  
+  }
+  
+  if(file.exists(paste(Users_folder,'/','Parent2',sep=''))){
+  
+  remove_Parent2 <- paste('rm -r ',Users_folder,'/','Parent2',sep='')
+  system(remove_Parent2)
+  
+  }
+
+
+
+  if(file.exists(paste(Users_folder,'/',gsub(' ','',input$Gene),sep=''))){
+  
+  remove_YourID <- paste('rm -r ',Users_folder,'/',gsub(' ','',input$Gene),sep='')
+  system(remove_YourID)
+  
+  }
 
   #03/07/23
   keep_files<-list.files(path=Users_folder, pattern=gsub(' ','',input$Gene) )                    
@@ -437,16 +460,6 @@ output$Save <- downloadHandler(
    file.remove(paste(Users_folder,'/',list.files(path=Users_folder,pattern=c("_left")), sep=''))
   }
   #03/07/23
-
-  ## Parent1 or Parent2
-  if(file.exists(paste(Users_folder,'/','Parent1',sep=''))){
-  remove_Parent1 <- paste('rm -r ',Users_folder,'/','Parent1',sep='')
-  system(remove_Parent1)
-  }
-  if(file.exists(paste(Users_folder,'/','Parent2',sep=''))){
-  remove_Parent2 <- paste('rm -r ',Users_folder,'/','Parent2',sep='')
-  system(remove_Parent2)
-  }
 
   zip(paste(Users_folder,'.zip',sep=''), Users_folder, flags = "-r9Xj")
   file.copy(paste(Users_folder,'.zip',sep=''),file)

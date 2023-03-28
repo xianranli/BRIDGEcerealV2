@@ -46,9 +46,9 @@ if (input$Pickformat == "fasta_seq"){
 
 BlastSynWorking_strand<-read.table(BlastSyn,header=T); ## _Haplotype_syn
 Filtered_HaplotypeSyn_Strand0<-BlastSynWorking_strand[which(BlastSynWorking_strand$Genome==input$Pickgenome),c(6,7)][1, ] ## Only the first one
-if( (Filtered_HaplotypeSyn_Strand0$sbj_E-Filtered_HaplotypeSyn_Strand0$sbj_St) >0 ){
+if( (Filtered_HaplotypeSyn_Strand0$subject_end-Filtered_HaplotypeSyn_Strand0$subject_start) >0 ){
     strand_direction<-'+';
-} else if((Filtered_HaplotypeSyn_Strand0$sbj_E-Filtered_HaplotypeSyn_Strand0$sbj_St) <0){
+} else if((Filtered_HaplotypeSyn_Strand0$subject_end-Filtered_HaplotypeSyn_Strand0$subject_start) <0){
     strand_direction<-'-';
 }
 
@@ -124,7 +124,8 @@ N_Gap <- read.table(paste(Dir, Gene, '_Haplotype_N_Gaps', sep = ''), sep = '\t',
 
 if (!file.size(paste(Dir, Gene, '_repMask2', sep = ''))==0) {
 repmask <- read.table(paste(Dir, Gene, '_repMask2', sep = ''), header = F, sep = "\t", stringsAsFactors = F);
-repmask <- repmask[abs(repmask[,8] - repmask[,7])> 100,]
+#repmask <- repmask[abs(repmask[,8] - repmask[,7])> 100,]
+repmask <- repmask[abs(repmask[,8] - repmask[,7])> 0,]
 }
 
 ## 03/13/23
