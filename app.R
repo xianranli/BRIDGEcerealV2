@@ -43,6 +43,7 @@ html_maize<-'https://www.maizegdb.org/gene_center/gene/' #2/8/23
 html_sorghum<-'https://phytozome-next.jgi.doe.gov/report/gene/Sbicolor_v3_1_1/' #2/8/23
 html_rice<-'https://ricerc.sicau.edu.cn/RiceRC/Search/searchBefore?db=all&input=' #2/8/23
 html_barley<-'https://wheat.pw.usda.gov/cgi-bin/GG3/report.cgi?class=probe;name=' #2/8/23
+html_soybean<-'https://phytozome-next.jgi.doe.gov/report/gene/Gmax_Wm82_a4_v1/'
 
 source(paste(script_folder,"BRIDGEcereal_Instruction.R",sep=''), local = TRUE);
 source(paste(script_folder,"BRIDGEcereal_Species.R",sep=''), local = TRUE); 
@@ -228,7 +229,8 @@ server <- function(input, output, session){
   BRIDGEcereal_Species("Maize","B73","Zm00001eb000140",database_folder,gff_folder,script_folder,User_folder,candidate_dir,html_maize),   # 'B73' ... defined as default_ref
   BRIDGEcereal_Species("Sorghum","BTx623","Sobic.001G001066",database_folder,gff_folder,script_folder,User_folder,candidate_dir,html_sorghum), # 'BTx623' ... defined as default_ref
   BRIDGEcereal_Species("Rice","Nipponbare","LOC_Os01g01120",database_folder,gff_folder,script_folder,User_folder,candidate_dir,html_rice), # 'Nipponbare' ... defined as default_ref
-  BRIDGEcereal_Species("Barley","Morex","HORVU.MOREX.r3.1HG0000020",database_folder,gff_folder,script_folder,User_folder,candidate_dir,html_barley)     # 'Morex' ... defined as default_ref
+  BRIDGEcereal_Species("Barley","Morex","HORVU.MOREX.r3.1HG0000020",database_folder,gff_folder,script_folder,User_folder,candidate_dir,html_barley),     # 'Morex' ... defined as default_ref
+  BRIDGEcereal_Species("Soybean","Wm82","Glyma.01G000100",database_folder,gff_folder,script_folder,User_folder,candidate_dir,html_soybean)
 
 #  for(sp in All_species){Species(sp,database_folder,gff_folder,script_folder,User_folder)}
 
