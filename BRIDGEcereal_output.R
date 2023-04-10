@@ -31,9 +31,9 @@ ref_g<-input$Pickgenome
 #BlastSynWorking
 
 source(paste(script_folder,"BRIDGEcereal_Sub.R",sep=''), local = TRUE);
-
-Filtered_HaplotypeSyn <- CHOICE(BlastSynWorking,query_length, distance_filter, Min_CDS_size_filter, Max_CDS_size_filter, ref_g)[[1]]
-Information_list<- CHOICE(BlastSynWorking,query_length, distance_filter, Min_CDS_size_filter, Max_CDS_size_filter, ref_g)[[2]]
+CHOICE_output <- CHOICE(BlastSynWorking, query_length, distance_filter, Min_CDS_size_filter, Max_CDS_size_filter, ref_g)
+Filtered_HaplotypeSyn <- CHOICE_output[[1]]
+Information_list<- CHOICE_output[[2]]
 
 write.table(Filtered_HaplotypeSyn, file= BlastSyn,sep= "\t",quote = FALSE,row.names = FALSE);
 
@@ -846,6 +846,8 @@ if (!file.size(paste(Dir, Gene, '_repMask2', sep = ''))==0) {
 Genome_order0 <- input$list_2
 repmask_hover0 <- read.table(paste(Dir, Gene, '_repMask2', sep = ''), header = F, sep = "\t", stringsAsFactors = F);
 
+if( length( intersect(repmask_hover0$V1, Genome_order0 ) ) >0 ){   #4/10/23
+
 repmask_hover<-repmask_hover0[which(repmask_hover0$V1 %in% Genome_order0), ]
 
 repmask_hover$V13<-match(repmask_hover$V1, Genome_order0)
@@ -869,11 +871,25 @@ for (g in 1:length(Genome_order)) {
  hover_list[[g]]<-repmask_hover0[,c(2:6)]
 }
 repmask_hover1<- as.data.frame(rbindlist(hover_list)) ## TEName, V7, V8, y-0.25, y+0.25
+
+hover_tag<-1 #4/10/23
+
+} else { #4/10/23
+
+hover_tag<-0 #4/10/23
+
+} #4/10/23
+
+
 } ## repmask exists ..
 ###
 
+if (hover_tag != 0 ) { #4/10/23
+
 observeEvent(input$plot3_hover,{
-if (!file.size(paste(Dir, Gene, '_repMask2', sep = ''))==0) {
+
+#if (!file.size(paste(Dir, Gene, '_repMask2', sep = ''))==0) { #4/10/23
+
 repmask_hover2_reactive <- reactive({
    repmask_hover1[which(with(repmask_hover1, input$plot3_hover$y>=repmask_hover1[,4] & input$plot3_hover$y<=repmask_hover1[,5])), c(1,2,3) ]
      })
@@ -882,8 +898,10 @@ repmask_hover3_reactive <- reactive({
    temp_hover[which(with(temp_hover, input$plot3_hover$x>=temp_hover[,2] & input$plot3_hover$x<=temp_hover[,3])), c(1) ]
  })
 output$info_TE <- renderText({paste(c("Involved TE:", repmask_hover3_reactive()),collapse = '  ')})
-} ## repmask exists ..
+
  }) ## plot3_hover
+
+} ## repmask exists ..#4/10/23
 ########### plot3_hover reveals repeats
 
 
