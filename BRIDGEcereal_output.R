@@ -857,20 +857,27 @@ repmask_hover<-repmask_hover[order(repmask_hover$V13),][,1:12]
 Genome_order <- unique(repmask_hover$V1)
 
 g_rep_y<-list()
-for (g in 1:length(Genome_order0)) {
+for (g in match(Genome_order,Genome_order0) ) {
  g_rep_y[[g]] <-c(length(Genome_order0)-g)
 }
+
+#for (g in 1:length(Genome_order0)) {
+# g_rep_y[[g]] <-c(length(Genome_order0)-g)
+#}
 
 repmask_hover <- repmask_hover[which(repmask_hover$V1 %in% Genome_order),c(1,2,7,8)]
 
 hover_list<-list()
-for (g in 1:length(Genome_order)) {
- repmask_hover0 <-repmask_hover[which(repmask_hover$V1 %in% Genome_order[g]), ]
+for (g in match(Genome_order,Genome_order0)) {
+#for (g in 1:length(Genome_order)) {
+ repmask_hover0 <-repmask_hover[which(repmask_hover$V1 %in% Genome_order0[g]), ]  
+#repmask_hover0 <-repmask_hover[which(repmask_hover$V1 %in% Genome_order[g]), ]
  repmask_hover0[,5]<-as.numeric(g_rep_y[[g]][1])-0.25
  repmask_hover0[,6]<-as.numeric(g_rep_y[[g]][1])+0.25
  hover_list[[g]]<-repmask_hover0[,c(2:6)]
 }
 repmask_hover1<- as.data.frame(rbindlist(hover_list)) ## TEName, V7, V8, y-0.25, y+0.25
+
 
 hover_tag<-1 #4/10/23
 
@@ -884,11 +891,10 @@ hover_tag<-0 #4/10/23
 } ## repmask exists ..
 ###
 
-if (hover_tag != 0 ) { #4/10/23
-
 observeEvent(input$plot3_hover,{
-
 #if (!file.size(paste(Dir, Gene, '_repMask2', sep = ''))==0) { #4/10/23
+
+if (hover_tag != 0 ) { #4/10/23
 
 repmask_hover2_reactive <- reactive({
    repmask_hover1[which(with(repmask_hover1, input$plot3_hover$y>=repmask_hover1[,4] & input$plot3_hover$y<=repmask_hover1[,5])), c(1,2,3) ]
@@ -899,9 +905,12 @@ repmask_hover3_reactive <- reactive({
  })
 output$info_TE <- renderText({paste(c("Involved TE:", repmask_hover3_reactive()),collapse = '  ')})
 
+
+
+} ## repmask exists ..
+
  }) ## plot3_hover
 
-} ## repmask exists ..#4/10/23
 ########### plot3_hover reveals repeats
 
 
