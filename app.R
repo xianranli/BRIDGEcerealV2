@@ -230,7 +230,8 @@ server <- function(input, output, session){
   BRIDGEcereal_Species("Sorghum","BTx623","Sobic.001G001066",database_folder,gff_folder,script_folder,User_folder,candidate_dir,html_sorghum), # 'BTx623' ... defined as default_ref
   BRIDGEcereal_Species("Rice","Nipponbare","LOC_Os01g01120",database_folder,gff_folder,script_folder,User_folder,candidate_dir,html_rice), # 'Nipponbare' ... defined as default_ref
   BRIDGEcereal_Species("Barley","Morex","HORVU.MOREX.r3.1HG0000020",database_folder,gff_folder,script_folder,User_folder,candidate_dir,html_barley),     # 'Morex' ... defined as default_ref
-  BRIDGEcereal_Species("Soybean","Wm82","Glyma.01G000100",database_folder,gff_folder,script_folder,User_folder,candidate_dir,html_soybean)
+  BRIDGEcereal_Species("Soybean","Wm82","Glyma.01G000100",database_folder,gff_folder,script_folder,User_folder,candidate_dir,html_soybean),
+  BRIDGEcereal_Species("Maize_ISU","B73","Zm00001eb000140",database_folder,gff_folder,script_folder,User_folder,candidate_dir,html_maize)   # 'B73' ... defined as default_ref
 
 #  for(sp in All_species){Species(sp,database_folder,gff_folder,script_folder,User_folder)}
 
