@@ -1,4 +1,4 @@
-# Sub functions (03/28/23)
+# Sub functions (03/31/23)
 # 
 # 1, For_extract_fa() for extracting .fa in both CDS and largefile conditions
 # 2, For_upload_file() for uploading Parent1 and Parent2 chr or contigs
@@ -867,7 +867,7 @@ return(repmask)
 }
 #################################################################
 #################################################################
-Plot_SV <- function(genomes, g_lab, repmask, CDS_gDNA_blast, gDNAs_blast, N_Gap, output_flag,Gene,Ref_genome,haplotypes,repeats,strand_direction, Query_coordinate, Near_Gene_coor,plotSV_options, b_matrix_groups2) {
+Plot_SV <- function(genomes, g_lab, repmask, CDS_gDNA_blast, gDNAs_blast, N_Gap, output_flag,Gene,Ref_genome,haplotypes,repeats,strand_direction, Query_coordinate, Near_Gene_coor,plotSV_options, b_matrix_groups2, query_length) {
 
 # if (output_flag == 1) {png(file = paste(Dir, Gene, '_NAM.png', sep = ''), width= 19 * .5, height= 12 * .75 , pointsize= 10 , units = "in", res = 600)};
 # if (output_flag == 1) { png(file = paste(Dir, Gene, '.png', sep = ''), width= 10, height= 11 ,res = 600, pointsize= 10, units = "in") };
@@ -881,18 +881,14 @@ Plot_SV <- function(genomes, g_lab, repmask, CDS_gDNA_blast, gDNAs_blast, N_Gap,
  for (g in 1:length(genomes)) {
 
 ## To add arrows and axis ##
-  if (g == length(genomes)) {
-
- if(strand_direction=='+'){  
-
-   arrows(range(gDNAs_blast[,9:10])[1], length(genomes)-0.5, range(gDNAs_blast[,9:10])[2], length(genomes)-0.5,lwd=2.5);
-
-   } else if(strand_direction=='-'){
-   
-   arrows(range(gDNAs_blast[,9:10])[2], length(genomes)-0.5, range(gDNAs_blast[,9:10])[1], length(genomes)-0.5, lwd=2.5);
-}
-     
+   if (g == length(genomes)) {
+      if(strand_direction=='+'){  
+        arrows(range(gDNAs_blast[,9:10])[1], length(genomes)-0.5, range(gDNAs_blast[,9:10])[2], length(genomes)-0.5,lwd=2.5);
+        } else if(strand_direction=='-'){
+        arrows(range(gDNAs_blast[,9:10])[2], length(genomes)-0.5, range(gDNAs_blast[,9:10])[1], length(genomes)-0.5, lwd=2.5);
+        }
      }
+
 
   if (g == length(genomes)) {
 
@@ -950,13 +946,32 @@ Plot_SV <- function(genomes, g_lab, repmask, CDS_gDNA_blast, gDNAs_blast, N_Gap,
 
   ### for CDS
   for (cds_i in 1:length(cds_ids) ) {
+
     CDSs <- subset(CDS_gDNA_blast, CDS_gDNA_blast[,1] == paste(cds_ids[cds_i], '_CDS', sep = '') & CDS_gDNA_blast[,2] == genomes[g] );
-    arrow_code <- 1;
-    if (CDSs[1,9] > CDSs[1, 10]) {arrow_code <- 2}
+    
+  #  arrow_code <- 1;
+
+    CDSs <- CDSs[ which(CDSs[,9]!=-1), ]
+
+  #  if (CDSs[1,9] > CDSs[1, 10]) {arrow_code <- 2}
+
+  #  if( length( unique(CDSs[,9]) ) >1){
+
     if (nrow(CDSs) > 0) {
- #    arrows(max(CDSs[,9:10]) + 100, length(genomes) - g - 0.175, min(CDSs[,9:10]) - 100, length(genomes) - g - 0.175, code = arrow_code, angle = 15, length = .05);
+    
+  #  CDSs <- CDSs[which(CDSs[,9]!=-1), ]
+     arrow_code <- 1;
+
+     if (CDSs[1,9] > CDSs[1, 10]) {arrow_code <- 2}
+
+     arrows(max(CDSs[,9:10]) + (query_length*0.4), length(genomes) - g - 0.175, min(CDSs[,9:10]) - (query_length*0.4), length(genomes) - g - 0.175, code = arrow_code, angle = 15, length = .1);
+ 
      rect(CDSs[,9], length(genomes) - g - 0.25, CDSs[,10] , length(genomes) - g - 0.1, col = cds_col[cds_i], border ="NA");
+
     }
+
+  #   }
+
    }
 
   self <- subset(gDNAs_blast,  gDNAs_blast[,1] == genomes[g] & gDNAs_blast[,2] == genomes[g ])

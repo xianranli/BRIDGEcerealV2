@@ -1,4 +1,4 @@
-# 03/28/23
+# 03/31/23
 # Pre_run()
 
 Pre_run <- function(default_choice,gff_folder,gff_folder_Species,User_folder,Backup_folder, html_Speciesx, User_ip) {
@@ -140,8 +140,8 @@ observeEvent(input$Pickformat, {
      
       shinyjs::enable(id = "fasta")
       
-      shinyjs::disable(id = "Upstream")
-      shinyjs::disable(id = "Downstream")
+    # shinyjs::disable(id = "Upstream")  # 4/4/23
+    # shinyjs::disable(id = "Downstream") # 4/4/23
 
 
     } else if (input$Pickformat == "CDS" ) {

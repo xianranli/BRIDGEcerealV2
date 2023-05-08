@@ -1,6 +1,6 @@
-# BRIDGEcereal_output functions (03/28/23)
+# BRIDGEcereal_output functions (03/31/23)
 
-BRIDGEcereal_output <- function(User_folder0,perlArg0_db_sp,perlArg1_PickGenome ,perlArg2_PickGene,perlArg3_PickChr,perlArg4_Users_folder,perlArg5_PickUp,perlArg6_PickDown, Backup_folder,strand_direction,database_folder,gff_folder,script_folder,User_folder) {
+BRIDGEcereal_output <- function(User_folder0,perlArg0_db_sp,perlArg1_PickGenome ,perlArg2_PickGene,perlArg3_PickChr,perlArg4_Users_folder,perlArg5_PickUp,perlArg6_PickDown, Backup_folder,strand_direction,database_folder,gff_folder,script_folder,User_folder,Stream_folder) {
 
 system1 <- paste("perl", paste(script_folder,'extract_syn_fa.pl',sep=''),perlArg0_db_sp,perlArg1_PickGenome ,perlArg2_PickGene,perlArg3_PickChr,perlArg4_Users_folder,perlArg5_PickUp,perlArg6_PickDown,Backup_folder, 1, 0,sep=' ');
 system2 <- paste("perl", paste(script_folder,'extract_syn_fa.pl',sep=''),perlArg0_db_sp,perlArg1_PickGenome ,perlArg2_PickGene,perlArg3_PickChr,perlArg4_Users_folder,perlArg5_PickUp,perlArg6_PickDown,Backup_folder, 0, 2,sep=' ');
@@ -31,9 +31,9 @@ ref_g<-input$Pickgenome
 #BlastSynWorking
 
 source(paste(script_folder,"BRIDGEcereal_Sub.R",sep=''), local = TRUE);
-CHOICE_output <- CHOICE(BlastSynWorking, query_length, distance_filter, Min_CDS_size_filter, Max_CDS_size_filter, ref_g)
-Filtered_HaplotypeSyn <- CHOICE_output[[1]]
-Information_list<- CHOICE_output[[2]]
+
+Filtered_HaplotypeSyn <- CHOICE(BlastSynWorking,query_length, distance_filter, Min_CDS_size_filter, Max_CDS_size_filter, ref_g)[[1]]
+Information_list<- CHOICE(BlastSynWorking,query_length, distance_filter, Min_CDS_size_filter, Max_CDS_size_filter, ref_g)[[2]]
 
 write.table(Filtered_HaplotypeSyn, file= BlastSyn,sep= "\t",quote = FALSE,row.names = FALSE);
 
@@ -94,6 +94,13 @@ d2_CDS<-d1_CDS[ which(d1_CDS$V1==paste(Gene,'_','CDS',sep='')), ]
 write.table(d2_CDS, file=paste(Dir, Gene, '_ref_CDS-Haplotype_out_m8', sep = ''), sep="\t", quote = FALSE,row.names = FALSE,col.names = FALSE)
 file.remove( paste(Dir, Gene, '_ref_mRNA-Haplotype_out_m8', sep = '') )
 ##
+
+######## 5/1/23 fig demo
+output$Fig_demo <- renderUI({
+    tags$img(width="556", height="87", src=paste(Stream_folder,"Fig_demo.png",sep='')) # 0.6* (927*146)
+  })
+######## 5/1/23 fig demo
+
 
 output$plot <- renderPlot({
 
@@ -241,9 +248,9 @@ Near_Gene_coor <<- as.matrix(c(''),nrow=1,ncol=1)
 ######## 03/02/23
 
 #Near_Gene_coor <- as.matrix(c(''),nrow=1,ncol=1) #3/22/23
-plotSV_options<- as.numeric( c(10, 11, 10 ) )
+plotSV_options<- as.numeric( c(8, 8, 10 ) )
 source(paste(script_folder,"BRIDGEcereal_Sub.R",sep=''), local = TRUE); 
-Plot_SV(genomes_r, g_lab, repmask, CDS_gDNA_blast, gDNAs_blast, N_Gap, output_flag,Gene,Ref_genome,haplotypes,repeats,strand_direction, Query_coordinate, Near_Gene_coor,plotSV_options,b_matrix_groups2)
+Plot_SV(genomes_r, g_lab, repmask, CDS_gDNA_blast, gDNAs_blast, N_Gap, output_flag,Gene,Ref_genome,haplotypes,repeats,strand_direction, Query_coordinate, Near_Gene_coor,plotSV_options,b_matrix_groups2, query_length)
 ##
 
 #timer_end <- Sys.time();
@@ -276,7 +283,9 @@ b_matrix_ <<- CLIPS(gDNAs_blast)
 
 ########################
 
-observeEvent(input$clustertree,{
+
+
+observeEvent(input$clustertree ,{
 
 val <- reactiveValues(clickx = NULL, clicky = NULL)
   
@@ -302,7 +311,14 @@ output$Haplotypes <- NULL
 
 output$table4 <- NULL # 2/28/23
 
+
+
 output$plot2 <- renderPlot({
+
+    
+    input$clustertree 
+    req(input$clustertree) 
+
 
 Gene <- gsub(' ','',input$Gene)  ## from shiny input
 
@@ -349,8 +365,10 @@ color_option <- c("blue","black","red","orange","grey","green")
 abline(a=NULL, b=NULL, val$clicky, col=color_option[ceiling(as.numeric(val$clicky)) %% 6 +1],lty = 2,lwd=3 );
 
 
-observeEvent(input$plot2_click,{
+observeEvent(input$plot2_click ,{
 
+    input$plot2_click
+    req(input$plot2_click) 
 
 
 output$plot3 <- NULL
@@ -391,7 +409,7 @@ output$info3 <- NULL
 
   b_matrix_groups2 <- cbind(b_matrix_groups2,memb_count$count) ## 09/26/22
   colnames(b_matrix_groups2) <- c('genomes_rep','main_clusters','haplotypes_rep')
-  
+
   write.table(b_matrix_groups2,file=paste(Dir, 'b_matrix_groups2.txt', sep = ''),row.names=FALSE,col.names=TRUE,quote = FALSE,sep="\t")
   write.table(b_matrix_groups2,file=paste(Dir, 'b_matrix_groups2_ori.txt', sep = ''),row.names=FALSE,col.names=TRUE,quote = FALSE,sep="\t") #2/28/23
 
@@ -507,12 +525,18 @@ write.table(b_matrix_groups4, file=paste(Dir, 'b_matrix_variety_Table.txt', sep 
 
   }, height = function() {length(input$id)*13+400}) ## renderplot2 from *10 to *13 03/06/23
 
+
+
+
  })   ## input$clustertree
 
 
 #################### 2/28/23
 ####################
 observeEvent( c(input$list_2,input$list_1) ,{
+
+    input$plot2_click
+    req(input$plot2_click)
 
 
 source(paste(script_folder,"BRIDGEcereal_Sub.R",sep=''), local = TRUE); 
@@ -584,9 +608,6 @@ if(length(list1) != 0){
 ##################### 2/28/23
 
 
-
-
-
 ######################
 observeEvent(input$Haplotypes,{
 
@@ -594,10 +615,8 @@ output$info <- NULL
 output$plot4 <- NULL
 output$submit_trim <- NULL
 
-
 output$extract_fa <- NULL
 output$plotSV_parameters <- NULL
-
 
 
 info4_text<- paste('Left single_click and right double_click on top of figure to select preferred coordinates for Trimming ... ',sep='')
@@ -652,6 +671,7 @@ output_flag = 0
 gDNAs_blast<-gDNAs_blast[which(gDNAs_blast$V1 %in% input$list_2), ]
 gDNAs_blast<-gDNAs_blast[which(gDNAs_blast$V2 %in% input$list_2), ]
 ## 03/13/23
+
 x_lim <- range(gDNAs_blast[,9:10]) + c(0, 2000)
 
 output$plot3 <- renderPlot({
@@ -664,9 +684,10 @@ g_lab <- genomes_r;
 
 haplotypes <- 1
 
- if(file.exists(paste(Dir, 'b_matrix_groups2.txt', sep = ''))){
+if(file.exists(paste(Dir, 'b_matrix_groups2.txt', sep = ''))){
    b_matrix_groups2 <<- read.table(paste(Dir, 'b_matrix_groups2.txt', sep = ''),header=T)
    }
+
 
 if (!file.size(paste(Dir, Gene, '_repMask2', sep = ''))==0) {
 repeats<-1 ## 
@@ -688,11 +709,12 @@ Near_Gene_coor <<- as.matrix(c(''),nrow=1,ncol=1)
 
 }
 
+
 ####################################################
 #Near_Gene_coor <- as.matrix(c(''),nrow=1,ncol=1) #3/22/23
-plotSV_options<- as.numeric( c(10, 11 , 10 ) )
+plotSV_options<- as.numeric( c(8, 8 , 10 ) )
 source(paste(script_folder,"BRIDGEcereal_Sub.R",sep=''), local = TRUE); 
-Plot_SV(genomes_r, g_lab, repmask, CDS_gDNA_blast, gDNAs_blast, N_Gap, output_flag,Gene,Ref_genome,haplotypes,repeats,strand_direction, Query_coordinate, Near_Gene_coor,plotSV_options,b_matrix_groups2) ## plot in shiny
+Plot_SV(genomes_r, g_lab, repmask, CDS_gDNA_blast, gDNAs_blast, N_Gap, output_flag,Gene,Ref_genome,haplotypes,repeats,strand_direction, Query_coordinate, Near_Gene_coor,plotSV_options,b_matrix_groups2, query_length) ## plot in shiny
 
 arrows(as.numeric(val1$clickx), as.numeric(val1$clicky)+0.5, as.numeric(val1$clickx), as.numeric(val1$clicky)+0.1,length = 0.25, lwd=3,col=color_option[1])
 arrows(as.numeric(val2$clickx), as.numeric(val2$clicky)+0.5, as.numeric(val2$clickx), as.numeric(val2$clicky)+0.1,length = 0.25, lwd=3,col=color_option[3])
@@ -710,6 +732,7 @@ recttext(as.numeric(val2$clickx), as.numeric(val2$clicky)+0.7, 'Right',textArgs 
 
 ######
 observeEvent(input$plot3_click,{
+
 
 Genome_order <- input$list_2 ## New haplotypes's order
 genomes_r <- Genome_order
@@ -808,8 +831,8 @@ output$plotSV_parameters <- renderUI({
             if(Combined[1,1] < Combined[1,2])  {
                 
                 tagList(
-                         column(4, sliderInput("width", "PNG width", min = 3, max = 12, step =1, value =8)),
-                         column(4, sliderInput("height", "PNG height", min = 3, max = 12, step =1, value =9)),
+                         column(4, sliderInput("width", "PNG width (inches)", min = 1, max = 9, step =1, value =8)),
+                         column(4, sliderInput("height", "PNG height (inches)", min = 1, max = 9, step =1, value =8)),
                          column(4, sliderInput("pointsize", "PNG pointsize", min = 8, max = 15, step =1, value =10))
                         )
                 
@@ -840,6 +863,8 @@ output$info3 <- renderText({info3_text})
 
 }) ## plot3_click
 
+hover_tag<-0
+
 ########### plot3_hover reveals repeats
 if (!file.size(paste(Dir, Gene, '_repMask2', sep = ''))==0) {
 
@@ -857,20 +882,27 @@ repmask_hover<-repmask_hover[order(repmask_hover$V13),][,1:12]
 Genome_order <- unique(repmask_hover$V1)
 
 g_rep_y<-list()
-for (g in 1:length(Genome_order0)) {
+for (g in match(Genome_order,Genome_order0) ) {
  g_rep_y[[g]] <-c(length(Genome_order0)-g)
 }
+
+#for (g in 1:length(Genome_order0)) {
+# g_rep_y[[g]] <-c(length(Genome_order0)-g)
+#}
 
 repmask_hover <- repmask_hover[which(repmask_hover$V1 %in% Genome_order),c(1,2,7,8)]
 
 hover_list<-list()
-for (g in 1:length(Genome_order)) {
- repmask_hover0 <-repmask_hover[which(repmask_hover$V1 %in% Genome_order[g]), ]
+for (g in match(Genome_order,Genome_order0)) {
+#for (g in 1:length(Genome_order)) {
+ repmask_hover0 <-repmask_hover[which(repmask_hover$V1 %in% Genome_order0[g]), ]  
+#repmask_hover0 <-repmask_hover[which(repmask_hover$V1 %in% Genome_order[g]), ]
  repmask_hover0[,5]<-as.numeric(g_rep_y[[g]][1])-0.25
  repmask_hover0[,6]<-as.numeric(g_rep_y[[g]][1])+0.25
  hover_list[[g]]<-repmask_hover0[,c(2:6)]
 }
 repmask_hover1<- as.data.frame(rbindlist(hover_list)) ## TEName, V7, V8, y-0.25, y+0.25
+
 
 hover_tag<-1 #4/10/23
 
@@ -881,14 +913,18 @@ hover_tag<-0 #4/10/23
 } #4/10/23
 
 
-} ## repmask exists ..
+}
+
+
+
+
+## repmask dose not exist ..
 ###
 
-if (hover_tag != 0 ) { #4/10/23
-
 observeEvent(input$plot3_hover,{
-
 #if (!file.size(paste(Dir, Gene, '_repMask2', sep = ''))==0) { #4/10/23
+
+if (hover_tag != 0 ) { #4/10/23
 
 repmask_hover2_reactive <- reactive({
    repmask_hover1[which(with(repmask_hover1, input$plot3_hover$y>=repmask_hover1[,4] & input$plot3_hover$y<=repmask_hover1[,5])), c(1,2,3) ]
@@ -899,9 +935,12 @@ repmask_hover3_reactive <- reactive({
  })
 output$info_TE <- renderText({paste(c("Involved TE:", repmask_hover3_reactive()),collapse = '  ')})
 
+
+
+} ## repmask exists ..
+
  }) ## plot3_hover
 
-} ## repmask exists ..#4/10/23
 ########### plot3_hover reveals repeats
 
 
@@ -914,6 +953,7 @@ observeEvent(input$submit_trim,{
 
                 progress <- Progress$new(session, min=1, max=10)
                 on.exit(progress$close())
+
                 progress$set(message = 'Trimming selected regions ...',
                 detail = 'Almost there...')
                 for (i in 1:5) {
@@ -980,6 +1020,7 @@ haplotypes<-1
 
 output$plot4 <- renderPlot({
 
+
 if (!file.size(paste(Dir, Gene, '_repMask2', sep = ''))==0) {
 repeats<-1 ##
 }else {
@@ -990,14 +1031,14 @@ repeats<-0 ##
 Query_coordinate<-as.matrix(c(''),nrow=1,ncol=1)
 Near_Gene_coor <- as.matrix(c(''),nrow=1,ncol=1)
 
-plotSV_options<- as.numeric( c(10, 11 , 10 ) )
+plotSV_options<- as.numeric( c(8, 8 , 10 ) )
 ####################################################
 source(paste(script_folder,"BRIDGEcereal_Sub.R",sep=''), local = TRUE); 
-Plot_SV(genomes_r, g_lab, repmask, CDS_gDNA_blast, gDNAs_blast, N_Gap, output_flag,Gene,Ref_genome,haplotypes,repeats,strand_direction, Query_coordinate, Near_Gene_coor,plotSV_options,b_matrix_groups2) ## plot in shiny
+Plot_SV(genomes_r, g_lab, repmask, CDS_gDNA_blast, gDNAs_blast, N_Gap, output_flag,Gene,Ref_genome,haplotypes,repeats,strand_direction, Query_coordinate, Near_Gene_coor,plotSV_options,b_matrix_groups2, query_length) ## plot in shiny
 
 output_flag = 1 # # 3/20/23
 plotSV_options<- as.numeric( c(input$width,input$height,input$pointsize ) )
-Plot_SV(genomes_r, g_lab, repmask, CDS_gDNA_blast, gDNAs_blast, N_Gap, output_flag,Gene,Ref_genome,haplotypes,repeats,strand_direction, Query_coordinate, Near_Gene_coor,plotSV_options,b_matrix_groups2) # 1/5/23
+Plot_SV(genomes_r, g_lab, repmask, CDS_gDNA_blast, gDNAs_blast, N_Gap, output_flag,Gene,Ref_genome,haplotypes,repeats,strand_direction, Query_coordinate, Near_Gene_coor,plotSV_options,b_matrix_groups2, query_length) # 1/5/23
 
 #zip(paste(Dir,gsub(' ','',input$Gene),'.zip',sep=''), paste(Dir,gsub(' ','',input$Gene),'.png',sep=''), flags = "-r9Xj")
 

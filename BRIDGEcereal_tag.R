@@ -1,4 +1,4 @@
-# 03/28/23
+# 03/31/23
 # tagfunction()
 
 tagfunction <- function(page_title,page_subtitle,Genome_choice,chromosome_choice, default_choice,GeneID_example,default_ref){
@@ -9,7 +9,7 @@ tagfunction <- function(page_title,page_subtitle,Genome_choice,chromosome_choice
        #   fluidPage(shinythemes::themeSelector()),
 
      #   h1("This is WheatTest Page!",style="text-align:center"),
-         h1(page_title,style="text-align:center"),
+         h2(page_title,style="text-align:center"),
          nav_links,
 
 # To add ui part for page6   
@@ -157,9 +157,8 @@ fluidRow(
  verbatimTextOutput('IP'),       
 ############### IP test
  
-     column(12,verbatimTextOutput("visits")), ## number of visits
-
-     column(12,verbatimTextOutput("infogene")), ## number of jobs submitted
+ #    column(12,verbatimTextOutput("visits")), ## number of visits
+ #    column(12,verbatimTextOutput("infogene")), ## number of jobs submitted
 
      #textOutput('coordinates_test'),
      column(12, offset=0, align="center", textOutput('coordinates_test') ), # 03/06/23 
@@ -250,6 +249,9 @@ tags$head(
     )
   ),
 #### progress in middle
+     column(7, offset=0,align="left", uiOutput(outputId = "Fig_demo") ),
+
+    # column(8, plotOutput("Fig_demo",click = NULL,dblclick = NULL,width ="100%",height = 'auto') ),
 
 
      column(6, plotOutput("plot",click = NULL,dblclick = NULL,width = "100%",height = 'auto')),

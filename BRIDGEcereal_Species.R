@@ -1,10 +1,10 @@
-### 03/28/23
+### 03/31/23
 ### BRIDGEcereal_Species() 
 
 ############ BRIDGEcereal_Species
 options(shiny.maxRequestSize=300*1024^2) ## Max size of uploaded file (300Mb in this case)
 
-BRIDGEcereal_Species <- function(Speciesx,default_ref,GeneExample,database_folder,gff_folder,script_folder,User_folder,candidate_dir,html_Speciesx){
+BRIDGEcereal_Species <- function(Speciesx,default_ref,GeneExample,database_folder,gff_folder,script_folder,User_folder,candidate_dir,html_Speciesx,Stream_folder){
 
 page_number <- gsub(' ', '/', paste(' ',Speciesx,sep=''))
 
@@ -119,6 +119,7 @@ output$testtext <- renderText({
    empty_text<-''
   })
 ################ 2/8/23
+#User_ip <<- 'bszhang'
       
       source( paste(script_folder,'BRIDGEcereal_Pre_run.R',sep=''), local = TRUE);
       Pre_run(default_choice,gff_folder,gff_folder_Species,User_folder,Backup_folder, html_Speciesx, User_ip) ## jobs_folder replaced by Backup_folder; AllGenomes_GeneName removed; gpattern removed
@@ -214,7 +215,7 @@ perlArg6_PickDown <- as.numeric(input$Downstream)*1000;
 ##############
 
 source(paste(script_folder,"BRIDGEcereal_output.R",sep=''), local = TRUE);
-BRIDGEcereal_output(User_folder0,perlArg0_db_sp,perlArg1_PickGenome ,perlArg2_PickGene,perlArg3_PickChr,perlArg4_Users_folder,perlArg5_PickUp,perlArg6_PickDown, Backup_folder,strand_direction, database_folder,gff_folder,script_folder,User_folder)
+BRIDGEcereal_output(User_folder0,perlArg0_db_sp,perlArg1_PickGenome ,perlArg2_PickGene,perlArg3_PickChr,perlArg4_Users_folder,perlArg5_PickUp,perlArg6_PickDown, Backup_folder,strand_direction, database_folder,gff_folder,script_folder,User_folder,Stream_folder)
 
 ########
 ########
@@ -286,13 +287,30 @@ perlArg2_PickGene <- gsub(' ','',input$Gene);
 perlArg3_PickChr <- input$Chr;
 perlArg4_Users_folder <-Users_folder;
 
-perlArg5_PickUp <- 0;
-perlArg6_PickDown <- 0;
+
+#perlArg5_PickUp <- 0; # 4/4/23
+#perlArg6_PickDown <- 0; # 4/4/23
+
+# 4/4/23
+if(as.numeric(input$Upstream)>100){
+perlArg5_PickUp <- 100*1000;
+} else {
+perlArg5_PickUp <- as.numeric(input$Upstream)*1000;
+}
+
+if(as.numeric(input$Downstream)>100){
+perlArg6_PickDown <- 100*1000;
+} else {
+perlArg6_PickDown <- as.numeric(input$Downstream)*1000;
+}
+# 4/4/23
+
+
 ##########################################
 ##########################################
 
 source(paste(script_folder,"BRIDGEcereal_output.R",sep=''), local = TRUE);
-BRIDGEcereal_output(User_folder0,perlArg0_db_sp,perlArg1_PickGenome ,perlArg2_PickGene,perlArg3_PickChr,perlArg4_Users_folder,perlArg5_PickUp,perlArg6_PickDown, Backup_folder,strand_direction, database_folder,gff_folder,script_folder,User_folder)
+BRIDGEcereal_output(User_folder0,perlArg0_db_sp,perlArg1_PickGenome ,perlArg2_PickGene,perlArg3_PickChr,perlArg4_Users_folder,perlArg5_PickUp,perlArg6_PickDown, Backup_folder,strand_direction, database_folder,gff_folder,script_folder,User_folder,Stream_folder)
 
 }                       ## input$fasta not null
 
@@ -369,7 +387,7 @@ perlArg6_PickDown <- as.numeric(input$Downstream)*1000;
 ####################
 
 source(paste(script_folder,"BRIDGEcereal_output.R",sep=''), local = TRUE);
-BRIDGEcereal_output(User_folder0,perlArg0_db_sp,perlArg1_PickGenome ,perlArg2_PickGene,perlArg3_PickChr,perlArg4_Users_folder,perlArg5_PickUp,perlArg6_PickDown, Backup_folder,strand_direction, database_folder,gff_folder,script_folder,User_folder)
+BRIDGEcereal_output(User_folder0,perlArg0_db_sp,perlArg1_PickGenome ,perlArg2_PickGene,perlArg3_PickChr,perlArg4_Users_folder,perlArg5_PickUp,perlArg6_PickDown, Backup_folder,strand_direction, database_folder,gff_folder,script_folder,User_folder,Stream_folder)
 
 }) ## observeEvent input$Upstream and input$Downstream !!
 
@@ -413,10 +431,9 @@ output$Save <- downloadHandler(
   }
 
 
-
   if(file.exists(paste(Users_folder,'/',gsub(' ','',input$Gene),sep=''))){
   
-  remove_YourID <- paste('rm -r ',Users_folder,'/',gsub(' ','',input$Gene),sep='')
+  remove_YourID <- paste('rm -r ',paste(Users_folder,'/',gsub(' ','',input$Gene), sep='') ,sep='')
   system(remove_YourID)
   
   }
