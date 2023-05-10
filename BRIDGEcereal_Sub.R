@@ -145,6 +145,10 @@ CHOICE<- function(BlastSynWorking,query_length, distance_filter, Min_CDS_size_fi
       } else if(length(Target_cluster)>1){
         Target_cluster<-which( max(MeanSimilarity_cdsSize[Target_cluster,][,1]) == MeanSimilarity_cdsSize[,1] )
         }
+        
+     if(length(Target_cluster)>=2){
+        Target_cluster <- Target_cluster[1]
+     }
 
      CHOICE_output_list[[index_genome]]<-Target_g[ which( cutree( hclust( dist(Target_g[,6])), k =Total_clusters, h = distance_filter ) == Target_cluster), ]
 
