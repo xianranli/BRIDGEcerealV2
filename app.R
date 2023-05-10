@@ -14,6 +14,7 @@ library(rjson)
 library(shinythemes)
 
 library(mailtoR) # email to ...
+#library(shinydashboard) #...
 
 ### 03/31/23
 ########################################################
@@ -225,6 +226,14 @@ column(12, offset=3,align="left", tags$a(href=paste(web_root,'CLIPS', sep=''), t
 column(12, offset=3,align="left", h3("Applications:",style = "font-size: 24px; font-style: normal; font-weight: bold;")),
 column(12, offset=3,align="left", h3("1, Narrow down the candidate gene list in the QTL/GWAS interval.",style = "font-size: 24px; font-style: normal; font-weight: lighter;")),
 column(12, offset=3,align="left", h3("2, Explore the full spectrum of natural variations of the target gene.",style = "font-size: 24px; font-style: normal; font-weight: lighter;")),
+
+column(12, offset=3,align="left", h3("Citations:",style = "font-size: 24px; font-style: normal; font-weight: bold;")),
+column(12, offset=3,align="center", tags$a(href="https://www.biorxiv.org/content/10.1101/2023.02.11.527743v1", target='_blank', h4(" 
+Zhang B, Huang H, Tibbs-Cortes LE, Vanous A, Zhang Z, Sanguinet K, Garland-Campbell KA, Yu J, Li X. 
+Streamline unsupervised machine learning to survey and graph indel-based haplotypes from pan-genomes.
+ bioRxiv. 2023:2023-02. doi: 10.1101/2023.02.11.527743" ,
+ style = "font-size:24px; color:black; font-style:italic;font-weight: lighter;") ) ),
+
 #column(12, offset=3,align="left", h3("3, To quickly survey how many clusters for (large) indels variation in a pan-genome.",style = "font-size: 24px; font-style: normal; font-weight: lighter;")),
 #column(12, offset=3,align="left", h3("4, ",style = "font-size: 24px; font-style: normal; font-weight: lighter;")),
 
@@ -250,7 +259,7 @@ style = "font-size: 24px; font-style: normal; font-weight: lighter;",
 #use_mailtoR(),
 
      mailtoR(email = c("xianran.li@wsu.edu"),
-          text = " xianran.li@wsu.edu",
+          text = "xianran.li@wsu.edu",
           subject = "Questions about BRIDGEcereal"),
 style = "font-size: 24px; font-style: normal; font-weight: lighter;",
 use_mailtoR(),
@@ -336,11 +345,9 @@ server <- function(input, output, session){
   BRIDGEcereal_CLIPS(),
 
   BRIDGEcereal_Species("Soybean","Wm82","Glyma.01G000100",database_folder,gff_folder,script_folder,User_folder,candidate_dir,html_soybean,Stream_folder),
-  
-  BRIDGEcereal_Species("Maize_ISU","B73","Zm00001eb000140",database_folder,gff_folder,script_folder,User_folder,candidate_dir,html_maize,Stream_folder)
+  BRIDGEcereal_Species("Maize_ISU","B73","Zm00001eb000140",database_folder,gff_folder,script_folder,User_folder,candidate_dir,html_maize,Stream_folder)   # 'B73' ... defined as default_ref
 
 #  BRIDGEcereal_Species("Tomato","Heinz1706","Solyc01g005210",database_folder,gff_folder,script_folder,User_folder,candidate_dir,html_tomato,Stream_folder) 
-
 
 #  for(sp in All_species){Species(sp,database_folder,gff_folder,script_folder,User_folder)}
 
