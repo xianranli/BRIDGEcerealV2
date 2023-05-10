@@ -42,11 +42,11 @@ BRIDGEcereal_Instruction <- function(Stream_folder){
 
      column(12, offset=3,align="left",
      tags$li(
-     tags$a(href = "#Step1", "Step 1: Your gene ID", style = "font-size: 24px;"),
+     tags$a(href = "#Step1", "Step 1: Input gene ID", style = "font-size: 24px;"),
      ) ),
      column(12, offset=3,align="left",
      tags$li(
-     tags$a(href = "#Step2", "Step 2: Adjust search boundries and submit", style = "font-size: 24px;"),
+     tags$a(href = "#Step2", "Step 2: Adjust search boundries (optional) and submit", style = "font-size: 24px;"),
      ) ),
      column(12, offset=3,align="left",
      tags$li(
@@ -58,7 +58,7 @@ BRIDGEcereal_Instruction <- function(Stream_folder){
      ) ),
      column(12, offset=3,align="left",
      tags$li(
-     tags$a(href = "#Step5", "Step 5: Trimming the unwanted regions to obtain final figure", style = "font-size: 24px;"),
+     tags$a(href = "#Step5", "Step 5: To obtain final figure, trim off the unwanted regions", style = "font-size: 24px;"),
      ) ),
 
      column(12, offset=2,align="left",
@@ -68,7 +68,7 @@ BRIDGEcereal_Instruction <- function(Stream_folder){
 
      column(12, offset=2,align="left",
      tags$li(
-     tags$a(href = "#Instructions", "BRIDGEcereal instructions"),
+     tags$a(href = "#Instructions", "BRIDGEcereal additional instructions"),
      ) ),
 
     # column(12, offset=2,align="left",
@@ -138,11 +138,10 @@ column(12,offset=2,align="left",   h3(
 
 column(3,offset=2, align="center", tags$img(width="812", height="487", src=paste(Stream_folder,"Steps_1.png",sep='')) ),
 column(3, offset=4,align="center", h4("
-1). Input the gene model ID in the Gene Name box, then click “(1) Check Gene ID” button to fill the Boxes for Reference and Chromosome.
+1). Input the gene model ID in the Gene name box, then click '(1) Check Gene ID' button to fill the boxes for reference and chromosome.
  A hyperlink, connected to the corresponding crop’s genomic database, will be available (in blue color) for the query gene ID.
      ",style = "font-size: 22px; font-style: normal; font-weight: lighter;"),
     ),
-
 
 column(12, offset=3,align="center", h3("")),
 column(12,offset=2,align="left",   h3(
@@ -154,14 +153,15 @@ column(12,offset=2,align="left",   h3(
 
 column(3,offset=2, align="center", tags$img(width="754", height="496", src=paste(Stream_folder,"Steps_2.png",sep=''))),
 column(3, offset=4,align="center", h4("
-2). Modify the value for Upstream and Downstream box to set the search boundaries (100kb as max input). 
-Default input (kb) of Upstream/Downstream is 10% of target gene size. 
-Select or unselect the Genomes to be included in the analysis (By default, all pan-genomes will be selected). 
-Click “(2) Submit” button to start the process; the alignment with selected genomes will be plotted in the top right panel (as Panel 1).
+2). Adjust the values for the Upstream and Downstream boxes to define the search boundaries, with a maximum input limit of 100kb. 
+By default, the Upstream/Downstream input (in kb) is set at 10% of the target gene size. 
+Choose the Genomes to be included in the analysis by selecting or deselecting them (all pan-genomes are selected by default). 
+Click the '(2) Submit' button to initiate the process. 
+The alignment with the selected genomes will be displayed in the top right panel (as Panel 1).
     ",style = "font-size: 22px; font-style: normal; font-weight: lighter;"),
 
 h4("
-For more information about the two default parameters, please refer to the 'Two default parameters explained' part in 'BRIDGEcereal instructions'.
+For more information about the two default parameters, please refer to the 'Two default CHOICE parameters explained' part in 'BRIDGEcereal additional instructions'.
     ",style = "font-size: 22px; font-style: normal; font-weight: bold;"),
 
 
@@ -173,9 +173,9 @@ column(12, offset=3,align="center", h3("")),
 column(6, offset=2,align="center", h3("Panel 1:")),
 column(3,offset=2, align="center", tags$img(width="725", height="325", src=paste(Stream_folder,"Steps_3.png",sep=''))),
 column(3, offset=4, align="center", h4("
-***Update query gene's Upstream and Downstream sizes (kb) after the Panel 1 is revealed.
- Input preferred size in Upstream (Downstream) box, BRIDGEcereal will automatically update the new results and the Panel 1.
- No need to click the “(2) Submit” button again.***
+*** After Panel 1 is revealed, you can modify the sizes (in kb) of the Upstream and Downstream regions for the query gene. 
+Simply input your preferred sizes in the corresponding Upstream and Downstream boxes, and BRIDGEcereal will automatically update the results and Panel 1 with the new information. 
+There is no need to click the '(2) Submit' button again.***
     ",style = "font-size: 22px; font-style: normal; font-weight: lighter;")),
 
 
@@ -193,9 +193,9 @@ column(12,offset=2,align="left",   h3(
 column(6, offset=2 ,align="center", h3("Panel 2:")),
 column(3,offset=2, align="center", tags$img(width="805", height="514", src=paste(Stream_folder,"Steps_4.png",sep=''))),
 column(3, offset=4,align="center", h4("
-3). Click the “(3) Tree” button to plot the phylogenetic tree clustering genomes based on shared indels (Panel 2).
- Click the tree plot (top right) to determine the number of haplotypes based on your tree-cut. 
-  ***If your tree-cut is not satisfied, click “(3) Tree” button again, and do a tree-cut again at your preferred branches.***
+3). To plot the phylogenetic tree clustering genomes based on shared indels, click the '(3) Tree' button, which will display Panel 2. 
+To determine the number of haplotypes based on your tree-cut, click on the tree plot in the top right corner. 
+  *** If your tree-cut does not meet your satisfaction, you can click the '(3) Tree' button again and perform a new tree-cut at your preferred branches.***
     ",style = "font-size: 22px; font-style: normal; font-weight: lighter;")),
 #column(12, offset=3,align="center", h3("Figure 2:")),
 
@@ -208,8 +208,8 @@ column(12,offset=2,align="left",   h3(
         ),style = "font-size:22px; color:blue;"), 
       ),
 
-    column(12, offset=2,align="left", h4("
-4). Click the “(4) Plot selected haplotypes” button to plot the alignment among genomes representing each haplotype (Panel 3). 
+    column(12, offset=3,align="center", h4("
+4). Click the '(4) Plot selected haplotypes' button to plot the alignment among genomes representing each haplotype (Panel 3). 
     ",style = "font-size: 22px; font-style: normal; font-weight: lighter;")),
 column(12, offset=3,align="center", h3("")),
 column(12, offset=3,align="center", h3("")),
@@ -223,8 +223,9 @@ column(12, offset=3,align="center", h3("")),
 
 column(3,offset=3, align="center", tags$img(width="751", height="209", src=paste(Stream_folder,"Steps_6.png",sep=''))),
 column(3, offset=3,align="center", h4("
-***Rearrange preferred plot order in the left bucket (order of plot), or drag unwanted haplotypes from the order of plot bucket to an empty bucket,
- the panel 3 will be updated automatically based on new input.***
+*** You can rearrange the preferred plot order in the left bucket by dragging and dropping the haplotypes. 
+Additionally, if you want to remove unwanted haplotypes from the plot, simply drag them from the 'Order of plot' bucket to an 'Empty bucket'. 
+The Panel 3 will be automatically updated based on the new input.***
     ",style = "font-size: 22px; font-style: normal; font-weight: lighter;")),
 
 
@@ -239,9 +240,9 @@ column(12,offset=2,align="left",   h3(
         ),style = "font-size:22px; color:blue;"), 
       ),
 
-column(12, offset=2,align="left", h4("
-5). To trim the unwanted regions from the final haplotype presentation, single click on the third panel (Panel 3) to set the left boundary, then double click to set the right boundary. 
-If coordinates of both boundaries are set, the “(5) Trim” button will be clickable. Click this button to view Panel 4.
+column(12, offset=3,align="left", h4("
+5). To remove unwanted regions from the final haplotype presentation, single click on the third panel (Panel 3) to set the left boundary, and then double click to set the right boundary. 
+Once both boundaries are set, the '(5) Trim' button will become clickable. Click this button to view Panel 4, which will show the trimmed presentation.
     ",style = "font-size: 22px; font-style: normal; font-weight: lighter;")),
 
 column(12, offset=3,align="center", h3("")),
@@ -257,19 +258,21 @@ column(12, offset=3,align="center", h3("")),
 column(12, offset=3,align="center", h3("")),
 
 
-column(12, offset=2,align="left", h4("
-(Optional). If you need to extract DNA sequence within the trimmed region, just click the button “Extract trimmed fasta”, a fasta file with representative haplotypes and their
-DNA sequences will be saved to a final downloadable .zip file.
+column(12, offset=3,align="left", h4("
+(Optional) If you want to extract the DNA sequence within the trimmed region, simply click on the 'Extract trimmed fasta' button. 
+This will generate a fasta file containing representative haplotypes and their corresponding DNA sequences. 
+The file will be saved in a final downloadable .zip file.
     ",style = "font-size: 22px; font-style: normal; font-weight: lighter;")),
 
-column(12, offset=2,align="left", h4("
-***After trimming, click the “Save .zip file to ...” button to save a .zip file to your preferred folder, and the trimmied Panel 4 in PNG format should be in there.
-  If the saved PNG figure is not satisfied or need to be improved, please use PNG parameters in the left (sliderbars for width, height and pointsize) to adjust it,
-  This output/save process is automatical, and you will see an updated Panel 4 (PNG) in a new .zip file folder ***
+column(12, offset=3,align="left", h4("
+*** After trimming, click the 'Save .zip file to...' button to save a .zip file to your preferred folder. 
+The trimmed Panel 4 will be included in the .zip file in PNG format. 
+If the saved PNG figure is not satisfactory or needs improvement, you can adjust it using the PNG parameters on the left-hand side (slider bars for width, height, and point size). 
+This output and save process is automated, and you will find an updated Panel 4 (PNG) in a new .zip file folder. ***
     ",style = "font-size: 22px; font-style: normal; font-weight: lighter;")),
 
-column(12, offset=2,align="left", h4("
-(Optional). Click red “Done” button to delete your submitted job and related files.
+column(12, offset=3,align="left", h4("
+(Optional). Click red 'Done' button to delete your submitted job and related files.
     ",style = "font-size: 22px; font-style: normal; font-weight: lighter;")),
 
 
@@ -295,12 +298,12 @@ column(12, offset=3,align="center", h3("")),
 column(12,offset=3,align="center",   h3(
         id = "Instructions",
         p(
-          tags$em("BRIDGEcereal instructions"),
+          tags$em("BRIDGEcereal additional instructions"),
         ),style = "font-size:24px; color:blue;"), 
       ),
 
 #column(12, offset=3, align="center", tags$iframe(width="1400", height="800", src=paste(Stream_folder,"BRIDGEcereal_instructions.pdf", sep=''), frameborder="0", allowfullscreen=NA)),
-column(12, offset=3, align="center", tags$a("Click here to get the BRIDGEcereal_instructions.pdf", href=paste(Stream_folder,"BRIDGEcereal_instructions.pdf", sep=''),target='_blank',style = "font-size: 36px;" ) ),
+column(12, offset=3, align="center", tags$a("Click here to get the BRIDGEcereal_additional_instructions.pdf", href=paste(Stream_folder,"BRIDGEcereal_additional_instructions.pdf", sep=''),target='_blank',style = "font-size: 36px;" ) ),
 
 column(12, offset=3,align="center", h3("")),
 column(12, offset=3,align="center", h3("")),
@@ -428,9 +431,10 @@ y_axis1<-y_axis()
 
 if(y_axis1>=95 & y_axis1<=102 & x_axis1>=20 & x_axis1<=80){
 
-  output$info_Workflow <- renderText({paste("Input the gene ID, then click button (1). 
-    The referene and chromosome boxes will be filled in automatically. If you want to submit a CDS sequence, please 
-    refer to the 'Paste sequence' part in 'BRIDGEcereal instructions'.",sep='') })
+  output$info_Workflow <- renderText({paste("Input the gene ID, then click button (1). The referene and chromosome boxes will be filled in automatically. 
+    If you want to submit a CDS sequence, please refer to the 'Submit a CDS' part in 'BRIDGEcereal additional instructions'.",sep='') })
+
+
 
 } else if(y_axis1>=83 & y_axis1<=90 & x_axis1>=20 & x_axis1<=80){
 
@@ -448,8 +452,8 @@ if(y_axis1>=95 & y_axis1<=102 & x_axis1>=20 & x_axis1<=80){
 
 } else if(y_axis1>=47 & y_axis1<=54 & x_axis1>=20 & x_axis1<=80){
 
-   output$info_Workflow <- renderText({paste("Click (2) Submit button to start the analysis, and a pan-genome 
-   graph will be plotted in panel 1. The (3) Tree button (blue) will be clickable after the process.",sep='') })
+   output$info_Workflow <- renderText({paste("Click (2) Submit button to start the analysis, and a pan-genome graph will be plotted in panel 1. 
+    The (3) Tree button (blue) will be clickable after the process.",sep='') })
 
 } else if(y_axis1>=35 & y_axis1<=42 & x_axis1>=20 & x_axis1<=80){
 
@@ -457,8 +461,8 @@ if(y_axis1>=95 & y_axis1<=102 & x_axis1>=20 & x_axis1<=80){
 
 } else if(y_axis1>=23 & y_axis1<=30 & x_axis1>=20 & x_axis1<=80){
 
-   output$info_Workflow <- renderText({paste("Do the tree-cut on the panel 2 based on your preferred height, determining 
-    the number of haplotypes for the next steps.",sep='') })
+   output$info_Workflow <- renderText({paste("Do the tree-cut on the panel 2 based on your preferred height, 
+    determining the number of haplotypes for the next steps.",sep='') })
 
 } else if(y_axis1>=10 & y_axis1<=20 & x_axis1>=20 & x_axis1<=80){
 
@@ -466,12 +470,12 @@ if(y_axis1>=95 & y_axis1<=102 & x_axis1>=20 & x_axis1<=80){
 
 } else if(y_axis1>=-1 & y_axis1<=6 & x_axis1>=20 & x_axis1<=80){
 
-   output$info_Workflow <- renderText({paste("Click (4) PLot selected haplotypes button to plot panel 3. Reorder the representatives in the 'Order of plot', and trimming haplotypes at 
-    preferred positions.",sep='') })
+   output$info_Workflow <- renderText({paste("Click (4) Plot selected haplotypes button to plot panel 3. 
+    Reorder the representatives in the 'Order of plot', and trimming haplotypes at preferred positions.",sep='') })
 
 } else if(y_axis1>=71 & y_axis1<=78 & x_axis1>=85 & x_axis1<=102){
 
-   output$info_Workflow <- renderText({paste("Please refer to the section 'Upload a contig or a chromosome' in 'BRIDGEcereal instructions'.",sep='') })
+   output$info_Workflow <- renderText({paste("Please refer to the section 'Upload a contig or a chromosome' in 'BRIDGEcereal additional instructions'.",sep='') })
 
 } else {
 
