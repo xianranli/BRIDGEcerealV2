@@ -37,15 +37,6 @@ fluidRow(
 
 column(12, offset=3,align="center", h3("")),
 column(12, offset=3,align="center", h3("")),
-column(12, offset=3,align="left", h3("Citations:",style = "font-size: 24px; font-style: normal; font-weight: lighter;")),
-
-
-column(12, offset=3,align="center", tags$a(href="https://www.biorxiv.org/content/10.1101/2023.02.11.527743v1", target='_blank', h4(" 
-Zhang B, Huang H, Tibbs-Cortes LE, Vanous A, Zhang Z, Sanguinet K, Garland-Campbell KA, Yu J, Li X. 
-Streamline unsupervised machine learning to survey and graph indel-based haplotypes from pan-genomes.
- bioRxiv. 2023:2023-02. doi: 10.1101/2023.02.11.527743" ,
- style = "font-size:24px; color:blue; font-style:italic;font-weight: lighter;") ) ),
-
 column(12, offset=3,align="center", h4("BRIDGEcereal currently holds 120 genomes:" ,style = "font-size:24px; color:black;")),
 
 column(12, offset=3,align="center", h4("Wheat",style = "font-size:24px; color:black;")),
