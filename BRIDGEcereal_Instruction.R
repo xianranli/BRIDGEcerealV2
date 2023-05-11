@@ -289,8 +289,10 @@ column(12, offset=3,align="center", h3("")),
         ),style = "font-size:28px; color:blue;"), 
       ),
 
+column(12, offset=3,align="center",actionButton("Play", label = "Play tutorial video",class = "btn-warning")), #5/11/23
+column(12, offset=3,align="center",uiOutput("Video") ),#5/11/23
 
-column(12, offset=3, align="center", tags$iframe(width="1200", height="800", src=paste(Stream_folder,"BridgeCereal_tutorial_.mp4", sep=''), frameborder="0", allowfullscreen=NA)),
+#column(12, offset=3, align="center", tags$iframe(width="1200", height="800", src=paste(Stream_folder,"BridgeCereal_tutorial_.mp4", sep=''), frameborder="0", allowfullscreen=NA)),
 
 column(12, offset=3,align="center", h3("")),
 column(12, offset=3,align="center", h3("")),
@@ -486,10 +488,17 @@ if(y_axis1>=95 & y_axis1<=102 & x_axis1>=20 & x_axis1<=80){
 
  })
 
+################# 5/11/23
+observeEvent(input$Play, {
 
+output$Video <- renderUI({
 
+tags$iframe(width="1920", height="1080", src=paste(Stream_folder,"BridgeCereal_tutorial_.mp4", sep=''), frameborder="0", allowfullscreen=NA, autoplay = NA)
 
+})
 
+})
+################# 5/11/23
 
 
     } # server function of Page_1
