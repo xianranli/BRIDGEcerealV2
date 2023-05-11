@@ -63,7 +63,7 @@ BRIDGEcereal_Instruction <- function(Stream_folder){
 
      column(12, offset=2,align="left",
      tags$li(
-     tags$a(href = "#Demo_mp4_1", "Demo video"),
+     tags$a(href = "#Demo_mp4_1", "Tutorial video"),
      ) ),
 
      column(12, offset=2,align="left",
@@ -285,12 +285,12 @@ column(12, offset=3,align="center", h3("")),
     column(12,offset=3,align="center",   h4(
         id = "Demo_mp4_1",
         p(
-          tags$em("Demo video"),
+          tags$em("Tutorial video"),
         ),style = "font-size:28px; color:blue;"), 
       ),
 
 
-column(12, offset=3, align="center", tags$iframe(width="1200", height="800", src=paste(Stream_folder,"Demo_2.mp4", sep=''), frameborder="0", allowfullscreen=NA)),
+column(12, offset=3, align="center", tags$iframe(width="1200", height="800", src=paste(Stream_folder,"BridgeCereal_tutorial_.mp4", sep=''), frameborder="0", allowfullscreen=NA)),
 
 column(12, offset=3,align="center", h3("")),
 column(12, offset=3,align="center", h3("")),
