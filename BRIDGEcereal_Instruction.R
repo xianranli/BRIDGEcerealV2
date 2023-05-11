@@ -289,7 +289,7 @@ column(12, offset=3,align="center", h3("")),
         ),style = "font-size:28px; color:blue;"), 
       ),
 
-column(12, offset=3,align="center",actionButton("Play", label = "Play tutorial video",class = "btn-warning")), #5/11/23
+column(12, offset=3,align="center",actionButton("Play", label = "Play tutorial video",class = "btn-warning", width='400px',style='padding:12px; font-size:150%')), #5/11/23
 column(12, offset=3,align="center",uiOutput("Video") ),#5/11/23
 
 #column(12, offset=3, align="center", tags$iframe(width="1200", height="800", src=paste(Stream_folder,"BridgeCereal_tutorial_.mp4", sep=''), frameborder="0", allowfullscreen=NA)),
