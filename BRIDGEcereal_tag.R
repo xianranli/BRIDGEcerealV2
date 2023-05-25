@@ -39,7 +39,7 @@ bsTooltip("Check_ID", "Check your gene name in our database","right", options = 
 column(12,
 pickerInput(
   inputId = "Pickgenome", 
-  label = "Pick Genome (Please select one!) :", 
+  label = "Pick Genome (Please select one)", 
   choices = Genome_choice,
   selected = c(''), ## by default
 
@@ -56,7 +56,7 @@ pickerInput(
 column(12,
 pickerInput(
   inputId = "Chr", 
-  label = "Chromosome (Please select one!)", 
+  label = "Chromosome (Please select one)", 
   choices = chromosome_choice,
   selected = c(''), ## by default
   options = list(
@@ -71,7 +71,7 @@ pickerInput(
 column(12,
 pickerInput(
   inputId = "Pickformat", 
-  label = "CDS (Coding sequence); OR your fasta sequence :", 
+  label = "CDS (Coding sequence) or your fasta sequence", 
   choices = c('CDS','fasta_seq'),
   selected = c('CDS'), ## by default
   options = list(
@@ -83,27 +83,27 @@ pickerInput(
 )
 ),
 
-column(12,textAreaInput("fasta","Your fasta sequence (Please add first line: >YourID Before pasting your DNA sequence!)",height='100px')),
+column(12,textAreaInput("fasta","Your fasta sequence (Please add >YourID before pasting your DNA sequence)",height='100px')),
 bsTooltip("fasta", ">YourID as the first line","right", options = NULL),
 
 tags$script(checkjs1), #03/07/23
-column(12,attrib_replace( fileInput("upload1", "Upload Parent1 (Format: Parent1_chr**.fa.gz)", multiple = FALSE),
+column(12,attrib_replace( fileInput("upload1", "Upload Parent1 (File name: Parent1_chr**.fa.gz)", multiple = FALSE),
        list(id = "upload1", type = "file"), onchange = "checkFileName1(this);") ),
   
 tags$script(checkjs2), #03/07/23
-column(12,attrib_replace( fileInput("upload2", "Upload Parent2 (Format: Parent2_chr**.fa.gz)", multiple = FALSE),
+column(12,attrib_replace( fileInput("upload2", "Upload Parent2 (File name: Parent2_chr**.fa.gz)", multiple = FALSE),
        list(id = "upload2", type = "file"), onchange = "checkFileName2(this);") ), 
 
 #column(12,fileInput("upload1", "Upload Parent1 (Format: Parent1_chr**.fa.gz)", multiple = FALSE)), 
 #column(12,fileInput("upload2", "Upload Parent2 (Format: Parent2_chr**.fa.gz)", multiple = FALSE)),
 
-column(12,textInput("Upstream","Upstream (kb), max input should <=100 (kb)",value=0)),
-column(12,textInput("Downstream","Downstream (kb), max input should <=100 (kb)",value=0)),
+column(12,textInput("Upstream","Upstream (kb), the maximum size should be <=100 (kb)",value=0)),
+column(12,textInput("Downstream","Downstream (kb), the maximum size should be <=100 (kb)",value=0)),
 
 column(12,
 pickerInput(
   inputId = "id", 
-  label = "Genomes (Defalt: all genomes selected) :", 
+  label = "Genomes (Defalt: all genomes selected)", 
    choices = default_choice,
    selected = default_choice,
   options = list(
@@ -115,8 +115,8 @@ pickerInput(
 )
 ),
 
-column(12,sliderInput("Distancefilter", "Distance filter between mapped clusters (1kb-50kb) :", min = 1000, max = 50000, value =20000)),
-column(12,sliderInput("CDSfilter", "Expected CDS size compared to Reference (fold change:0.25-4) :", min = 0.25, max = 4, value =c(0.75,1.25))),
+column(12,sliderInput("Distancefilter", "Distance filter between mapped clusters (1kb - 50kb)", min = 1000, max = 50000, value =20000)),
+column(12,sliderInput("CDSfilter", "Expected CDS size compared to Reference (fold change: 0.25 - 4)", min = 0.25, max = 4, value =c(0.75,1.25))),
 
 column(12,actionButton("submit", label = "(2) Submit",class = "btn-warning")),
 bsTooltip("submit", "Please double check your input (format), and then submit your job","right", options = NULL),
