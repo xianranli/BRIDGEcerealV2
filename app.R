@@ -96,7 +96,7 @@ flowLayout(
   ),
 
    tags$li(
-   tags$a(href = paste(web_root,'Reference', sep=''), "Reference", img(width="100", height="60", src=paste(Stream_folder,"book.png",sep=''))), # 4000*2250
+   tags$a(href = paste(web_root,'Reference/Links', sep=''), "Reference", img(width="100", height="60", src=paste(Stream_folder,"book.png",sep=''))), # 4000*2250
   ),
 
 #   tags$li(
