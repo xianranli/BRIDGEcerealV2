@@ -143,7 +143,7 @@ BRIDGEcereal_main <- function(){
         fluidPage(theme = shinytheme("readable")),
 
 
-        h2("BRIDGEcereal: survey and graph indels variation in pan-genomes",style="text-align:center"),
+        h2("BRIDGEcereal: survey and graph indel-based haplotypes from pan-genomes",style="text-align:center"),
 
         nav_links,
 
@@ -231,7 +231,7 @@ column(12, offset=3,align="left", h3("Citations:",style = "font-size: 24px; font
 column(12, offset=3,align="center", tags$a(href="https://www.biorxiv.org/content/10.1101/2023.02.11.527743v1", target='_blank', h4(" 
 Zhang B, Huang H, Tibbs-Cortes LE, Vanous A, Zhang Z, Sanguinet K, Garland-Campbell KA, Yu J, Li X. 
 Streamline unsupervised machine learning to survey and graph indel-based haplotypes from pan-genomes.
- bioRxiv. 2023:2023-02. doi: 10.1101/2023.02.11.527743" ,
+ Molecular Plant. 2023. doi: 10.1016/j.molp.2023.05.005" ,
  style = "font-size:24px; color:black; font-style:italic;font-weight: lighter;") ) ),
 
 #column(12, offset=3,align="left", h3("3, To quickly survey how many clusters for (large) indels variation in a pan-genome.",style = "font-size: 24px; font-style: normal; font-weight: lighter;")),
