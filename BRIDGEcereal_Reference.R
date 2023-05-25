@@ -85,7 +85,7 @@ The barley pan-genome reveals the hidden legacy of mutation breeding. Nature 588
 column(12, offset=3,align="center", h3("")),
 column(12, offset=3,align="center", h3("")),
 
-column(12, offset=3,align="center", h4("Databases" ,style = "font-size:24px; color:black;")),
+column(12, offset=3,align="center", h4("Common cereal genomic databases" ,style = "font-size:24px; color:black;")),
 column(12, offset=3,align="center", h3("")),
 
 column(12, offset=3, align="center", 
