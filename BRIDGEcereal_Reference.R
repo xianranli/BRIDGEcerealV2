@@ -1,7 +1,7 @@
 # 05/01/23
 # BRIDGEcereal_Reference
 
-BRIDGEcereal_Reference <- function(){
+BRIDGEcereal_Reference <- function(Stream_folder){
 
 page(
     href = "/Reference",
@@ -81,7 +81,45 @@ The barley pan-genome reveals the hidden legacy of mutation breeding. Nature 588
   ",style = "font-size: 20px; font-style: normal; font-weight: lighter;")) ),
 
 
+####################### 5/24/23
+column(12, offset=3,align="center", h3("")),
+column(12, offset=3,align="center", h3("")),
 
+column(12, offset=3,align="center", h4("Databases" ,style = "font-size:24px; color:black;")),
+column(12, offset=3,align="center", h3("")),
+
+column(12, offset=3, align="center", 
+
+  tags$a(href="https://www.maizegdb.org/", style = "color:black; font-size:20px", target='_blank',
+ # h5("MaizeGDB",style = "font-size: 20px; font-style: normal; font-weight: lighter;"),
+  img(width="147", height="63", src=paste(Stream_folder,"MaizeGDB.JPG",sep='') ) ),
+
+  tags$a(href="https://graingenes.org/GG3/", style = "color:black; font-size:20px", target='_blank',
+#  h5("GraingGenes",style = "font-size: 20px; font-style: normal; font-weight: lighter;"),
+  img(width="203", height="62", src=paste(Stream_folder,"GrainGenes.png",sep='') ) ),
+
+  tags$a(href="https://www.sorghumbase.org/", style = "color:black; font-size:20px", target='_blank',
+ # h5("SorghumBase",style = "font-size: 20px; font-style: normal; font-weight: lighter;"),
+  img(width="66", height="67", src=paste(Stream_folder,"sorghumbase.jpg",sep='') ) ),
+  
+  tags$a(href="https://phytozome-next.jgi.doe.gov/", style = "color:black; font-size:20px", target='_blank',
+#  h5("Phytozome",style = "font-size: 20px; font-style: normal; font-weight: lighter;"),
+  img(width="240", height="35", src=paste(Stream_folder,"logo-JGI-phytozome.svg",sep='') ) ),
+
+  tags$a(href="https://plants.ensembl.org/index.html", style = "color:black; font-size:20px", target='_blank',
+#  h5("EnsemblPlants",style = "font-size: 20px; font-style: normal; font-weight: lighter;"),
+  img(width="242", height="52", src=paste(Stream_folder,"ensembl_plants.png",sep='') ) ),
+
+  tags$a(href="http://rice.uga.edu/", style = "color:black; font-size:20px", target='_blank',
+ # h5("Rice Genome Annotation Project",style = "font-size: 20px; font-style: normal; font-weight: lighter;"),
+  img(width="475", height="50", src=paste(Stream_folder,"RGAP.png",sep='') ) ),
+
+  tags$a(href="https://www.gramene.org/", style = "color:black; font-size:20px", target='_blank',
+ # h5("Gramene",style = "font-size: 20px; font-style: normal; font-weight: lighter;"),
+  img(width="150", height="85", src=paste(Stream_folder,"gramene_logo.svg",sep='') ) ),
+
+   ),
+####################### 5/24/23
 
 #column(12, offset=3,align="center", h3("")),
 #column(12, offset=3,align="center", h3("")),
