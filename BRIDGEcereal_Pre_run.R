@@ -39,6 +39,7 @@ for(key in Gene_Key$V1){
  if(length(grep(key, gsub(' ','',input$Gene)))==0){
         Test_GeneName2 <- paste("No coordinate information for this query ID! Please double-check your input.",sep='');
         output$coordinates_test <- renderText({ Test_GeneName2 });
+        shinyjs::disable(id = "submit")   #6/13/23
     }}
 
 
@@ -91,7 +92,9 @@ if (file.size(matched_gene_file)!=0) {
         
         matched_gene1_strand<-matched_gene1[4]
 
-        matched_gene1<-paste(matched_gene1[1],':',prettyNum(c(matched_gene1[2]),big.mark=",",scientific=FALSE),'-',prettyNum(c(matched_gene1[3]),big.mark=",",scientific=FALSE), ', ', paste('(',matched_gene1[4],')','strand.',sep='') ,sep='') # 2/8/23
+        #matched_gene1<-paste(matched_gene1[1],':',prettyNum(c(matched_gene1[2]),big.mark=",",scientific=FALSE),'-',prettyNum(c(matched_gene1[3]),big.mark=",",scientific=FALSE), ', ', paste('(',matched_gene1[4],')','strand.',sep='') ,sep='') # 2/8/23
+        
+        matched_gene1<-paste(matched_gene1[1],':',prettyNum(c(matched_gene1[2]),big.mark=",",scientific=FALSE),'-',prettyNum(c(matched_gene1[3]),big.mark=",",scientific=FALSE), ' ', paste(' (',matched_gene1[4],')',' strand.',sep='') ,sep='') #6/13/23
         
         Test_GeneName2 <- paste(c("The query gene is located at: ", matched_gene1), collapse= " ")
         output$coordinates_test <- renderText({ Test_GeneName2 });
