@@ -166,7 +166,21 @@ CHOICE<- function(BlastSynWorking,query_length, distance_filter, Min_CDS_size_fi
      CHOICE_output_Table<-as.data.frame(CHOICE_output_summary)
      CHOICE_cluster_list[[index_genome]]<-CHOICE_output_Table    # for table1
      } else {
-       CHOICE_output_list[[index_genome]]<-CHOICE_input_file[ which(CHOICE_input_file$Genome==g_index), ] 
+
+      
+       One_hit <- CHOICE_input_file[ which(CHOICE_input_file$Genome==g_index), ] #6/12/23
+       
+       One_hit_size <- One_hit$size/query_length #6/12/23
+       
+       if(One_hit_size >= 0.25){ #6/12/23
+
+       CHOICE_output_list[[index_genome]]<-CHOICE_input_file[ which(CHOICE_input_file$Genome==g_index), ] #6/12/23
+      
+       } #6/12/23
+      
+
+
+
        }
 
       index_genome<-index_genome+1

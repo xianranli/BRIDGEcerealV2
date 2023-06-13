@@ -113,10 +113,30 @@ if (file.size(matched_gene_file)!=0) {
 system_delete<-paste('rm',matched_gene_file,sep=' ')
 system(system_delete)
 
+shinyjs::enable(id = "submit")   #6/12/23 for potential naming error!!!
+
 } else if(file.size(matched_gene_file)==0){
 #system_delete<-paste('rm',matched_gene_file,sep=' ')
 system_delete<-paste('rm -r',Users_folder,sep=' ')
-system(system_delete)}
+system(system_delete)
+
+####6/12/23 for potential naming error!!!
+Test_GeneName2 <- paste("No coordinate information for this query ID! Please double-check your input.",sep=''); #6/12/23 for potential naming error!!!
+
+output$coordinates_test <- renderText({ Test_GeneName2 }); #6/12/23 for potential naming error!!!
+
+shinyjs::disable(id = "submit")   #6/12/23 for potential naming error!!!
+
+output$html <- renderUI({ #6/12/23 for potential naming error!!!
+
+        tags$a(href='', target='_blank',paste('',sep=''), style = "font-size:22px; color:red; font-style:italic;"); #6/12/23 for potential naming error!!!
+
+       }) #6/12/23 for potential naming error!!!
+####6/12/23 for potential naming error!!!
+
+
+
+   }
 
  }
  }

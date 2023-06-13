@@ -45,7 +45,7 @@ pickerInput(
 
   options = list(
     'actions-box' = TRUE, 
-    size = 30,
+    size = 15,
     'selected-text-format' = "count > 1"
   ), 
   multiple = FALSE,
@@ -61,7 +61,7 @@ pickerInput(
   selected = c(''), ## by default
   options = list(
     'actions-box' = TRUE, 
-    size = 21,
+    size = 15,
     'selected-text-format' = "count > 1"
   ), 
   multiple = FALSE,
@@ -76,7 +76,7 @@ pickerInput(
   selected = c('CDS'), ## by default
   options = list(
     'actions-box' = TRUE, 
-    size = 18,
+    size = 15,
     'selected-text-format' = "count > 1"
   ), 
   multiple = FALSE,
@@ -108,7 +108,7 @@ pickerInput(
    selected = default_choice,
   options = list(
     'actions-box' = TRUE, 
-    size = 50,
+    size = 15,
     'selected-text-format' = "count > 1"
   ), 
   multiple = TRUE,

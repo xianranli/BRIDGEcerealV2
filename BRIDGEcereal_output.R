@@ -367,8 +367,8 @@ abline(a=NULL, b=NULL, val$clicky, col=color_option[ceiling(as.numeric(val$click
 
 observeEvent(input$plot2_click ,{
 
-    input$plot2_click
-    req(input$plot2_click) 
+  #  input$plot2_click
+  #  req(input$plot2_click) 
 
 
 output$plot3 <- NULL
@@ -535,8 +535,8 @@ write.table(b_matrix_groups4, file=paste(Dir, 'b_matrix_variety_Table.txt', sep 
 ####################
 observeEvent( c(input$list_2,input$list_1) ,{
 
-    input$plot2_click
-    req(input$plot2_click)
+  #  input$plot2_click
+  #  req(input$plot2_click)
 
 
 source(paste(script_folder,"BRIDGEcereal_Sub.R",sep=''), local = TRUE); 
