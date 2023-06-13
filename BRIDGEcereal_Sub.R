@@ -130,6 +130,15 @@ CHOICE<- function(BlastSynWorking,query_length, distance_filter, Min_CDS_size_fi
 
      MeanSimilarity_cdsSize[,2]<-MeanSimilarity_cdsSize[,2]/query_length
      Size_filter<-which(MeanSimilarity_cdsSize[,2]>=Min_CDS_size_filter & MeanSimilarity_cdsSize[,2]<=Max_CDS_size_filter)
+
+     
+     ################# #6/13/23 
+     if (length(Size_filter) == 0) { 
+          
+          next;
+
+     }
+     ################# #6/13/23
      
      if(length(Size_filter)>1){                                                               
       Similarity_filter<-which( max( MeanSimilarity_cdsSize[Size_filter,][,1] ) == MeanSimilarity_cdsSize[,1] ) 
