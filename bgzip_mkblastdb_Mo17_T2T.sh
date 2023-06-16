@@ -15,15 +15,15 @@ for line_code in $line_codes
   if [ ! -e $line_dir ]; then
     mkdir $line_dir
     cd $line_dir
-    wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/022/117/705/GCA_022117705.1_Zm-Mo17-REFERENCE-CAU-T2T-assembly/GCA_022117705.1_Zm-Mo17-REFERENCE-CAU-T2T-assembly_genomic.fna.gz
-    gunzip GCA_022117705.1_Zm-Mo17-REFERENCE-CAU-T2T-assembly_genomic.fna.gz
-    perl -p -i -e 's/CM0.*chromosome /chr/' GCA_022117705.1_Zm-Mo17-REFERENCE-CAU-T2T-assembly_genomic.fna
-    perl -p -i -e 's/, whole.* //' GCA_022117705.1_Zm-Mo17-REFERENCE-CAU-T2T-assembly_genomic.fna
-    perl -p -i -e 's/sequence//' GCA_022117705.1_Zm-Mo17-REFERENCE-CAU-T2T-assembly_genomic.fna
-    mv GCA_022117705.1_Zm-Mo17-REFERENCE-CAU-T2T-assembly_genomic.fna Mo17_T2T.fa
+#    wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/022/117/705/GCA_022117705.1_Zm-Mo17-REFERENCE-CAU-T2T-assembly/GCA_022117705.1_Zm-Mo17-REFERENCE-CAU-T2T-assembly_genomic.fna.gz
+#    gunzip GCA_022117705.1_Zm-Mo17-REFERENCE-CAU-T2T-assembly_genomic.fna.gz
+#    perl -p -i -e 's/CM0.*chromosome /chr/' GCA_022117705.1_Zm-Mo17-REFERENCE-CAU-T2T-assembly_genomic.fna
+#    perl -p -i -e 's/, whole.* //' GCA_022117705.1_Zm-Mo17-REFERENCE-CAU-T2T-assembly_genomic.fna
+#    perl -p -i -e 's/sequence//' GCA_022117705.1_Zm-Mo17-REFERENCE-CAU-T2T-assembly_genomic.fna
+#    mv GCA_022117705.1_Zm-Mo17-REFERENCE-CAU-T2T-assembly_genomic.fna Mo17_T2T.fa
   fi
 
-  gb_fa=$sp_dir$line_code'.fa'
+  gb_fa=$line_dir$line_code'.fa'
   
   #gb_gz=$gb_fa'.gz'
   #gunzip -k $gb_gz
