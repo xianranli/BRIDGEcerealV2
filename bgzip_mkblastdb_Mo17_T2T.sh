@@ -24,7 +24,7 @@ for line_code in $line_codes
   fi
 
   gb_fa=$line_dir$line_code'.fa'
-  
+  echo $gb_fa
   #gb_gz=$gb_fa'.gz'
   #gunzip -k $gb_gz
 
