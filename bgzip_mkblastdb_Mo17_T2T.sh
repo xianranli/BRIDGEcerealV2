@@ -23,7 +23,7 @@ for line_code in $line_codes
 #    mv GCA_022117705.1_Zm-Mo17-REFERENCE-CAU-T2T-assembly_genomic.fna Mo17_T2T.fa
   fi
 
-  gb_fa=$line_dir$line_code'.fa'
+  gb_fa=$line_dir'/'$line_code'.fa'
   echo $gb_fa
   #gb_gz=$gb_fa'.gz'
   #gunzip -k $gb_gz
