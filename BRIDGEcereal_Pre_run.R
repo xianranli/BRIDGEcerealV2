@@ -29,18 +29,27 @@ output$infogene <- renderText({ num_files1 });
 ####
 observeEvent(input$Check_ID, {
 
-    if( (gsub(' ','',input$Gene) != "") & (length(grep(' ', gsub(' ','',input$Gene)))==0)  ){
+
+
+if( (gsub(' ','',input$Gene) != "") & ( length(grep(' ', gsub(' ','',input$Gene)))==0 )  ){
  
  key_table <- paste(gff_folder,Speciesx,'/','species_genekey.txt',sep='');
  Gene_Key <- read.table(key_table,header=F)
 
 
 for(key in Gene_Key$V1){
- if(length(grep(key, gsub(' ','',input$Gene)))==0){
+
+
+ if( length(grep(key, gsub(' ','',input$Gene)))==0 ) {
+
         Test_GeneName2 <- paste("No coordinate information for this query ID! Please double-check your input.",sep='');
         output$coordinates_test <- renderText({ Test_GeneName2 });
         shinyjs::disable(id = "submit")   #6/13/23
-    }}
+    
+    }
+
+
+}
 
 
  for(key in Gene_Key$V1){
@@ -69,6 +78,8 @@ Users_folder1<-paste('mkdir -m 777 ', User_folder , User_folder0 , sep='')
 system(Users_folder1)  ## 
 Users_folder<-paste(User_folder, User_folder0 , sep='')
 matched_gene_file <- paste(Users_folder,'/matched_gene.gff',sep='')
+
+
 system_grep <- paste('grep -w',gsub(' ','',input$Gene),AllGenomes_key_info,'>',matched_gene_file,sep=' ')
 system(system_grep)
 
@@ -92,18 +103,18 @@ if (file.size(matched_gene_file)!=0) {
         
         matched_gene1_strand<-matched_gene1[4]
 
-        #matched_gene1<-paste(matched_gene1[1],':',prettyNum(c(matched_gene1[2]),big.mark=",",scientific=FALSE),'-',prettyNum(c(matched_gene1[3]),big.mark=",",scientific=FALSE), ', ', paste('(',matched_gene1[4],')','strand.',sep='') ,sep='') # 2/8/23
-        
         matched_gene1<-paste(matched_gene1[1],':',prettyNum(c(matched_gene1[2]),big.mark=",",scientific=FALSE),'-',prettyNum(c(matched_gene1[3]),big.mark=",",scientific=FALSE), ' ', paste(' (',matched_gene1[4],')',' strand.',sep='') ,sep='') #6/13/23
         
         Test_GeneName2 <- paste(c("The query gene is located at: ", matched_gene1), collapse= " ")
         output$coordinates_test <- renderText({ Test_GeneName2 });
+
 
        output$html <- renderUI({
 
          tags$a(href=paste(html_Speciesx,gsub(' ','',input$Gene),sep=''), target='_blank',paste('Click to view more information about gene',gsub(' ','',input$Gene),sep=' '), style = "font-size:16px; color:blue; font-style:italic;");
 
        })
+
 
 
         if(matched_gene1_strand =='-'){
@@ -119,6 +130,7 @@ system(system_delete)
 shinyjs::enable(id = "submit")   #6/12/23 for potential naming error!!!
 
 } else if(file.size(matched_gene_file)==0){
+
 #system_delete<-paste('rm',matched_gene_file,sep=' ')
 system_delete<-paste('rm -r',Users_folder,sep=' ')
 system(system_delete)
@@ -137,9 +149,7 @@ output$html <- renderUI({ #6/12/23 for potential naming error!!!
        }) #6/12/23 for potential naming error!!!
 ####6/12/23 for potential naming error!!!
 
-
-
-   }
+    }
 
  }
  }
