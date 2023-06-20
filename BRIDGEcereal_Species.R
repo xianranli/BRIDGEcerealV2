@@ -189,6 +189,7 @@ Gene<-gsub(' ','',input$Gene)
 extract_flag<-1
 source(paste(script_folder,"BRIDGEcereal_Sub.R",sep=''), local = TRUE);
 
+
 #6/20/23
 For_extract_fa_ <- For_extract_fa(extract_flag,Genome,gff_folder_Species,Selected_gene,Users_folder,target_folder0,chromosome) 
 strand_direction <- For_extract_fa_[[1]]
@@ -220,7 +221,7 @@ perlArg6_PickDown <- as.numeric(input$Downstream)*1000;
 ##############
 
 source(paste(script_folder,"BRIDGEcereal_output.R",sep=''), local = TRUE);
-BRIDGEcereal_output(User_folder0,perlArg0_db_sp,perlArg1_PickGenome ,perlArg2_PickGene,perlArg3_PickChr,perlArg4_Users_folder,perlArg5_PickUp,perlArg6_PickDown, Backup_folder,strand_direction, database_folder,gff_folder,script_folder,User_folder,Stream_folder,WordSize_) #6/20/23
+BRIDGEcereal_output(User_folder0,perlArg0_db_sp,perlArg1_PickGenome ,perlArg2_PickGene,perlArg3_PickChr,perlArg4_Users_folder,perlArg5_PickUp,perlArg6_PickDown, Backup_folder,strand_direction, database_folder,gff_folder,script_folder,User_folder,Stream_folder, WordSize_) #6/20/23
 
 ########
 ########
@@ -367,7 +368,6 @@ Gene<-gsub(' ','',input$Gene)
 
 extract_flag<-1
 source(paste(script_folder,"BRIDGEcereal_Sub.R",sep=''), local = TRUE);
-
 #strand_direction <- For_extract_fa(extract_flag,Genome,gff_folder_Species,Selected_gene,Users_folder,target_folder0,chromosome)[[1]]
 #query_length <- For_extract_fa(extract_flag,Genome,gff_folder_Species,Selected_gene,Users_folder,target_folder0,chromosome)[[2]]
 
