@@ -32,7 +32,6 @@ if ( (Min_size < 30) & (Min_size > 11) ){
 }
 #6/20/23
 
-
 file3<-paste(Users_folder,'/',"positions.txt",sep='')
 write.table(file2,file3,row.names=FALSE,col.names=FALSE,quote = FALSE,sep="\t")
 strand_direction <- unique(file1[which(file1[,9]==Selected_gene),7])
@@ -145,6 +144,7 @@ CHOICE<- function(BlastSynWorking,query_length, distance_filter, Min_CDS_size_fi
        }
 
      MeanSimilarity_cdsSize[,2]<-MeanSimilarity_cdsSize[,2]/query_length
+
      Size_filter<-which(MeanSimilarity_cdsSize[,2]>=Min_CDS_size_filter & MeanSimilarity_cdsSize[,2]<=Max_CDS_size_filter)
 
      ################# #6/14/23 
@@ -176,10 +176,16 @@ CHOICE<- function(BlastSynWorking,query_length, distance_filter, Min_CDS_size_fi
       } else if(length(Target_cluster)>1){
         Target_cluster<-which( max(MeanSimilarity_cdsSize[Target_cluster,][,1]) == MeanSimilarity_cdsSize[,1] )
         }
-        
+
+     ################# 5/10/23 
+
      if(length(Target_cluster)>=2){
+
         Target_cluster <- Target_cluster[1]
+     
      }
+     ################# 5/10/23
+
 
      CHOICE_output_list[[index_genome]]<-Target_g[ which( cutree( hclust( dist(Target_g[,6])), k =Total_clusters, h = distance_filter ) == Target_cluster), ]
 
@@ -197,8 +203,7 @@ CHOICE<- function(BlastSynWorking,query_length, distance_filter, Min_CDS_size_fi
      CHOICE_output_Table<-as.data.frame(CHOICE_output_summary)
      CHOICE_cluster_list[[index_genome]]<-CHOICE_output_Table    # for table1
      } else {
-
-      
+       
        One_hit <- CHOICE_input_file[ which(CHOICE_input_file$Genome==g_index), ] #6/12/23
        
        One_hit_size <- One_hit$size/query_length #6/12/23
@@ -208,11 +213,9 @@ CHOICE<- function(BlastSynWorking,query_length, distance_filter, Min_CDS_size_fi
        CHOICE_output_list[[index_genome]]<-CHOICE_input_file[ which(CHOICE_input_file$Genome==g_index), ] #6/12/23
       
        } #6/12/23
-      
-
-
-
+       
        }
+
 
       index_genome<-index_genome+1
 
@@ -243,7 +246,8 @@ CLIPS <- function(gDNAs_blast_) {
  self_idx <- which(gDNAs_blast_[,1] == gDNAs_blast_[,2])
  g_selfs <- gDNAs_blast_[self_idx,]
  
- #g_selfs <- g_selfs[-match(genomes, g_selfs[,1]),] ## remove the first entry of each self blast
+ # g_selfs <- g_selfs[-match(genomes, g_selfs[,1]),] ## remove the first entry of each self blast
+  
   g_selfs <- g_selfs[(g_selfs[,7] - g_selfs[,9] + g_selfs[,8] - g_selfs[,10] != 0),]
 
  
