@@ -37,7 +37,9 @@ fluidRow(
 
 column(12, offset=3,align="center", h3("")),
 column(12, offset=3,align="center", h3("")),
-column(12, offset=3,align="center", h4("BRIDGEcereal currently holds 120 genomes:" ,style = "font-size:24px; color:black;")),
+
+#6/14/23
+column(12, offset=3,align="center", h4("BRIDGEcereal currently holds 121 genomes:" ,style = "font-size:24px; color:black;")),
 
 column(12, offset=3,align="center", h4("Wheat",style = "font-size:24px; color:black;")),
 
@@ -54,31 +56,42 @@ Hufford, M.B., Seetharam, A.S., Woodhouse, M.R., Chougule, K.M., Ou, S., Liu, J.
 De novo assembly, annotation, and comparative analysis of 26 diverse maize genomes. Science 373:655-662.
   ",style = "font-size: 20px; font-style: normal; font-weight: lighter;"),
 
+column(12, offset=3,align="center", h3("")), 
+
 tags$a(href="https://www.nature.com/articles/s41588-022-01283-w", style = "color:black; font-size:20px",target='_blank',h5("3, 
 Wang, B., Hou, M., Shi, J., Ku, L., Song, W., Li, C., Ning, Q., Li, X., Li, C., Zhao, B., et al. (2023). 
 De novo genome assembly and analyses of 12 founder inbred lines provide insights into maize heterosis. Nat Genet 55:312-323.
+  ",style = "font-size: 20px; font-style: normal; font-weight: lighter;") ), 
+
+column(12, offset=3,align="center", h3("")), 
+
+tags$a(href="https://www.nature.com/articles/s41588-023-01419-6", style = "color:black; font-size:20px",target='_blank',h5("4, 
+Chen J, Wang Z, Tan K, Huang W, Shi J, Li T, Hu J, Wang K, Wang C, Xin B, Zhao H, Song W, Hufford MB, Schnable JC, Jin W, Lai J. 
+A complete telomere-to-telomere assembly of the maize genome. Nat Genet. 2023 Jun 15. 
   ",style = "font-size: 20px; font-style: normal; font-weight: lighter;") ) ) ),
+
 
 column(12, offset=3,align="center", h4("Sorghum",style = "font-size:24px; color:black;")),
 
-column(12, offset=3, align="left", tags$a(href="https://www.nature.com/articles/s41477-021-00925-x", style = "color:black; font-size:20px",target='_blank',h5("4, 
+column(12, offset=3, align="left", tags$a(href="https://www.nature.com/articles/s41477-021-00925-x", style = "color:black; font-size:20px",target='_blank',h5("5, 
 Tao, Y., Luo, H., Xu, J., Cruickshank, A., Zhao, X., Teng, F., Hathorn, A., Wu, X., Liu, Y., Shatte, T., et al. (2021). 
 Extensive variation within the pan-genome of cultivated and wild sorghum. Nat Plants 7:766-773.
   ",style = "font-size: 20px; font-style: normal; font-weight: lighter;")) ),
 
 column(12, offset=3,align="center", h4("Rice",style = "font-size:24px; color:black;")),
 
-column(12, offset=3, align="left", tags$a(href="https://www.sciencedirect.com/science/article/pii/S009286742100581X", style = "color:black; font-size:20px",target='_blank',h5("5, 
+column(12, offset=3, align="left", tags$a(href="https://www.sciencedirect.com/science/article/pii/S009286742100581X", style = "color:black; font-size:20px",target='_blank',h5("6, 
 Qin, P., Lu, H., Du, H., Wang, H., Chen, W., Chen, Z., He, Q., Ou, S., Zhang, H., Li, X., et al. (2021). 
 Pan-genome analysis of 33 genetically diverse rice accessions reveals hidden genomic variations. Cell 184:3542-3558.e16.
   ",style = "font-size: 20px; font-style: normal; font-weight: lighter;")) ),
 
 column(12, offset=3,align="center", h4("Barley",style = "font-size:24px; color:black;")),
 
-column(12, offset=3, align="left", tags$a(href="https://www.nature.com/articles/s41586-020-2947-8",style = "color:black; font-size:20px", target='_blank', h5("6, 
+column(12, offset=3, align="left", tags$a(href="https://www.nature.com/articles/s41586-020-2947-8",style = "color:black; font-size:20px", target='_blank', h5("7, 
 Jayakodi, M., Padmarasu, S., Haberer, G., Bonthala, V.S., Gundlach, H., Monat, C., Lux, T., Kamal, N., Lang, D., Himmelbach, A., et al. (2020). 
 The barley pan-genome reveals the hidden legacy of mutation breeding. Nature 588:284-289.
   ",style = "font-size: 20px; font-style: normal; font-weight: lighter;")) ),
+#6/14/23
 
 
 ####################### 5/24/23
