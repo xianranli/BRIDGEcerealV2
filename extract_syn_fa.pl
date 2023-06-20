@@ -26,7 +26,9 @@ my $candidate_gene_dir = $ARGV[7]; #Backup_folder: '/home/xianran_li/bridgecerea
 my $flag1 = $ARGV[8];
 my $flag2 = $ARGV[9];
 
-my $Word_Size = $ARGV[10]; #6/20/23
+#my $Word_Size = $ARGV[10]; #6/20/23
+my $Word_Size = 30; #6/20/23
+
 
 my $ref_gb = $sp;
 my $sp_dir = $pre_dir.$sp.'/'; 
