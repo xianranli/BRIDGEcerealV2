@@ -40,6 +40,9 @@ Stream_folder <- "https://bridgecereal.scinet.usda.gov/" # 03/02/23 scinet
 
 QA_folder <-paste(administrator_path,"QA",'/',sep=''); #6/14/23 need a new folder mkdir QA
 
+if( !file.exists( QA_folder ) ){
+ dir.create(QA_folder)
+}
 
 html_wheat<-'https://plants.ensembl.org/Triticum_aestivum/Search/Results?species=Triticum_aestivum;idx=;q=' #2/8/23
 html_maize<-'https://www.maizegdb.org/gene_center/gene/' #2/8/23
