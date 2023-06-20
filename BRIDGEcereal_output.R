@@ -1,6 +1,7 @@
 # BRIDGEcereal_output functions (03/31/23)
 
 #6/20/23
+
 BRIDGEcereal_output <- function(User_folder0,perlArg0_db_sp,perlArg1_PickGenome ,perlArg2_PickGene,perlArg3_PickChr,perlArg4_Users_folder,perlArg5_PickUp,perlArg6_PickDown, Backup_folder,strand_direction,database_folder,gff_folder,script_folder,User_folder,Stream_folder, WordSize_) {
 
 system1 <- paste("perl", paste(script_folder,'extract_syn_fa.pl',sep=''),perlArg0_db_sp,perlArg1_PickGenome ,perlArg2_PickGene,perlArg3_PickChr,perlArg4_Users_folder,perlArg5_PickUp,perlArg6_PickDown,Backup_folder, 1, 0, WordSize_, sep=' '); #6/20/23
@@ -33,6 +34,8 @@ ref_g<-input$Pickgenome
 
 source(paste(script_folder,"BRIDGEcereal_Sub.R",sep=''), local = TRUE);
 
+
+
 Filtered_HaplotypeSyn <- CHOICE(BlastSynWorking,query_length, distance_filter, Min_CDS_size_filter, Max_CDS_size_filter, ref_g)[[1]]
 Information_list<- CHOICE(BlastSynWorking,query_length, distance_filter, Min_CDS_size_filter, Max_CDS_size_filter, ref_g)[[2]]
 
@@ -57,6 +60,7 @@ if( (Filtered_HaplotypeSyn_Strand0$subject_end-Filtered_HaplotypeSyn_Strand0$sub
 ##############################
 
 if(length(Information_list)!=0){
+
 Information_output0 <-as.data.frame(rbindlist(Information_list))
 Information_output<-Information_output0[which(Information_output0$Genomes!=''),]
 
@@ -79,8 +83,10 @@ Size_warning <- CHOICE(BlastSynWorking,query_length, distance_filter, Min_CDS_si
 #6/14/23
 
 
-
 }
+
+
+
 
 ########
 ########
@@ -297,14 +303,13 @@ output$clustertree <- renderUI({
 
 
 gDNAs_blast <- read.table(paste(Dir, Gene, '_Haplotype-Self_out_m8', sep = ''), sep = '\t', header = F, stringsAsFactors = F);
+
 #genomes <- input$id
 #b_matrix_ <- CLIPS(gDNAs_blast,genomes)
 
 b_matrix_ <<- CLIPS(gDNAs_blast)
+
 #write.table(round(b_matrix_,2), file = paste(Dir, 'b_matrix_ori_.txt', sep = ''),row.names=TRUE,col.names=TRUE,quote = FALSE,sep="\t")
-
-########################
-
 
 
 observeEvent(input$clustertree ,{
@@ -335,11 +340,14 @@ output$table4 <- NULL # 2/28/23
 
 
 
+
+
+
 output$plot2 <- renderPlot({
 
     
     input$clustertree 
-    req(input$clustertree) 
+    req(input$clustertree)
 
 
 Gene <- gsub(' ','',input$Gene)  ## from shiny input
@@ -389,8 +397,8 @@ abline(a=NULL, b=NULL, val$clicky, col=color_option[ceiling(as.numeric(val$click
 
 observeEvent(input$plot2_click ,{
 
-  #  input$plot2_click
-  #  req(input$plot2_click) 
+  #  input$plot2_click #6/12/23
+  #  req(input$plot2_click) #6/12/23
 
 
 output$plot3 <- NULL
@@ -557,8 +565,8 @@ write.table(b_matrix_groups4, file=paste(Dir, 'b_matrix_variety_Table.txt', sep 
 ####################
 observeEvent( c(input$list_2,input$list_1) ,{
 
-  #  input$plot2_click
-  #  req(input$plot2_click)
+   # input$plot2_click      #6/12/23
+   # req(input$plot2_click) #6/12/23
 
 
 source(paste(script_folder,"BRIDGEcereal_Sub.R",sep=''), local = TRUE); 
