@@ -249,6 +249,18 @@ tags$head(
     )
   ),
 #### progress in middle
+
+     column(12,offset=0, align="left", textOutput('Size_remainder') ), #6/14/23
+     tags$head(tags$style("#Size_remainder{color: red;
+                                 font-size: 24px;
+                                 font-style: italic;
+                                 }"
+                         )
+     ),
+
+
+
+
      column(7, offset=0,align="left", uiOutput(outputId = "Fig_demo") ),
 
     # column(8, plotOutput("Fig_demo",click = NULL,dblclick = NULL,width ="100%",height = 'auto') ),
