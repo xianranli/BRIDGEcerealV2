@@ -14,7 +14,6 @@ library(rjson)
 library(shinythemes)
 
 library(mailtoR) # email to ...
-#library(shinydashboard) #...
 
 ### 03/31/23
 ########################################################
@@ -36,10 +35,11 @@ candidate_dir<-paste(administrator_path,'candidate_dir','/',sep=''); # scinet an
 Stream_folder <- "https://bridgecereal.scinet.usda.gov/" # 03/02/23 scinet
 #Stream_folder <- "http://10.105.85.25/BRIDGEcereal_Scinet/" # R studio and our server
 
-# web_root<-"/BRIDGEcereal_Scinet/" # our server
+#   web_root<-"/BRIDGEcereal_Scinet/" # our server
   web_root<-"/" # R studio and scinet
 
 QA_folder <-paste(administrator_path,"QA",'/',sep=''); #6/14/23 need a new folder mkdir QA
+
 
 html_wheat<-'https://plants.ensembl.org/Triticum_aestivum/Search/Results?species=Triticum_aestivum;idx=;q=' #2/8/23
 html_maize<-'https://www.maizegdb.org/gene_center/gene/' #2/8/23
@@ -49,7 +49,9 @@ html_barley<-'https://wheat.pw.usda.gov/cgi-bin/GG3/report.cgi?class=probe;name=
 
 html_soybean<-'https://phytozome-next.jgi.doe.gov/report/gene/Gmax_Wm82_a4_v1/'
 
-html_tomato<-'https://solgenomics.net/search/locus/'
+html_PearlMillet<-'https://phytozome-next.jgi.doe.gov/report/gene/Gmax_Wm82_a4_v1/' # ??
+
+#html_tomato<-'https://solgenomics.net/search/locus/'
 
 source(paste(script_folder,"BRIDGEcereal_Instruction.R",sep=''), local = TRUE);
 source(paste(script_folder,"BRIDGEcereal_Species.R",sep=''), local = TRUE); 
@@ -57,6 +59,9 @@ source(paste(script_folder,"BRIDGEcereal_Species.R",sep=''), local = TRUE);
 source(paste(script_folder,"BRIDGEcereal_Reference.R",sep=''), local = TRUE);
 
 source(paste(script_folder,"BRIDGEcereal_CLIPS.R",sep=''), local = TRUE);
+
+
+#source(paste(script_folder,"BRIDGEcereal_QA.R",sep=''), local = TRUE);
 
 source(paste(script_folder,"BRIDGEcereal_QA_View.R",sep=''), local = TRUE); #6/14/23
 ########################################################
@@ -98,7 +103,7 @@ flowLayout(
   ),
 
    tags$li(
-   tags$a(href = paste(web_root,'Reference', sep=''), "Reference/Link", img(width="100", height="60", src=paste(Stream_folder,"book.png",sep=''))), # 4000*2250
+   tags$a(href = paste(web_root,'Reference', sep=''), "Reference", img(width="100", height="60", src=paste(Stream_folder,"book.png",sep=''))), # 4000*2250
   ),
 
 #   tags$li(
@@ -145,7 +150,7 @@ BRIDGEcereal_main <- function(){
         fluidPage(theme = shinytheme("readable")),
 
 
-        h2("BRIDGEcereal: survey and graph indel-based haplotypes from pan-genomes",style="text-align:center"),
+        h2("BRIDGEcereal: survey and graph indels variation in pan-genomes",style="text-align:center"),
 
         nav_links,
 
@@ -213,7 +218,7 @@ column(12, offset=3,align="left", h3("Approach:",style = "font-size: 24px; font-
 column(12, offset=3,align="left", 
 tags$div(
 "BRIDGEcereal webapp is built based on two novel unsupervised machine learning algorithms:",
-tags$a(href="https://github.com/xianranli/CHOICE_CLIPS", target='_blank', "CHOICE and CLIPS (GitHub).") ),style = "font-size: 24px; font-style: normal; font-weight: lighter;" ),
+tags$a(href="https://github.com/xianranli/CHOICE_CLIPS", target='_blank', "CHOICE and CLIPS.") ),style = "font-size: 24px; font-style: normal; font-weight: lighter;" ),
 
 #column(12, offset=3,align="left", tags$a(href="https://github.com/xianranli/CHOICE_CLIPS", target='_blank', h4("Click here to further explore demo code for CHOICE and CLIPS ...", style = "font-size: 24px; font-style: normal; font-weight: lighter;") ) ),
 column(12, offset=3,align="left", tags$a(href=paste(web_root,'CLIPS', sep=''), target='_blank', h4("Click here to interact with CLIPS algorithm ...", style = "font-size: 24px; font-style: normal; font-weight: lighter;") ) ),
@@ -228,14 +233,6 @@ column(12, offset=3,align="left", tags$a(href=paste(web_root,'CLIPS', sep=''), t
 column(12, offset=3,align="left", h3("Applications:",style = "font-size: 24px; font-style: normal; font-weight: bold;")),
 column(12, offset=3,align="left", h3("1, Narrow down the candidate gene list in the QTL/GWAS interval.",style = "font-size: 24px; font-style: normal; font-weight: lighter;")),
 column(12, offset=3,align="left", h3("2, Explore the full spectrum of natural variations of the target gene.",style = "font-size: 24px; font-style: normal; font-weight: lighter;")),
-
-column(12, offset=3,align="left", h3("Citations:",style = "font-size: 24px; font-style: normal; font-weight: bold;")),
-column(12, offset=3,align="center", tags$a(href="https://doi.org/10.1016/j.molp.2023.05.005", target='_blank', h4(" 
-Zhang B, Huang H, Tibbs-Cortes LE, Vanous A, Zhang Z, Sanguinet K, Garland-Campbell KA, Yu J, Li X. 
-Streamline unsupervised machine learning to survey and graph indel-based haplotypes from pan-genomes.
- Molecular Plant. 2023. doi: 10.1016/j.molp.2023.05.005" ,
- style = "font-size:24px; color:black; font-style:italic;font-weight: lighter;") ) ),
-
 #column(12, offset=3,align="left", h3("3, To quickly survey how many clusters for (large) indels variation in a pan-genome.",style = "font-size: 24px; font-style: normal; font-weight: lighter;")),
 #column(12, offset=3,align="left", h3("4, ",style = "font-size: 24px; font-style: normal; font-weight: lighter;")),
 
@@ -249,7 +246,6 @@ Streamline unsupervised machine learning to survey and graph indel-based haploty
 #column(12, offset=3,align="center", h3("")),
 #column(12,offset=3, align="center", tags$img(width="1296", height="283", src=paste(Stream_folder,"CHOICE.png",sep=''))), # 0.3 (4323*945)
 #column(12,offset=3, align="center", tags$img(width="1177", height="283", src=paste(Stream_folder,"CLIPS.png",sep=''))), # 0.3 (3925*946)
-
 
 column(12, offset=3,align="left", h3("Contact:",style = "font-size: 24px; font-style: normal; font-weight: bold;")),  #6/14/23
 
@@ -269,7 +265,7 @@ column(12, offset=3,align="center", h3("")),
 column(12, offset=3,align="center", 
 h3(
      mailtoR(email = c("xianran.li@usda.gov"),
-          text = "Emails: xianran.li@usda.gov",      #6/14/23
+          text = "Emails: xianran.li@usda.gov",       #6/14/23
           subject = "Questions about BRIDGEcereal"),
 style = "font-size: 24px; font-style: normal; font-weight: lighter;",
 #use_mailtoR(),
@@ -282,8 +278,10 @@ use_mailtoR(),
 
 ) ),
 
+#column(12, offset=3,align="center", h3("")),
 column(12, offset=3,align="center", tags$a(href='http://compbiolab.org/', target='_blank', h4("Visit Li lab", 
     style = "font-size: 24px; font-style: normal; font-weight: lighter;") ) ), #6/14/23
+#column(12, offset=3,align="center", h3("")),
 
 #column(9,offset=3, align="center", tags$img(width="240", height="80", src=paste(Stream_folder,"USDA_PDI_Logo.jpg",sep=''))),
 column(6,offset=6, align="center", tags$img(width="510", height="60", src=paste(Stream_folder,"USDA_PDI_Logo.jpg",sep=''))),
@@ -336,7 +334,6 @@ column(6,offset=6, align="center", tags$img(width="510", height="60", src=paste(
 
 server <- function(input, output, session){
 
-
 #6/14/23
 observeEvent(input$Submit_Q, {
 
@@ -369,6 +366,7 @@ showModal( modalDialog(
   })
 #6/14/23
 
+
     } # server function of Page_0
 
 
@@ -391,14 +389,20 @@ showModal( modalDialog(
   BRIDGEcereal_Species("Rice","Nipponbare","LOC_Os01g01120",database_folder,gff_folder,script_folder,User_folder,candidate_dir,html_rice,Stream_folder), # 'Nipponbare' ... defined as default_ref
   BRIDGEcereal_Species("Barley","Morex","HORVU.MOREX.r3.1HG0000020",database_folder,gff_folder,script_folder,User_folder,candidate_dir,html_barley,Stream_folder),     # 'Morex' ... defined as default_ref
 
-  BRIDGEcereal_Reference(Stream_folder),
+  BRIDGEcereal_Reference(Stream_folder), # 5/24/23
 
   BRIDGEcereal_CLIPS(),
- 
+
+  #BRIDGEcereal_QA(QA_folder),
+
   BRIDGEcereal_QA_View(QA_folder),   #6/14/23
 
   BRIDGEcereal_Species("Soybean","Wm82","Glyma.01G000100",database_folder,gff_folder,script_folder,User_folder,candidate_dir,html_soybean,Stream_folder),
-  BRIDGEcereal_Species("Maize_ISU","B73","Zm00001eb000140",database_folder,gff_folder,script_folder,User_folder,candidate_dir,html_maize,Stream_folder)   # 'B73' ... defined as default_ref
+
+#  BRIDGEcereal_Species("PearlMillet","Tift_23D2B1-P1-P5","Pgl_GLEAN_10002244",database_folder,gff_folder,script_folder,User_folder,candidate_dir,html_PearlMillet,Stream_folder)
+  
+
+  BRIDGEcereal_Species("Maize_ISU","B73","Zm00001eb000140",database_folder,gff_folder,script_folder,User_folder,candidate_dir,html_maize,Stream_folder)
 
 #  BRIDGEcereal_Species("Tomato","Heinz1706","Solyc01g005210",database_folder,gff_folder,script_folder,User_folder,candidate_dir,html_tomato,Stream_folder) 
 
