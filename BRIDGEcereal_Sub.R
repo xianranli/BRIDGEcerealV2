@@ -19,6 +19,20 @@ G_gff_pattern <- paste(Genome,".*","_CDS_Working.gff3",sep="") ##
 file0<-list.files(gff_folder_Species,pattern = G_gff_pattern);
 file1<-read.table(paste(gff_folder_Species,file0,sep=''),header=F)
 file2<-file1[which(file1[,9]==Selected_gene),c(1,4,5)]
+
+#6/20/23
+WordSize <- 30
+
+Min_size <- min(file2[ ,3]-file2[ ,2])
+
+if ( (Min_size < 30) & (Min_size > 11) ){
+
+  WordSize <- Min_size
+
+}
+#6/20/23
+
+
 file3<-paste(Users_folder,'/',"positions.txt",sep='')
 write.table(file2,file3,row.names=FALSE,col.names=FALSE,quote = FALSE,sep="\t")
 strand_direction <- unique(file1[which(file1[,9]==Selected_gene),7])
@@ -55,7 +69,7 @@ writeXStringSet(GeneRef,paste(Users_folder,'/',Gene,'_ref',sep = ''), append=FAL
 
 #writeXStringSet(GeneRef,paste(Users_folder,'/',Gene,'_ref',sep = ''), append=FALSE, compress=FALSE, format="fasta");
 
-my_list <- list(strand_direction,query_length)
+my_list <- list(strand_direction,query_length, WordSize) #6/20/23
 return(my_list)
 
 }
@@ -102,6 +116,8 @@ CHOICE<- function(BlastSynWorking,query_length, distance_filter, Min_CDS_size_fi
 
  index_genome<-1 
 
+ Warning_flag <- 0 #6/14/23
+
  for(g_index in unique(CHOICE_input_file$Genome)){
 
    Target_g<- CHOICE_input_file[which(CHOICE_input_file$Genome==g_index), ]
@@ -131,14 +147,20 @@ CHOICE<- function(BlastSynWorking,query_length, distance_filter, Min_CDS_size_fi
      MeanSimilarity_cdsSize[,2]<-MeanSimilarity_cdsSize[,2]/query_length
      Size_filter<-which(MeanSimilarity_cdsSize[,2]>=Min_CDS_size_filter & MeanSimilarity_cdsSize[,2]<=Max_CDS_size_filter)
 
-     
-#     ################# #6/13/23 
-#     if (length(Size_filter) == 0) { 
-#          
-#          next;
-#
-#     }
-#     ################# #6/13/23
+     ################# #6/14/23 
+    
+     if (length(Size_filter) == 0) { 
+          
+      if(g_index == ref_g){
+
+       Warning_flag <- Warning_flag + 1
+
+      }
+      
+      next;
+
+     }
+     ################# #6/14/23
      
      if(length(Size_filter)>1){                                                               
       Similarity_filter<-which( max( MeanSimilarity_cdsSize[Size_filter,][,1] ) == MeanSimilarity_cdsSize[,1] ) 
@@ -203,7 +225,7 @@ CHOICE<- function(BlastSynWorking,query_length, distance_filter, Min_CDS_size_fi
    #  }
    #my_list <- list(Filtered_By_CHOICE,CHOICE_summary_table)
 
-   my_list <- list(Filtered_By_CHOICE,CHOICE_cluster_list)
+   my_list <- list(Filtered_By_CHOICE,CHOICE_cluster_list, Warning_flag) #6/14/23 
    
    return(my_list)
 
