@@ -26,6 +26,8 @@ my $candidate_gene_dir = $ARGV[7]; #Backup_folder: '/home/xianran_li/bridgecerea
 my $flag1 = $ARGV[8];
 my $flag2 = $ARGV[9];
 
+my $Word_Size = $ARGV[10]; #6/20/23
+
 my $ref_gb = $sp;
 my $sp_dir = $pre_dir.$sp.'/'; 
 my $sp_gb_dir = $pre_dir;
@@ -73,7 +75,7 @@ if ($flag1 == 1) {
 		my $g_fas_db = $g_fas.'.nin';
 		my $Ref_mrna_out = $gene_dir.$gene.'-'.$g.'gb_out_m8';
 		if (-e $g_fas_db) {
-			system("/usr/local/bin/blastn -db $g_fas -query $gene_mrna_file -out $Ref_mrna_out -outfmt 6 -evalue 20");
+			system("/usr/local/bin/blastn -db $g_fas -query $gene_mrna_file -word_size $Word_Size -out $Ref_mrna_out -outfmt 6 -evalue 20"); #6/20/23
 			Extract_syn($Ref_mrna_out, $g, $target_ch, \*Syn);
 			unlink $Ref_mrna_out  unless  $g eq $ref_gb;
 			}
@@ -180,8 +182,8 @@ if ($flag2 == 2) {
 
 	system("/usr/local/bin/makeblastdb -in $gene_syn_fa -dbtype nucl");
 
-	system("/usr/local/bin/blastn -db $gene_syn_fa -query $gene_syn_fa -out $blast_self_o -outfmt 6 -evalue 10");  ## -W 11 or -W 9 ??
-	system("/usr/local/bin/blastn -db $gene_syn_fa -query $gene_mrna_file -out $blast_mrna_o -outfmt 6 -evalue 10");
+	system("/usr/local/bin/blastn -db $gene_syn_fa -query $gene_syn_fa -word_size $Word_Size -out $blast_self_o -outfmt 6 -evalue 10");  #6/20/23
+	system("/usr/local/bin/blastn -db $gene_syn_fa -query $gene_mrna_file -word_size $Word_Size -out $blast_mrna_o -outfmt 6 -evalue 10"); #6/20/23
 #	system("/usr/local/bin/blastn -db $gene_syn_fa -query $gene_mrna_file -out $blast_mrna_o2 -outfmt 0 -evalue 10");
 	system("/usr/local/bin/blastn -db $grass_repeats_fa -query $gene_syn_fa -out $blast_repeats_o -outfmt 6 -evalue 10"); #Repeats
 	}
