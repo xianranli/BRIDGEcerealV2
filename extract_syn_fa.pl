@@ -14,10 +14,10 @@ use strict;
 #my $flag2 = 2;
 
 my $pre_dir = $ARGV[0];
-my $sp = $ARGV[1];
-my $gene = $ARGV[2];
-my $target_ch = $ARGV[3];
-my $Working_dir = $ARGV[4];
+my $sp=$ARGV[1];
+my $gene=$ARGV[2];
+my $target_ch=$ARGV[3];
+my $Working_dir=$ARGV[4];
 my $p_size = $ARGV[5];
 my $a_size = $ARGV[6];
 
@@ -26,11 +26,9 @@ my $candidate_gene_dir = $ARGV[7]; #Backup_folder: '/home/xianran_li/bridgecerea
 my $flag1 = $ARGV[8];
 my $flag2 = $ARGV[9];
 
-#my $Word_Size = $ARGV[10]; #6/20/23
-my $Word_Size = 30; #6/20/23
+my $Word_Size = $ARGV[10]; #6/20/23
 
-
-my $ref_gb = $sp;
+my $ref_gb=$sp;
 my $sp_dir = $pre_dir.$sp.'/'; 
 my $sp_gb_dir = $pre_dir;
 
@@ -44,6 +42,7 @@ my $gene_dir = $candidate_gene_dir.'Candidate_genes/'.$gene.'/'; # modifify this
 #my $gene_dir = $sp_dir.'Candidate_genes/'.$gene.'/'; # modifify this as the directory you can write into.
 
 
+
 mkdir $gene_dir unless -e $gene_dir;
 
 my $gene_mrna_file = $Working_dir.'/'.$gene.'_ref';
@@ -51,15 +50,19 @@ my $gene_mrna_file = $Working_dir.'/'.$gene.'_ref';
 opendir (SpDir, $sp_gb_dir) || die;
 
 my @genomes = ($ref_gb);
+
 foreach (readdir SpDir) {
+    
 	push @genomes, $_ unless $_ =~ /\./ || $_ eq $ref_gb;
+     
 	}
 
 my $md = '"m D"';
 
 
+
 #push @genomes, 'Parent1', 'Parent2', 'query';
-push @genomes, 'Parent1', 'Parent2', $gene;
+ push @genomes, 'Parent1', 'Parent2', $gene;
 
 
 if ($flag1 == 1) {
@@ -67,21 +70,37 @@ if ($flag1 == 1) {
 	open (Syn, '>'.$gene_syn_file_raw) || die;
    # print Syn "query\tqry_S\tqry_E\tGenome\tch\tsbj_St\tsbj_E\tSize\tSimilarity\n";
 	print Syn "query\tquery_start\tquery_end\tGenome\tchromosome\tsubject_start\tsubject_end\tsize\tsimilarity\n";
+
 	foreach my $g (@genomes) {
   	my $g_fas = $sp_gb_dir.$g.'/'.$g.'_'.$target_ch.'.fa';
-		if ($g =~ /Parent/) {
+  	my $g_fas_db = $g_fas.'.nin';
+
+		if ($g =~ /Parent1/) {
 			$g_fas = $Working_dir.'/'.$g.'/'.$g.'_'.$target_ch.'.fa';
-			} elsif ($g =~ $gene) {
-			$g_fas = $Working_dir.'/'.$g.'/'.$g.'_'.$target_ch.'.fa';
+			$g_fas_db = $g_fas.'.nin';
 			}
-		my $g_fas_db = $g_fas.'.nin';
+		if ($g =~ /Parent2/) {
+			$g_fas = $Working_dir.'/'.$g.'/'.$g.'_'.$target_ch.'.fa';
+			$g_fas_db = $g_fas.'.nin';
+			}
+	#	if ($g =~ /query/) {
+        if ($g =~ $gene) {
+
+			$g_fas = $Working_dir.'/'.$g.'/'.$g.'_'.$target_ch.'.fa';
+			$g_fas_db = $g_fas.'.nin';
+			}
+    
 		my $Ref_mrna_out = $gene_dir.$gene.'-'.$g.'gb_out_m8';
+
 		if (-e $g_fas_db) {
-			system("/usr/local/bin/blastn -db $g_fas -query $gene_mrna_file -word_size $Word_Size -out $Ref_mrna_out -outfmt 6 -evalue 20"); #6/20/23
-			Extract_syn($Ref_mrna_out, $g, $target_ch, \*Syn);
-			unlink $Ref_mrna_out  unless  $g eq $ref_gb;
-			}
-		}
+      system("/usr/local/bin/blastn -db $g_fas -query $gene_mrna_file -word_size $Word_Size -out $Ref_mrna_out -outfmt 6 -evalue 20");
+		
+		Extract_syn($Ref_mrna_out, $g, $target_ch, \*Syn);
+		unlink $Ref_mrna_out  unless  $g eq $ref_gb;
+	}
+
+    }
+
 	close Syn;	
 }
 
@@ -96,11 +115,14 @@ if ($flag2 == 2) {
 	my $region_anno_file = $gene_dir.$gene.'_Haplotype_anno';
 	my $seq_gap = $gene_dir.$gene.'_Haplotype_N_Gaps';
 	my $var_file = $gene_dir.$gene.'_Variations';
-#	print "$gene_syn_file\n";
+	print "$gene_syn_file\n";
 
-	my $grass_repeats_fa = '/home/xianran_li/bridgecereal/database/Repeat/grasrep.fa';
-	#my $grass_repeats_fa = '/home/bszhang/bridgecereal/database/Repeat/grasrep.fa'; ## 05/17/2022
-	my $blast_repeats_o = $gene_dir.$gene.'_repMask2'; # Repeats
+     my $grass_repeats_fa = '/home/xianran_li/bridgecereal/database/Repeat/grasrep.fa';
+#      my $grass_repeats_fa = '/mnt/compbiolab/bszhang/database/Repeat/grasrep.fa';
+   #  my $grass_repeats_fa = '/mnt/946c1663-fcbd-4a78-8887-c55f23c5b496/bszhang/database/Repeat/grasrep_.fa';
+
+     my $blast_repeats_o = $gene_dir.$gene.'_repMask2'; # Repeats
+
 
 	open (Gap, '>'.$seq_gap) || die;
 	print Gap "Genome\tGAP_Start\tGAP_End\n";
@@ -108,53 +130,64 @@ if ($flag2 == 2) {
 	print Anno "Genome\tch\tType\tStart\tEnd\tStrand\trefID\n";
 	my ($syn_block_hashref, $syn_strand_hashref) = Parse_Syn_file ($gene_syn_file, $ref_gb);
 
-	open (Syn, '>'.$gene_syn_fa) || die;
+	open (Syn, '>'.$gene_syn_fa) || die;   
 
 	foreach my $g (keys %$syn_block_hashref) {
 		my $g_strand = $$syn_strand_hashref{$g};
 		my $g_fas = $sp_gb_dir.$g.'/'.$g.'_'.$target_ch.'.fa.gz'; ## 09/19/22
 
-		if ($g =~ /Parent/) {
+			if ($g =~ /Parent1/) {
 			$g_fas = $Working_dir.'/'.$g.'/'.$g.'_'.$target_ch.'.fa.gz';
-			} elsif ($g =~ $gene) {
-				$g_fas = $Working_dir.'/'.$g.'/'.$g.'_'.$target_ch.'.fa.gz';
-				}
+
+			}
+
+			if ($g =~ /Parent2/) {
+			$g_fas = $Working_dir.'/'.$g.'/'.$g.'_'.$target_ch.'.fa.gz';
+
+			}
+
+		#	if ($g =~ /query/) {
+			if ($g =~ $gene) {
+				
+			$g_fas = $Working_dir.'/'.$g.'/'.$g.'_'.$target_ch.'.fa.gz';
+
+			}
+
 		next unless -e $g_fas;
 		my @chs = keys %{ $$syn_block_hashref{$g} };
 		my $ch = $chs[0];
 		my @bps;
 		push @bps, split /\t/, $_ foreach (@{ $$syn_block_hashref{$g}{$ch} });
-				@bps = sort { $a <=> $b} @bps;
-		my ($s1, $e1) = ( $bps[0]  - $p_size, $bps[-1] + $a_size);
-		my $region = $ch.':'.$s1.'-'.$e1;
-		my $fas;
+		@bps = sort { $a <=> $b} @bps;
+		my ($s1, $e1);
 
 		if ($g_strand > 0) {
-#			  $s1 = $bps[0]  - $p_size; $e1 = $bps[-1] + $a_size;
-			  $fas = `samtools faidx $g_fas $region`;  
+			  $s1 = $bps[0]  - $p_size; $e1 = $bps[-1] + $a_size;
+
 			} else {  
-#				$s1 = $bps[-1] + $p_size; $e1 = $bps[0]  - $a_size;
-				$fas = `samtools faidx $g_fas $region -i --mark-strand no`;  
+				$s1 = $bps[-1] + $p_size; $e1 = $bps[0]  - $a_size;
+
 				}
 	
-#		print "$s1 == > $e1\n" if $g eq 'mace';
+		print "$s1 == > $e1\n" if $g eq 'mace';		
 
-#		my $region = $ch.':'.$s1.'-'.$e1;
-#		my $region0 = '>'.$region;
-##		print "samtools faidx $g_fas $region\n";
-#		my $fas;
-#		if ($s1 < $e1) {
-#			$fas = `samtools faidx $g_fas $region`;  
-#		} else {
-#			($s1, $e1) = ($e1, $s1);
-#			$region = $ch.':'.$s1.'-'.$e1;
-#			$region0 = '>'.$region;
-##			print "samtools faidx $g_fas $region\n";
-#			$fas = `samtools faidx $g_fas $region -i --mark-strand no`;  
-#		}
+		my $region = $ch.':'.$s1.'-'.$e1;            
+		my $region0 = '>'.$region;     
+		print "samtools faidx $g_fas $region\n";
+		my $fas;
+		if ($s1 < $e1) {
+			$fas = `samtools faidx $g_fas $region`;  
+		} else {
+			($s1, $e1) = ($e1, $s1);
+			$region = $ch.':'.$s1.'-'.$e1;
+			$region0 = '>'.$region;
+			print "samtools faidx $g_fas $region\n";
+			$fas = `samtools faidx $g_fas $region -i --mark-strand no`;  
+		}
 		  
 		my $newID = '>'.$g;
-			 $fas =~ s/$region0/$newID/g;   
+              
+    $fas =~ s/$region0/$newID/g;   
 
 		my $gap_hashref = Ns_position_size($fas);
 		foreach my $gap (sort { $a <=> $b} keys %$gap_hashref) {
@@ -164,30 +197,33 @@ if ($flag2 == 2) {
 			print Gap $g."\t".$gap."\t".$end."\n";
 			}
 
-		print Syn $fas;
+		print Syn $fas;                            
 
 		my $gb_gff_file = $sp_gb_dir.$g.'/'.$g.'_gb.gff3';
-##		if (-e $gb_gff_file) {
-##			my $awk_para = "'".'$1=='.$target_ch.'&&$4>='.$s1.'&&$5<='.$e1."'";
-##			my @CDSs = `awk $awk_para $gb_gff_file`;
-##			foreach my $info (@CDSs) {
-##				my @t = split /\s+/, $info;
-##				next unless $t[2] eq 'CDS' || $t[2] eq 'gene';
-##				my $arrow = $t[6] eq '-' ? 1 : 2;
-##				my ($gID, $x) = ('.', '.'); 
-##				if ($g eq $ref_gb && $t[2] eq 'gene') { ($gID, $x) = $t[-1] =~ /ID\=(\S+)\;(N)ame/}
-##				print Anno join "\t", ($g, $t[0], $t[2], $t[3] - $s1, $t[4] - $s1, $arrow, $gID);
-##				print Anno "\n";
-##				}
-##			}
+		if (-e $gb_gff_file) {
+			my $awk_para = "'".'$1=='.$target_ch.'&&$4>='.$s1.'&&$5<='.$e1."'";
+			my @CDSs = `awk $awk_para $gb_gff_file`;
+			foreach my $info (@CDSs) {
+				my @t = split /\s+/, $info;
+				next unless $t[2] eq 'CDS' || $t[2] eq 'gene';
+				my $arrow = $t[6] eq '-' ? 1 : 2;
+				my ($gID, $x) = ('.', '.'); 
+				if ($g eq $ref_gb && $t[2] eq 'gene') { ($gID, $x) = $t[-1] =~ /ID\=(\S+)\;(N)ame/}
+				print Anno join "\t", ($g, $t[0], $t[2], $t[3] - $s1, $t[4] - $s1, $arrow, $gID);
+				print Anno "\n";
+				}
+			}
 		}
 
 	system("/usr/local/bin/makeblastdb -in $gene_syn_fa -dbtype nucl");
+ 
+ #system("/usr/local/bin/makeblastdb -in $grass_repeats_fa -dbtype nucl"); # Repeats
+  
+	system("/usr/local/bin/blastn -db $gene_syn_fa -query $gene_syn_fa -word_size $Word_Size -out $blast_self_o -outfmt 6 -evalue 10");  ## -W 11 or -W 9 ??
+	system("/usr/local/bin/blastn -db $gene_syn_fa -query $gene_mrna_file -word_size $Word_Size -out $blast_mrna_o -outfmt 6 -evalue 10");
+ #system("/usr/local/bin/blastn -db $gene_syn_fa -query $gene_mrna_file -out $blast_mrna_o2 -outfmt 0 -evalue 10");
+  system("/usr/local/bin/blastn -db $grass_repeats_fa -query $gene_syn_fa -out $blast_repeats_o -outfmt 6 -evalue 10"); #Repeats
 
-	system("/usr/local/bin/blastn -db $gene_syn_fa -query $gene_syn_fa -word_size $Word_Size -out $blast_self_o -outfmt 6 -evalue 10");  #6/20/23
-	system("/usr/local/bin/blastn -db $gene_syn_fa -query $gene_mrna_file -word_size $Word_Size -out $blast_mrna_o -outfmt 6 -evalue 10"); #6/20/23
-#	system("/usr/local/bin/blastn -db $gene_syn_fa -query $gene_mrna_file -out $blast_mrna_o2 -outfmt 0 -evalue 10");
-	system("/usr/local/bin/blastn -db $grass_repeats_fa -query $gene_syn_fa -out $blast_repeats_o -outfmt 6 -evalue 10"); #Repeats
 	}
 ##################################################
 
@@ -198,8 +234,10 @@ sub Extract_syn {
 	while (<F>) {
 		chomp;
 		my @t = split /\t/;
+
 		#next unless $t[0] =~ /\_mRNA/;
 		next unless $t[0] =~ /\_CDS/;
+		
 		next unless $t[1] eq $ch; ## if $t[1] =~ /^\d/ && 
 		next unless $t[2] > 90;
 #		next unless $t[9] < 1e-10
@@ -225,10 +263,10 @@ sub Parse_Syn_file {
 		  $Ref_strand =  $s_e - $s_s if $genome eq $ref_gb;
 		my $g_strand = $s_e - $s_s;
 		if ($g_strand * $Ref_strand > 0) {
-			$hash2{$genome} = 1;
-			} else {
-				$hash2{$genome} = -1;
-				}
+			$hash2{$genome} =  1;
+		} else {
+			$hash2{$genome} =  -1;
+		}
 		print $genome.' '.$g_strand."\n"; 
 		push @ { $hash{$genome}{$ch} } , $s_s."\t".$s_e;
 		}
