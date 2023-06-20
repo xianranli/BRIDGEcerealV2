@@ -39,6 +39,7 @@ Stream_folder <- "https://bridgecereal.scinet.usda.gov/" # 03/02/23 scinet
 # web_root<-"/BRIDGEcereal_Scinet/" # our server
   web_root<-"/" # R studio and scinet
 
+QA_folder <-paste(administrator_path,"QA",'/',sep=''); #6/14/23 need a new folder mkdir QA
 
 html_wheat<-'https://plants.ensembl.org/Triticum_aestivum/Search/Results?species=Triticum_aestivum;idx=;q=' #2/8/23
 html_maize<-'https://www.maizegdb.org/gene_center/gene/' #2/8/23
@@ -57,6 +58,7 @@ source(paste(script_folder,"BRIDGEcereal_Reference.R",sep=''), local = TRUE);
 
 source(paste(script_folder,"BRIDGEcereal_CLIPS.R",sep=''), local = TRUE);
 
+source(paste(script_folder,"BRIDGEcereal_QA_View.R",sep=''), local = TRUE); #6/14/23
 ########################################################
 
 
@@ -248,12 +250,26 @@ Streamline unsupervised machine learning to survey and graph indel-based haploty
 #column(12,offset=3, align="center", tags$img(width="1296", height="283", src=paste(Stream_folder,"CHOICE.png",sep=''))), # 0.3 (4323*945)
 #column(12,offset=3, align="center", tags$img(width="1177", height="283", src=paste(Stream_folder,"CLIPS.png",sep=''))), # 0.3 (3925*946)
 
+
+column(12, offset=3,align="left", h3("Contact:",style = "font-size: 24px; font-style: normal; font-weight: bold;")),  #6/14/23
+
+column(12, offset=3,align="left", textAreaInput("Feedback", "Any troubles in using BRIDGEcereal? Please enter your gene ID, describe your question briefly, and your email.", 
+  "", width = "800px", height ="150px" )), #6/14/23
+
+column(12, offset=3,align="left", actionButton("Submit_Q", label = "Submit Your Questions",class = "btn-warning")), #6/14/23
+
+#column(12, offset=3,align="left", tags$a(href=paste(web_root,'QA', sep=''), target='_blank', 
+#    h4("Click here to submit any questions you have in using BRIDGEcereal", style = "font-size: 24px; font-style: normal; font-weight: lighter;") ) ),
+
+column(12, offset=3,align="center", h3("")), #6/14/23
+
+
 column(12, offset=3,align="center", h3("")),
 #column(12, offset=3,align="center", h3("Contact: xianran.li@usda.gov OR xianran.li@wsu.edu",style = "font-size: 24px; font-style: normal; font-weight: lighter;") ),
 column(12, offset=3,align="center", 
 h3(
      mailtoR(email = c("xianran.li@usda.gov"),
-          text = "Contact: xianran.li@usda.gov",
+          text = "Emails: xianran.li@usda.gov",      #6/14/23
           subject = "Questions about BRIDGEcereal"),
 style = "font-size: 24px; font-style: normal; font-weight: lighter;",
 #use_mailtoR(),
@@ -266,6 +282,8 @@ use_mailtoR(),
 
 ) ),
 
+column(12, offset=3,align="center", tags$a(href='http://compbiolab.org/', target='_blank', h4("Visit Li lab", 
+    style = "font-size: 24px; font-style: normal; font-weight: lighter;") ) ), #6/14/23
 
 #column(9,offset=3, align="center", tags$img(width="240", height="80", src=paste(Stream_folder,"USDA_PDI_Logo.jpg",sep=''))),
 column(6,offset=6, align="center", tags$img(width="510", height="60", src=paste(Stream_folder,"USDA_PDI_Logo.jpg",sep=''))),
@@ -319,6 +337,38 @@ column(6,offset=6, align="center", tags$img(width="510", height="60", src=paste(
 server <- function(input, output, session){
 
 
+#6/14/23
+observeEvent(input$Submit_Q, {
+
+#output$User_QA <- renderText({ input$Feedback })
+
+num_q <- length(list.files(QA_folder))
+
+current_num <- num_q +1
+
+writeLines(input$Feedback , paste(QA_folder, current_num ,'_','user_question.txt',sep=''), sep="\n")
+
+shinyjs::disable(id = "Submit_Q")
+shinyjs::disable(id = "Feedback")
+
+showModal( modalDialog(
+
+  title = "We have received your submission! Thank you! ",
+
+  easyClose = TRUE,
+      
+  footer = tagList(
+
+     modalButton("Cancel"),
+
+  )
+
+))
+
+
+  })
+#6/14/23
+
     } # server function of Page_0
 
 
@@ -342,7 +392,10 @@ server <- function(input, output, session){
   BRIDGEcereal_Species("Barley","Morex","HORVU.MOREX.r3.1HG0000020",database_folder,gff_folder,script_folder,User_folder,candidate_dir,html_barley,Stream_folder),     # 'Morex' ... defined as default_ref
 
   BRIDGEcereal_Reference(Stream_folder),
+
   BRIDGEcereal_CLIPS(),
+ 
+  BRIDGEcereal_QA_View(QA_folder),   #6/14/23
 
   BRIDGEcereal_Species("Soybean","Wm82","Glyma.01G000100",database_folder,gff_folder,script_folder,User_folder,candidate_dir,html_soybean,Stream_folder),
   BRIDGEcereal_Species("Maize_ISU","B73","Zm00001eb000140",database_folder,gff_folder,script_folder,User_folder,candidate_dir,html_maize,Stream_folder)   # 'B73' ... defined as default_ref
