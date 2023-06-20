@@ -1,9 +1,10 @@
 # BRIDGEcereal_output functions (03/31/23)
 
-BRIDGEcereal_output <- function(User_folder0,perlArg0_db_sp,perlArg1_PickGenome ,perlArg2_PickGene,perlArg3_PickChr,perlArg4_Users_folder,perlArg5_PickUp,perlArg6_PickDown, Backup_folder,strand_direction,database_folder,gff_folder,script_folder,User_folder,Stream_folder) {
+#6/20/23
+BRIDGEcereal_output <- function(User_folder0,perlArg0_db_sp,perlArg1_PickGenome ,perlArg2_PickGene,perlArg3_PickChr,perlArg4_Users_folder,perlArg5_PickUp,perlArg6_PickDown, Backup_folder,strand_direction,database_folder,gff_folder,script_folder,User_folder,Stream_folder, WordSize_) {
 
-system1 <- paste("perl", paste(script_folder,'extract_syn_fa.pl',sep=''),perlArg0_db_sp,perlArg1_PickGenome ,perlArg2_PickGene,perlArg3_PickChr,perlArg4_Users_folder,perlArg5_PickUp,perlArg6_PickDown,Backup_folder, 1, 0,sep=' ');
-system2 <- paste("perl", paste(script_folder,'extract_syn_fa.pl',sep=''),perlArg0_db_sp,perlArg1_PickGenome ,perlArg2_PickGene,perlArg3_PickChr,perlArg4_Users_folder,perlArg5_PickUp,perlArg6_PickDown,Backup_folder, 0, 2,sep=' ');
+system1 <- paste("perl", paste(script_folder,'extract_syn_fa.pl',sep=''),perlArg0_db_sp,perlArg1_PickGenome ,perlArg2_PickGene,perlArg3_PickChr,perlArg4_Users_folder,perlArg5_PickUp,perlArg6_PickDown,Backup_folder, 1, 0, WordSize_, sep=' '); #6/20/23
+system2 <- paste("perl", paste(script_folder,'extract_syn_fa.pl',sep=''),perlArg0_db_sp,perlArg1_PickGenome ,perlArg2_PickGene,perlArg3_PickChr,perlArg4_Users_folder,perlArg5_PickUp,perlArg6_PickDown,Backup_folder, 0, 2, WordSize_, sep=' '); #6/20/23
 
 Dir <- paste(User_folder, User_folder0,'/',sep = '');
 
@@ -58,6 +59,27 @@ if( (Filtered_HaplotypeSyn_Strand0$subject_end-Filtered_HaplotypeSyn_Strand0$sub
 if(length(Information_list)!=0){
 Information_output0 <-as.data.frame(rbindlist(Information_list))
 Information_output<-Information_output0[which(Information_output0$Genomes!=''),]
+
+#6/14/23
+Size_warning <- CHOICE(BlastSynWorking,query_length, distance_filter, Min_CDS_size_filter, Max_CDS_size_filter, ref_g)[[3]]
+
+ if(as.numeric(Size_warning) ==1 ){
+
+ Size_info <- paste("The reference genome",ref_g,"has size ratio parameter out of range. It means there may exist multiple copies of the query gene. Please consider to adjust the distance filter.",sep=' ');
+ 
+ output$Size_remainder <- renderText({ Size_info });
+ 
+ } else if (as.numeric(Size_warning) ==0 ){
+ 
+ Size_info <- paste("",sep=' ');
+ 
+ output$Size_remainder <- renderText({ Size_info });
+
+ }
+#6/14/23
+
+
+
 }
 
 ########
