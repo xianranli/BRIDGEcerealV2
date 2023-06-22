@@ -106,7 +106,7 @@ flowLayout(
   ),
 
    tags$li(
-   tags$a(href = paste(web_root,'Reference', sep=''), "Reference", img(width="100", height="60", src=paste(Stream_folder,"book.png",sep=''))), # 4000*2250
+   tags$a(href = paste(web_root,'Reference', sep=''), "Reference/Link", img(width="100", height="60", src=paste(Stream_folder,"book.png",sep=''))), # 4000*2250
   ),
 
 #   tags$li(
@@ -249,12 +249,12 @@ column(12, offset=3,align="left", h3("2, Explore the full spectrum of natural va
 #column(12, offset=3,align="center", h3("")),
 #column(12,offset=3, align="center", tags$img(width="1296", height="283", src=paste(Stream_folder,"CHOICE.png",sep=''))), # 0.3 (4323*945)
 #column(12,offset=3, align="center", tags$img(width="1177", height="283", src=paste(Stream_folder,"CLIPS.png",sep=''))), # 0.3 (3925*946)
-
+column(12, offset=3,align="left", h3("Citation:",style = "font-size: 24px; font-style: normal; font-weight: bold;")),
 column(12, offset=3,align="center", tags$a(href="https://doi.org/10.1016/j.molp.2023.05.005", target='_blank', h4(" 
 Zhang B, Huang H, Tibbs-Cortes LE, Vanous A, Zhang Z, Sanguinet K, Garland-Campbell KA, Yu J, Li X. 
 Streamline unsupervised machine learning to survey and graph indel-based haplotypes from pan-genomes.
  Molecular Plant. 2023:2023-02. doi: 10.1016/j.molp.2023.05.005" ,
- style = "font-size:24px; color:blue; font-style:italic;font-weight: lighter;") ) ),
+ style = "font-size:24px; color:black; font-style:italic;font-weight: lighter;") ) ),
 
 column(12, offset=3,align="left", h3("Contact:",style = "font-size: 24px; font-style: normal; font-weight: bold;")),  #6/14/23
 
