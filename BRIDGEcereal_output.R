@@ -34,16 +34,19 @@ ref_g<-input$Pickgenome
 
 source(paste(script_folder,"BRIDGEcereal_Sub.R",sep=''), local = TRUE);
 
-
-
 Filtered_HaplotypeSyn <- CHOICE(BlastSynWorking,query_length, distance_filter, Min_CDS_size_filter, Max_CDS_size_filter, ref_g)[[1]]
 Information_list<- CHOICE(BlastSynWorking,query_length, distance_filter, Min_CDS_size_filter, Max_CDS_size_filter, ref_g)[[2]]
+
+
+
+if( length(Filtered_HaplotypeSyn) !=0 ) {    #6/22/23
+
+
 
 write.table(Filtered_HaplotypeSyn, file= BlastSyn,sep= "\t",quote = FALSE,row.names = FALSE);
 
 #Filtered_HaplotypeSyn <-as.data.frame(rbindlist(Filter_list0))
 #write.table(Filtered_HaplotypeSyn, file= BlastSyn,sep= "\t",quote = FALSE,row.names = FALSE);
-
 
 ##############################
 if (input$Pickformat == "fasta_seq"){
@@ -69,7 +72,7 @@ Size_warning <- CHOICE(BlastSynWorking,query_length, distance_filter, Min_CDS_si
 
  if(as.numeric(Size_warning) ==1 ){
 
- Size_info <- paste("The reference genome",ref_g,"has size ratio parameter out of range. It means there may exist multiple copies of the query gene. Please consider to adjust the distance filter.",sep=' ');
+ Size_info <- paste("The reference genome",ref_g,"has size ratio parameter out of range. There may exist multiple copies of the query gene. Please consider to adjust the distance filter to smaller size.",sep=' ');
  
  output$Size_remainder <- renderText({ Size_info });
  
@@ -84,8 +87,6 @@ Size_warning <- CHOICE(BlastSynWorking,query_length, distance_filter, Min_CDS_si
 
 
 }
-
-
 
 
 ########
@@ -297,19 +298,41 @@ output$done <- renderUI({
   })
 
 
-output$clustertree <- renderUI({
-    actionButton("clustertree", label = "(3) TREE",,style = "background-color:#3399FF")
-  })
-
+#output$clustertree <- renderUI({
+#    actionButton("clustertree", label = "(3) TREE",,style = "background-color:#3399FF")
+#  })
 
 gDNAs_blast <- read.table(paste(Dir, Gene, '_Haplotype-Self_out_m8', sep = ''), sep = '\t', header = F, stringsAsFactors = F);
-
 #genomes <- input$id
 #b_matrix_ <- CLIPS(gDNAs_blast,genomes)
 
+#6/22/23
+if( length( unique(gDNAs_blast[,1]) ) >= 2 ){
+
 b_matrix_ <<- CLIPS(gDNAs_blast)
 
+output$clustertree <- renderUI({
+    actionButton("clustertree", label = "(3) TREE",,style = "background-color:#3399FF")
+  })
 #write.table(round(b_matrix_,2), file = paste(Dir, 'b_matrix_ori_.txt', sep = ''),row.names=TRUE,col.names=TRUE,quote = FALSE,sep="\t")
+} else {
+
+shinyjs::disable(id = "clustertree")
+shinyjs::disable(id = "Save")
+
+}
+#6/22/23
+
+
+} else {       #6/22/23
+
+ Size_info <- paste("There may exist multiple copies of the query gene in all genomes. Please move the distance filter to smaller size.", sep=' ');
+ 
+ output$Size_remainder <- renderText({ Size_info });
+
+
+} #6/22/23
+
 
 
 observeEvent(input$clustertree ,{
@@ -1100,6 +1123,8 @@ datatable(Information_output,caption = htmltools::tags$caption(
 ########################## A table showing clustering results
 
 ########################## A table showing Blast result which is presented in main plot
+if(length(Filtered_HaplotypeSyn) !=0 ){          #6/22/23
+
 Filtered_HaplotypeSyn_Plotted <- Filtered_HaplotypeSyn[which(Filtered_HaplotypeSyn$Genome!=''),]
 
 colnames(Filtered_HaplotypeSyn_Plotted) <- c("query","query start","query end","Genome","chromosome","subject start","subject end","size","similarity")
@@ -1116,33 +1141,35 @@ datatable(Filtered_HaplotypeSyn_Plotted,caption = htmltools::tags$caption(
                                                          text = "Downloads")), pageLength=10, autoWidth = TRUE,
                              searchHighlight = TRUE, filter = "top")) %>% formatStyle(columns=c(4,8,9), target = c("cell"), backgroundColor = c('yellow'))
   }) # DT::renderDataTable
+
+} #6/22/23
 ########################## A table showing Blast result which is presented in main plot
 
 ########################## A table showing Blast result which is not presented in main plot
-BlastSynWorking_0<-read.table(Blast_Ori,header=T); ## Blast_Original
-BlastSynWorking_1 <- BlastSynWorking_0[which(BlastSynWorking_0$Genome!=''),]
-#BlastSynWorking_2 <- BlastSynWorking[which(BlastSynWorking$Genome!=''),]
-BlastSynWorking_2 <-Filtered_HaplotypeSyn[which(Filtered_HaplotypeSyn$Genome!=''),] # 1/5/23
+#BlastSynWorking_0<-read.table(Blast_Ori,header=T); ## Blast_Original
+#BlastSynWorking_1 <- BlastSynWorking_0[which(BlastSynWorking_0$Genome!=''),]
+  #BlastSynWorking_2 <- BlastSynWorking[which(BlastSynWorking$Genome!=''),]
+#BlastSynWorking_2 <-Filtered_HaplotypeSyn[which(Filtered_HaplotypeSyn$Genome!=''),] # 1/5/23
 
-NotShown0 <- anti_join(BlastSynWorking_1,BlastSynWorking_2) # Not shown in plot, other genomic positions.
+#NotShown0 <- anti_join(BlastSynWorking_1,BlastSynWorking_2) # Not shown in plot, other genomic positions.
 
-colnames(NotShown0) <- c("query","query start","query end","Genome","chromosome","subject start","subject end","size","similarity")
+#colnames(NotShown0) <- c("query","query start","query end","Genome","chromosome","subject start","subject end","size","similarity")
 
-if(nrow(NotShown0)!=0){
+#if(nrow(NotShown0)!=0){
 
-output$table3 <-DT::renderDataTable({
-datatable(NotShown0, caption = htmltools::tags$caption(
-    style = 'caption-side: bottom; text-align: center;',
-    'Table 3: ', htmltools::em('Blast results not shown in plot.')
-  ),filter = 'top', extensions = 'Buttons',selection = list(target = 'row+column'),
-              class="cell-border stripe",
-              options = list(dom = "Blfrtip",
-                             buttond = list("copy", list(extend = "collection",
-                                                         buttons = c("csv"),
-                                                         text = "Downloads")), pageLength=10, autoWidth = TRUE,
-                             searchHighlight = TRUE, filter = "top")) %>% formatStyle(columns=c(4,8,9), target = c("cell"), backgroundColor = c('orange'))
-  }) # DT::renderDataTable
-}
+#output$table3 <-DT::renderDataTable({
+#datatable(NotShown0, caption = htmltools::tags$caption(
+#    style = 'caption-side: bottom; text-align: center;',
+#    'Table 3: ', htmltools::em('Blast results not shown in plot.')
+#  ),filter = 'top', extensions = 'Buttons',selection = list(target = 'row+column'),
+#              class="cell-border stripe",
+#              options = list(dom = "Blfrtip",
+#                             buttond = list("copy", list(extend = "collection",
+#                                                         buttons = c("csv"),
+#                                                         text = "Downloads")), pageLength=10, autoWidth = TRUE,
+#                             searchHighlight = TRUE, filter = "top")) %>% formatStyle(columns=c(4,8,9), target = c("cell"), backgroundColor = c('orange'))
+#  }) # DT::renderDataTable
+#}
 ########################## A table showing Blast result which is not presented in main plot ??
 
 ## Based on selected haplotypes and region
