@@ -44,11 +44,13 @@ if( !file.exists( QA_folder ) ){
  dir.create(QA_folder)
 }
 
-html_wheat<-'https://plants.ensembl.org/Triticum_aestivum/Search/Results?species=Triticum_aestivum;idx=;q=' #2/8/23
+#html_wheat<-'https://plants.ensembl.org/Triticum_aestivum/Search/Results?species=Triticum_aestivum;idx=;q=' #2/8/23
+html_wheat<-'https://wheat.pw.usda.gov/jb/?data=/ggds/whe-iwgsc2018&loc=' #7/3/23
 html_maize<-'https://www.maizegdb.org/gene_center/gene/' #2/8/23
 html_sorghum<-'https://phytozome-next.jgi.doe.gov/report/gene/Sbicolor_v3_1_1/' #2/8/23
 html_rice<-'https://ricerc.sicau.edu.cn/RiceRC/Search/searchBefore?db=all&input=' #2/8/23
-html_barley<-'https://wheat.pw.usda.gov/cgi-bin/GG3/report.cgi?class=probe;name=' #2/8/23
+#html_barley<-'https://wheat.pw.usda.gov/cgi-bin/GG3/report.cgi?class=probe;name=' #2/8/23
+html_barley<-'https://wheat.pw.usda.gov/jb/?data=/ggds/bar-morex3&loc=' #7/3/23
 
 html_soybean<-'https://phytozome-next.jgi.doe.gov/report/gene/Gmax_Wm82_a4_v1/'
 
