@@ -249,32 +249,35 @@ if(nrow(Near_gene1)>=1){
 
   if(strand_direction=='+'){
   
-  Near_Gene_coor <<- cbind(Near_gene1$V4-(range(Query_coordinate_2[,2:3])[1]-perlArg5_PickUp), Near_gene1$V5-(range(Query_coordinate_2[,2:3])[1]-perlArg5_PickUp))
+  Near_Gene_coor <- cbind(Near_gene1$V4-(range(Query_coordinate_2[,2:3])[1]-perlArg5_PickUp), Near_gene1$V5-(range(Query_coordinate_2[,2:3])[1]-perlArg5_PickUp))
   
   }else if(strand_direction=='-'){
 
   #Near_Gene_coor <<-cbind((range(Query_coordinate_2[,2:3])[2]+perlArg5_PickUp)-Near_gene1$V5, (range(Query_coordinate_2[,2:3])[2]+perlArg5_PickUp)-Near_gene1$V4)
-  Near_Gene_coor <<- cbind(Near_gene1$V4-(range(Query_coordinate_2[,2:3])[1]-perlArg5_PickUp), Near_gene1$V5-(range(Query_coordinate_2[,2:3])[1]-perlArg5_PickUp))
+  Near_Gene_coor <- cbind(Near_gene1$V4-(range(Query_coordinate_2[,2:3])[1]-perlArg5_PickUp), Near_gene1$V5-(range(Query_coordinate_2[,2:3])[1]-perlArg5_PickUp))
 
   }
 
 } else if(nrow(Near_gene1)==0){
-Near_Gene_coor <<- as.matrix(c(''),nrow=1,ncol=1)
+Near_Gene_coor <- as.matrix(c(''),nrow=1,ncol=1)
 }
 
 } else {
-Near_Gene_coor <<- as.matrix(c(''),nrow=1,ncol=1)
+Near_Gene_coor <- as.matrix(c(''),nrow=1,ncol=1)
 }
 
 ######## 03/01/23
 
 } else {
 
-Query_coordinate <<-as.matrix(c(''),nrow=1,ncol=1)
-Near_Gene_coor <<- as.matrix(c(''),nrow=1,ncol=1)
+Query_coordinate <-as.matrix(c(''),nrow=1,ncol=1)
+Near_Gene_coor <- as.matrix(c(''),nrow=1,ncol=1)
 
 }
 ######## 03/02/23
+
+write.table(Query_coordinate, file = paste(Dir, 'Query_coordinate.txt', sep = ''),row.names=FALSE,col.names=FALSE,quote = FALSE,sep="\t") #10/05/_23_
+write.table(Near_Gene_coor, file = paste(Dir, 'Near_Gene_coor.txt', sep = ''),row.names=FALSE,col.names=FALSE,quote = FALSE,sep="\t") #10/05/_23_
 
 #Near_Gene_coor <- as.matrix(c(''),nrow=1,ncol=1) #3/22/23
 plotSV_options<- as.numeric( c(8, 8, 10 ) )
@@ -309,12 +312,13 @@ gDNAs_blast <- read.table(paste(Dir, Gene, '_Haplotype-Self_out_m8', sep = ''), 
 #6/22/23
 if( length( unique(gDNAs_blast[,1]) ) >= 2 ){
 
-b_matrix_ <<- CLIPS(gDNAs_blast)
+#b_matrix_ <<- CLIPS(gDNAs_blast)
+b_matrix_ <- CLIPS(gDNAs_blast) # 10/05/23
 
 output$clustertree <- renderUI({
     actionButton("clustertree", label = "(3) TREE",,style = "background-color:#3399FF")
   })
-#write.table(round(b_matrix_,2), file = paste(Dir, 'b_matrix_ori_.txt', sep = ''),row.names=TRUE,col.names=TRUE,quote = FALSE,sep="\t")
+write.table(round(b_matrix_,2), file = paste(Dir, 'b_matrix_ori_.txt', sep = ''),row.names=TRUE,col.names=TRUE,quote = FALSE,sep="\t") # 10/05/23
 } else {
 
 shinyjs::disable(id = "clustertree")
@@ -391,7 +395,7 @@ if('query' %in% Test_Genome1){
 }
 ####################### To check genomes
 
-#b_matrix_ <-read.table(paste(Dir, 'b_matrix_ori_.txt', sep = ''), header=T,sep="\t");
+b_matrix_ <-read.table(paste(Dir, 'b_matrix_ori_.txt', sep = ''), header=T,sep="\t"); #10/05/23
 
 temp_b<-b_matrix_[which(row.names(b_matrix_) %in% genomes), ]
 b_matrix<-temp_b[ ,which(colnames(temp_b) %in% genomes)]
@@ -434,8 +438,10 @@ output$info3 <- NULL
 
     memb<-cutree(as.dendrogram(h_c), h=input$plot2_click$y)
     
-    #write.table(input$plot2_click$y ,file=paste(Dir, 'User_tree_cut.txt', sep = ''),row.names=FALSE,col.names=FALSE,quote = FALSE,sep="\t")
-    tree_cut <<- input$plot2_click$y
+    write.table(input$plot2_click$y ,file=paste(Dir, 'User_tree_cut.txt', sep = ''),row.names=FALSE,col.names=FALSE,quote = FALSE,sep="\t") #10/05/23
+
+    #tree_cut <<- input$plot2_click$y
+    tree_cut <- input$plot2_click$y #10/05/23
 
     b_matrix0 <- cbind(b_matrix, cluster =as.data.frame(memb)) 
 
@@ -607,6 +613,7 @@ list2_<-list2
 
 #if(file.size( paste(Dir, 'list1.txt', sep = '') )!=0){
 if(length(list1) != 0){
+ tree_cut <- read.table(paste(Dir, 'User_tree_cut.txt', sep = ''),header=F)$V1 #10/05/23
 
  dynamic_flag<-1
  b_matrix_groups4<-For_dynamic_input(Dir,list1, list2,list2_,dynamic_flag,tree_cut)
@@ -633,6 +640,7 @@ if(length(list1) != 0){
 #} else if(file.size( paste(Dir, 'list1.txt', sep = '') )==0){        # if input$list_1!=NULL
 } else if( length(list1) == 0 ){
 
+ tree_cut <- read.table(paste(Dir, 'User_tree_cut.txt', sep = ''),header=F)$V1  #10/05/23
  
  dynamic_flag<-2
  b_matrix_groups4<-For_dynamic_input(Dir,list1, list2,list2_,dynamic_flag,tree_cut)
@@ -738,7 +746,7 @@ g_lab <- genomes_r;
 haplotypes <- 1
 
 if(file.exists(paste(Dir, 'b_matrix_groups2.txt', sep = ''))){
-   b_matrix_groups2 <<- read.table(paste(Dir, 'b_matrix_groups2.txt', sep = ''),header=T)
+   b_matrix_groups2 <- read.table(paste(Dir, 'b_matrix_groups2.txt', sep = ''),header=T)
    }
 
 
@@ -754,11 +762,15 @@ if( file.exists(paste(Users_folder,'/',"positions.txt",sep='') ) ){
 
 Query_coordinate<-read.table(paste(Users_folder,'/',"positions.txt",sep=''),header=F)
 Query_coordinate<-cbind(Query_coordinate$V2-range(Query_coordinate[,2:3])[1]+1+perlArg5_PickUp, Query_coordinate$V3-range(Query_coordinate[,2:3])[1]+1+perlArg5_PickUp)
-
+ if( file.size( paste(Dir, "Near_Gene_coor.txt", sep='' ) ) !=1 ){                   #10/05/_23_
+ Near_Gene_coor <-read.table(paste(Dir, "Near_Gene_coor.txt", sep='' ), header=F) #10/05/_23_
+ } else {
+ Near_Gene_coor <- as.matrix(c(''),nrow=1,ncol=1) #10/05/_23_
+ }
 } else {
 
-Query_coordinate <<-as.matrix(c(''),nrow=1,ncol=1)
-Near_Gene_coor <<- as.matrix(c(''),nrow=1,ncol=1)
+Query_coordinate <-as.matrix(c(''),nrow=1,ncol=1)
+Near_Gene_coor <- as.matrix(c(''),nrow=1,ncol=1)
 
 }
 
@@ -1068,7 +1080,7 @@ x_lim <- range(CoordinateFilter0)-range(CoordinateFilter0)[1] + 1 + c(0,2000)
 haplotypes<-1
 
  if(file.exists(paste(Dir, 'b_matrix_groups2.txt', sep = ''))){
-   b_matrix_groups2 <<- read.table(paste(Dir, 'b_matrix_groups2.txt', sep = ''),header=T)
+   b_matrix_groups2 <- read.table(paste(Dir, 'b_matrix_groups2.txt', sep = ''),header=T)
    }
 
 output$plot4 <- renderPlot({
